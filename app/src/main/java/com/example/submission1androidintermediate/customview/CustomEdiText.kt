@@ -47,6 +47,10 @@ class CustomEdiText : RelativeLayout {
         validateForm(formType)
     }
 
+     fun getText(): String {
+        return editTextForm.text.toString()
+    }
+
     private fun setFormAsPassword() {
         editTextForm.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
         tilForm.apply {
@@ -159,7 +163,6 @@ class CustomEdiText : RelativeLayout {
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     if (type == 0){
                         if (p0.toString().isNotEmpty() && p0?.toString()?.isEmailValid() != true){
-                            Toast.makeText(context,"ss",Toast.LENGTH_LONG).show()
                             showErrorMessage()
                         }
                         else hideErrorMessage()
