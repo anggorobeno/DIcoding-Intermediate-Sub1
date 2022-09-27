@@ -3,27 +3,106 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:paddingHorizontal="22dp"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-    <com.example.submission1androidintermediate.customview.CustomEdiText
-        android:id="@+id/text_view"
+    <TextView
+        android:id="@+id/tv_sign_in"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="125dp"
+        android:fontFamily="@font/urbanist_bold"
+        android:text="Welcome back! Glad to see you, Again!"
+        android:textColor="@color/black"
+        android:textSize="32sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.submission1androidintermediate.customview.CustomEdiText
-        android:id="@+id/text_view2"
-        android:layout_width="match_parent"
+
+
+        <com.example.submission1androidintermediate.customview.CustomEdiText
+            android:id="@+id/etFormEmail"
+            android:layout_width="match_parent"
+            android:layout_marginTop="32dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_sign_in" />
+
+        <com.example.submission1androidintermediate.customview.CustomEdiText
+            android:id="@+id/etFormPassword"
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etFormEmail" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/urbanist_semibold"
+        android:textSize="14sp"
+        android:textColor="@color/darkGrey"
+        android:text="Forgot Password?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etFormPassword"/>
+
+    <TextView
+        android:id="@+id/tv_login_with"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/urbanist_semibold"
+        android:textSize="14sp"
+        android:textColor="@color/darkGrey"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_view" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin"
+        android:text="Or Login with"/>
 
-    <Button
-        android:id="@+id/btnLogin"
-        app:layout_constraintTop_toBottomOf="@id/text_view2"
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="4dp"
+        android:background="@color/blackGrey"
+        android:foregroundGravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_login_with"
+        app:layout_constraintEnd_toStartOf="@id/tv_login_with"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_login_with" />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="4dp"
+        android:background="@color/blackGrey"
+        android:foregroundGravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_login_with"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_login_with"
+        app:layout_constraintTop_toTopOf="@id/tv_login_with" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogin"
+            android:fontFamily="@font/urbanist_semibold"
+            android:layout_marginTop="60dp"
+            android:layout_width="match_parent"
+            android:textSize="15sp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_button_black"
+            android:text="Login"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etFormPassword" />
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:fontFamily="@font/urbanist_regular"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="24dp"
+        android:text="Don’t have an account? Register Now"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

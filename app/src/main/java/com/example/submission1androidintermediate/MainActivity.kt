@@ -8,6 +8,7 @@ import androidx.core.view.get
 import com.example.core.data.networkutils.NetworkResult
 import com.example.core.data.remote.request.LoginRequest
 import com.example.submission1androidintermediate.databinding.ActivityMainBinding
+import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.FormType
 import com.example.submission1androidintermediate.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,22 +22,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.textView.setFormType(FormType.Email())
-        binding.textView2.setFormType(FormType.Password())
+        binding.etFormEmail.setFormType(FormType.Email())
+        binding.etFormPassword.setFormType(FormType.Password())
         viewModel.result.observe(this) {
             when (it) {
-                is NetworkResult.Error -> Toast.makeText(
-                    this,
-                    it.message?.peekContent(),
-                    Toast.LENGTH_LONG
-                ).show()
+                is NetworkResult.Error -> it.message?.getContentIfNotHandled()?.let { message ->
+                    showToast(message)
+                }
             }
         }
         binding.btnLogin.setOnClickListener {
             viewModel.loginUser(
                 LoginRequest(
-                    binding.textView.getText(),
-                    binding.textView2.getText()
+                    binding.etFormEmail.getText(),
+                    binding.etFormPassword.getText()
                 )
             )
         }

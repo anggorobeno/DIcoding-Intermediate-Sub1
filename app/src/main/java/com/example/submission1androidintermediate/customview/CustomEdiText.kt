@@ -2,6 +2,7 @@ package com.example.submission1androidintermediate.customview
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.Resources
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -13,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.helper.FormType
 import com.example.submission1androidintermediate.helper.StringHelper.isEmailValid
@@ -90,26 +92,26 @@ class CustomEdiText : RelativeLayout {
 
     private fun initParent(){
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT)
-        setPadding(16,16,16,16)
         addChildView()
         addView(llParent)
     }
 
     private fun addChildView() {
         viewUnderline.apply {
-            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,1)
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,4)
         }
         editTextForm.apply {
             layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
             setBackgroundColor(resources.getColor(R.color.transparent))
+            typeface = ResourcesCompat.getFont(context,R.font.urbanist_regular)
             inputType = InputType.TYPE_CLASS_TEXT
+            setTextColor(ResourcesCompat.getColor(resources,R.color.grey,null))
             imeOptions = EditorInfo.IME_ACTION_DONE
         }
         tilForm.apply {
             layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
             setBackgroundColor(resources.getColor(R.color.transparent))
             hint = hintMsg
-            setPadding(2,2,2,2)
             addView(editTextForm)
             addView(viewUnderline)
         }

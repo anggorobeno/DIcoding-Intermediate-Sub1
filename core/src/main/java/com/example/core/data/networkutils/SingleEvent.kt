@@ -1,6 +1,6 @@
 package com.example.core.data.networkutils
 
-open class SingleEvent<out T>(private val content: T) {
+open class SingleEvent< T>(private val content: T) {
 
     @Suppress("MemberVisibilityCanBePrivate")
     var hasBeendHandled = false

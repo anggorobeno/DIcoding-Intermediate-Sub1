@@ -9,6 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="blackGrey">#66707A</color>
+    <color name="grey">#8391A1</color>
+    <color name="darkGrey">#6A707C</color>
 
 
     //Input Field
