@@ -2,7 +2,6 @@ package com.example.submission1androidintermediate.customview
 
 import android.app.Activity
 import android.content.Context
-import android.content.res.Resources
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -13,7 +12,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.helper.FormType
@@ -26,27 +24,22 @@ class CustomEdiText : RelativeLayout {
     private val editTextForm by lazy { TextInputEditText(context) }
     private val llParent by lazy { LinearLayout(context) }
     private val viewUnderline by lazy { View(context) }
-    private var formType = 0
-    private var errorMsg = ""
-    private var hintMsg = ""
     private var isError = false
+    var errorTextListener: ((Boolean) -> Unit)? = null
 
     fun setFormType(type: FormType){
         when(type){
             is FormType.Email -> {
-                errorMsg = type.message
-                hintMsg = type.hint
-                formType = 0
+                setFormAsEmail()
+                validateForm(type)
+                setHintPlaceHolder(type.hint)
             }
             is FormType.Password -> {
-                errorMsg = type.message
-                hintMsg = type.hint
-                formType = 1
                 setFormAsPassword()
+                validateForm(type)
+                setHintPlaceHolder(type.hint)
             }
         }
-        setHintPlaceHolder(hintMsg)
-        validateForm(formType)
     }
 
      fun getText(): String {
@@ -59,6 +52,13 @@ class CustomEdiText : RelativeLayout {
             endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
         }
 
+    }
+
+    private fun setFormAsEmail(){
+        editTextForm.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+        tilForm.apply {
+            endIconMode = TextInputLayout.END_ICON_CLEAR_TEXT
+        }
     }
 
     constructor(context: Context) : super(context) {
@@ -87,7 +87,6 @@ class CustomEdiText : RelativeLayout {
 
     private fun initView() {
         initParent()
-        setHintPlaceHolder(hintMsg)
     }
 
     private fun initParent(){
@@ -101,7 +100,7 @@ class CustomEdiText : RelativeLayout {
             layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,4)
         }
         editTextForm.apply {
-            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
             setBackgroundColor(resources.getColor(R.color.transparent))
             typeface = ResourcesCompat.getFont(context,R.font.urbanist_regular)
             inputType = InputType.TYPE_CLASS_TEXT
@@ -111,9 +110,9 @@ class CustomEdiText : RelativeLayout {
         tilForm.apply {
             layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
             setBackgroundColor(resources.getColor(R.color.transparent))
-            hint = hintMsg
             addView(editTextForm)
             addView(viewUnderline)
+            isErrorEnabled = true
         }
         llParent.apply {
             layoutParams = LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT)
@@ -155,7 +154,7 @@ class CustomEdiText : RelativeLayout {
 
 
 
-    private fun validateForm(type: Int) {
+    private fun validateForm(type: FormType) {
         editTextForm.apply {
             addTextChangedListener(object: TextWatcher{
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -163,25 +162,28 @@ class CustomEdiText : RelativeLayout {
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (type == 0){
-                        if (p0.toString().isNotEmpty() && p0?.toString()?.isEmailValid() != true){
-                            showErrorMessage()
+                    when (type){
+                        is FormType.Email -> {
+                            if (p0.toString().isNotEmpty() && p0?.toString()?.isEmailValid() != true){
+                                showErrorMessage(type.message)
+                            }
+                            else hideErrorMessage()
                         }
-                        else hideErrorMessage()
-                    }
-                    else {
-                        if (p0.toString().length < 6 && type == 1 && p0.toString().isNotEmpty()) {
-                            showErrorMessage()
+                        is FormType.Password -> {
+                            if (p0.toString().length < 6 && p0.toString().isNotEmpty()) {
+                                showErrorMessage(type.message)
+                            }
+                            else hideErrorMessage()
                         }
-                        else hideErrorMessage()
                     }
                 }
 
                 override fun afterTextChanged(p0: Editable?) {
                     if (p0?.toString().isNullOrEmpty())
-                        setErrorMessage(null)
+                        hideErrorMessage()
                     setTypingForm()
                     if (isError) setErrorForm()
+                    errorTextListener?.invoke(isError)
                 }
             })
             setOnFocusChangeListener { view, hasFocus ->
@@ -226,14 +228,18 @@ class CustomEdiText : RelativeLayout {
         setErrorMessage(null)
     }
 
-    private fun showErrorMessage(){
+    private fun showErrorMessage(message: String){
         isError = true
-        setErrorMessage(errorMsg)
+        setErrorMessage(message)
         setErrorForm()
     }
     fun dismissKeyboard() {
         val iMgr: InputMethodManager
         iMgr = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         iMgr.hideSoftInputFromWindow(editTextForm.getWindowToken(), 0)
+    }
+
+    interface ErrorTextListener{
+        fun onErrorText()
     }
 }

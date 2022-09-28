@@ -29,7 +29,17 @@ class MainActivity : AppCompatActivity() {
                 is NetworkResult.Error -> it.message?.getContentIfNotHandled()?.let { message ->
                     showToast(message)
                 }
+                is NetworkResult.Loading -> {}
+                is NetworkResult.Success -> {}
             }
+        }
+        binding.etFormPassword.errorTextListener = { isError ->
+            setEnableButton(false)
+            if (!isError) setEnableButton(true)
+        }
+        binding.etFormEmail.errorTextListener = { isError ->
+            setEnableButton(false)
+            if (!isError) setEnableButton(true)
         }
         binding.btnLogin.setOnClickListener {
             viewModel.loginUser(
@@ -39,5 +49,10 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         }
+    }
+
+    private fun setEnableButton(isEnable: Boolean){
+        binding.btnLogin.isEnabled = false
+        binding.btnLogin.isEnabled = isEnable
     }
 }
