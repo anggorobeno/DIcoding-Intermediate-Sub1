@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Submission 1 Android Intermediate</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_welcome_sign_in">Welcome back! Glad to see you, Again!</string>
+    <string name="label_welcome_register">Hello! Register to get started</string>
+    <string name="label_register_now">Don’t have an account? <b><u>Register Now</u></b></string>
+    <string name="label_login">Login</string>
+    <string name="label_login_with">Or Login with</string>
+    <string name="label_forgot_password">Forgot Password?</string>
+    <string name="label_register_with">Or Register with</string>
+    <string name="label_register">Register</string>
+    <string name="label_login_now">Already have an account? <b><u> Login Now </u></b></string>
+    <string name="label_discover_welcome">Discover the best stories by millions of people</string>
+    <string name="label_continue_guset">Continue as a guest</string>
 </resources>

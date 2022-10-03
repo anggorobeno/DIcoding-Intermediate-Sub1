@@ -1,10 +1,10 @@
 package com.example.core.data.networkutils
 
+import android.util.Log
 import com.example.core.data.remote.response.GenericStatusResponse
+import com.example.domain.utils.NetworkResult
 import com.google.gson.Gson
-import retrofit2.HttpException
 import retrofit2.Response
-import java.io.IOException
 
 object BaseApiCall {
     suspend fun <T, H> safeApiCall(
@@ -13,29 +13,38 @@ object BaseApiCall {
     ): NetworkResult<H> {
         try {
             val response = apiCall()
+            Log.d("TAG", "safeApiCall: ${response.code().toString()}")
             if (response.isSuccessful) {
+                Log.d("TAG", "safeApiCall: ${response.body().toString()}")
                 val body = response.body()
                 val model = responseModel.invoke(body)
+                Log.d("TAG", "safeApiCall: ${model.toString()}")
                 body?.let {
                     return NetworkResult.Success(model)
                 }
             } else {
-                val error: GenericStatusResponse = Gson().fromJson(
+                val errorResponse: GenericStatusResponse = Gson().fromJson(
                     response.errorBody()?.charStream(),
                     GenericStatusResponse()::class.java
                 )
-                error.message?.let {
+                val errorModel = errorResponse.mapToModel(errorResponse)
+                errorModel.message?.let {
                     return error(it)
                 }
             }
             return error("${response.code()} : ${response.message()}")
         } catch (e: Exception) {
+            Log.d("TAG", "safeApiCall: ${e.message}")
             return error(e.message ?: e.toString())
         }
     }
 
     private fun <T> error(errorMessage: String): NetworkResult<T> =
-        NetworkResult.Error(SingleEvent(errorMessage))
+        NetworkResult.Error(
+            com.example.domain.utils.SingleEvent(
+                errorMessage
+            )
+        )
 }
 
 

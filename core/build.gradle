@@ -33,12 +33,12 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':domain')
 
 
     //    Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
+    implementation project(path: ':domain')
 
     //Dagger
     kapt 'com.google.dagger:hilt-compiler:2.40.5'

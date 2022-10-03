@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Submission1AndroidIntermediate" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Submission1AndroidIntermediate" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -10,7 +10,9 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/transparent</item>
         <!-- Customize your theme here. -->
     </style>
     <style name="InputFormCustomTheme" parent="Theme.MaterialComponents.Bridge">
@@ -23,5 +25,32 @@
         <item name="colorControlNormal">@color/blackGrey</item>
         <item name="colorControlActivated">@color/blackGrey</item>
         <item name="colorControlHighlight">@color/blackGrey</item>
+    </style>
+    <style name="BaseButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">@dimen/text_size_15</item>
+    </style>
+
+    <style name="BaseButton.Black" parent="BaseButton">
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:background">@drawable/rounded_button_black</item>
+        <item name="backgroundTint">@color/button_color_background</item>
+    </style>
+
+    <style name="BaseButton.White" parent="Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/rounded_button_white</item>
+        <item name="backgroundTint">@color/white</item>
+    </style>
+
+    <style name="WelcomeText" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/urbanist_bold</item>
+        <item name="android:textSize">@dimen/text_size_32</item>
+    </style>
+    <style name="WelcomeText.Black">
+        <item name="android:textColor">@color/black</item>
+
+    </style>
+    <style name="WelcomeText.White">
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>

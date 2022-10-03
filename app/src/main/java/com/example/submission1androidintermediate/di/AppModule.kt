@@ -1,7 +1,7 @@
 package com.example.submission1androidintermediate.di
 
 import com.example.domain.usecase.user.UserUseCase
-import com.example.submission1androidintermediate.viewmodel.UserViewModel
+import com.example.submission1androidintermediate.ui.login.LoginViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,8 +17,8 @@ class AppModule {
     @ActivityScoped
     fun provideDetailMovieFragmentPresenter(
         useCase: UserUseCase
-    ): UserViewModel {
-        return UserViewModel(useCase)
+    ): LoginViewModel {
+        return LoginViewModel(useCase)
     }
 
 }

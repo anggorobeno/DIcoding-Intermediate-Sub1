@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:paddingHorizontal="22dp"
+    android:layout_height="match_parent"
+    tools:context=".ui.register.RegisterFragment">
+    <TextView
+        android:id="@+id/tv_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="125dp"
+        android:text="@string/label_welcome_register"
+        style="@style/WelcomeText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <com.example.submission1androidintermediate.customview.CustomEdiText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etFormUsername"
+        android:layout_marginTop="@dimen/margin_32"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_register"/>
+    <com.example.submission1androidintermediate.customview.CustomEdiText
+        android:id="@+id/etFormEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etFormUsername" />
+
+    <com.example.submission1androidintermediate.customview.CustomEdiText
+        android:id="@+id/etFormPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etFormEmail" />
+
+    <TextView
+        android:id="@+id/tv_register_with"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/urbanist_semibold"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/darkGrey"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnRegister"
+        android:text="@string/label_register_with"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="4dp"
+        android:background="@color/blackGrey"
+        android:foregroundGravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_register_with"
+        app:layout_constraintEnd_toStartOf="@id/tv_register_with"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_register_with" />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="4dp"
+        android:background="@color/blackGrey"
+        android:foregroundGravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_register_with"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_register_with"
+        app:layout_constraintTop_toTopOf="@id/tv_register_with" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRegister"
+        android:fontFamily="@font/urbanist_semibold"
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:textSize="@dimen/text_size_15"
+        android:enabled="false"
+        style="@style/BaseButton.Black"
+        android:layout_height="wrap_content"
+        android:text="@string/label_register"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etFormPassword" />
+    <TextView
+        android:layout_width="match_parent"
+        android:fontFamily="@font/urbanist_regular"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="@dimen/text_size_15"
+        android:textColor="@color/black"
+        android:layout_marginBottom="24dp"
+        android:text="@string/label_register_now"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

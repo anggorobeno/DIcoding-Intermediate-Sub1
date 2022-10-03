@@ -2,20 +2,19 @@ package com.example.core.data.remote.response.user.login
 
 import com.example.core.data.networkutils.Mappable
 import com.example.core.data.remote.response.GenericStatusResponse
-import com.example.domain.model.user.LoginModel
-import retrofit2.Response
+import com.example.domain.model.user.login.LoginModel
 
 data class LoginResponse(
-    val status: GenericStatusResponse,
+    val status: GenericStatusResponse? = null,
     val userId: String? = null,
     val name: String? = null,
     val token: String? = null
-):Mappable<LoginModel,LoginResponse> {
+) : Mappable<LoginResponse, LoginModel> {
 
     companion object {
         fun Transform(dto: LoginResponse): LoginModel {
             return LoginModel(
-                dto.status,
+                GenericStatusResponse.Transform(dto.status!!),
                 dto.userId,
                 dto.name,
                 dto.token
@@ -23,11 +22,9 @@ data class LoginResponse(
         }
     }
 
-
-
     override fun mapToModel(response: LoginResponse): LoginModel {
         return LoginModel(
-            response.status,
+            GenericStatusResponse.Transform(response.status!!),
             response.userId,
             response.name,
             response.token

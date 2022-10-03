@@ -18,4 +18,7 @@
     <color name="underlineFormRedColor">#B90024</color>
     <color name="underlineFormGreenColor">#008E53</color>
     <color name="underlineFormBlueColor">#0050AE</color>
+
+    // Button
+    <color name="buttonDisableColor">#DBE1E4</color>
 </resources>

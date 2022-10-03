@@ -3,107 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:paddingHorizontal="22dp"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <TextView
-        android:id="@+id/tv_sign_in"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="125dp"
-        android:fontFamily="@font/urbanist_bold"
-        android:text="Welcome back! Glad to see you, Again!"
-        android:textColor="@color/black"
-        android:textSize="32sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-
-        <com.example.submission1androidintermediate.customview.CustomEdiText
-            android:id="@+id/etFormEmail"
-            android:layout_width="match_parent"
-            android:layout_marginTop="32dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_sign_in" />
-
-        <com.example.submission1androidintermediate.customview.CustomEdiText
-            android:id="@+id/etFormPassword"
-            android:layout_width="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etFormEmail" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:fontFamily="@font/urbanist_semibold"
-        android:textSize="14sp"
-        android:textColor="@color/darkGrey"
-        android:text="Forgot Password?"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etFormPassword"/>
-
-    <TextView
-        android:id="@+id/tv_login_with"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="36dp"
-        android:fontFamily="@font/urbanist_semibold"
-        android:textSize="14sp"
-        android:textColor="@color/darkGrey"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnLogin"
-        android:text="Or Login with"/>
-
-    <View
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginEnd="4dp"
-        android:background="@color/blackGrey"
-        android:foregroundGravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_login_with"
-        app:layout_constraintEnd_toStartOf="@id/tv_login_with"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_login_with" />
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="4dp"
-        android:background="@color/blackGrey"
-        android:foregroundGravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_login_with"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_login_with"
-        app:layout_constraintTop_toTopOf="@id/tv_login_with" />
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLogin"
-            android:fontFamily="@font/urbanist_semibold"
-            android:layout_marginTop="60dp"
-            android:layout_width="match_parent"
-            android:textSize="15sp"
-            android:enabled="false"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_rounded_button_black"
-            android:text="Login"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etFormPassword" />
-    <TextView
-        android:layout_width="match_parent"
-        android:fontFamily="@font/urbanist_regular"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        android:layout_marginBottom="24dp"
-        android:text="Don’t have an account? Register Now"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

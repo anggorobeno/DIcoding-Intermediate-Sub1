@@ -17,7 +17,7 @@ class DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideUserReviewDataSource(apiService: DicodingStoryApiService): UserDataSource {
+    fun provideUserDataSource(apiService: DicodingStoryApiService): UserDataSource {
         return UserRemoteDataSourceImpl(apiService)
     }
 }
