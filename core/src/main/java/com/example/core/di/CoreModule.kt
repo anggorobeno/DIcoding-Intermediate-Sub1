@@ -3,17 +3,18 @@ package com.example.core.di
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.core.BuildConfig
-import com.example.core.data.networkutils.NetworkInterceptor
+import com.example.core.data.local.PreferencesDataStore
+import com.example.core.data.utils.NetworkInterceptor
 import com.example.core.data.remote.services.DicodingStoryApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -60,4 +61,9 @@ class CoreModule {
     @Singleton
     fun provideApiService(retrofit: Retrofit): DicodingStoryApiService =
         retrofit.create(DicodingStoryApiService::class.java)
+    @Provides
+    @Singleton
+    fun provideDataStore(@ApplicationContext context: Context): PreferencesDataStore {
+        return PreferencesDataStore(context)
+    }
 }

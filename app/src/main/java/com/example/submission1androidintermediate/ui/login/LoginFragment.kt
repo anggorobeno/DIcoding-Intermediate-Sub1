@@ -1,21 +1,33 @@
 package com.example.submission1androidintermediate.ui.login
 
 import android.view.LayoutInflater
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import com.example.domain.utils.NetworkResult
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
+import com.example.core.data.local.PreferencesDataStore
 import com.example.domain.model.user.login.LoginRequest
 import com.example.domain.model.validator.EmailValidator
 import com.example.domain.model.validator.PasswordValidator
+import com.example.domain.utils.NetworkResult
+import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentLoginBinding
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.FormType
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private val viewModel: LoginViewModel by viewModels()
+    private var saveTokenJob: Job = Job()
+    private var setLoginJob: Job = Job()
+    private var loginJob: Job = Job()
 
 
     private fun setEnableButton(isEnable: Boolean) {
@@ -28,17 +40,44 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     override fun observeViewModel() {
-        viewModel.loginResult.observe(viewLifecycleOwner) {
-            when (it) {
-                is NetworkResult.Error -> it.message?.getContentIfNotHandled()?.let { message ->
+        viewModel.loginResult.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is NetworkResult.Error -> result.message?.getContentIfNotHandled()?.let { message ->
+                    showLoadingState(false)
                     showToast(message)
                 }
-                is NetworkResult.Loading -> {}
+                is NetworkResult.Loading -> {
+                    showLoadingState(true)
+                }
                 is NetworkResult.Success -> {
-                    Timber.d(it.data.toString())
+                    showLoadingState(false)
+                    result.data?.let {
+                        it.data?.token?.let {
+                            saveTokenJob = viewModel.saveUserToken(it)
+                        }
+                    }
+                    setLoginJob = viewModel.setLoginStatus(true)
+                    showToast("Login Success")
+                    lifecycleScope.launch {
+                        saveTokenJob.join()
+                        setLoginJob.join()
+                        val graph = findNavController().graph
+                        val navOptions = NavOptions.Builder()
+                            .setPopUpTo(graph.id, true)
+                            .build()
+                        findNavController().navigate(
+                            R.id.action_loginFragment_to_homeFragment,
+                            null,
+                            navOptions
+                        )
+                    }
                 }
             }
         }
+    }
+
+    fun showLoadingState(isLoading: Boolean) {
+        binding.progressCircular.isVisible = isLoading
     }
 
     override fun init() {
@@ -53,12 +92,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             if (!isError) setEnableButton(true)
         }
         binding.btnLogin.setOnClickListener {
-            viewModel.doLoginUser(
+            if (loginJob.isActive) loginJob.cancel()
+            loginJob = viewModel.doLoginUser(
                 LoginRequest(
                     binding.etFormEmail.getText(),
                     binding.etFormPassword.getText()
                 )
             )
+
         }
     }
 }

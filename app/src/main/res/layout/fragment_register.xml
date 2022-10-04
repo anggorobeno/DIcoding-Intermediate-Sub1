@@ -3,16 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:paddingHorizontal="22dp"
+    android:paddingHorizontal="@dimen/margin_22"
     android:layout_height="match_parent"
     tools:context=".ui.register.RegisterFragment">
+
+    <include
+        android:id="@+id/layout_progress_bar"
+        layout="@layout/progressbar_indicator"
+         />
+
     <TextView
         android:id="@+id/tv_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="125dp"
         android:text="@string/label_welcome_register"
-        style="@style/WelcomeText"
+        style="@style/WelcomeText.Black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,9 +59,9 @@
         android:text="@string/label_register_with"/>
 
     <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginEnd="4dp"
+        android:layout_width="@dimen/margin_0"
+        android:layout_height="@dimen/margin_1"
+        android:layout_marginEnd="@dimen/margin_4"
         android:background="@color/blackGrey"
         android:foregroundGravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="@+id/tv_register_with"
@@ -63,9 +69,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_register_with" />
     <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="4dp"
+        android:layout_width="@dimen/margin_0"
+        android:layout_height="@dimen/margin_1"
+        android:layout_marginStart="@dimen/margin_4"
         android:background="@color/blackGrey"
         android:foregroundGravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="@+id/tv_register_with"
@@ -92,7 +98,7 @@
         android:gravity="center_horizontal"
         android:textSize="@dimen/text_size_15"
         android:textColor="@color/black"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="@dimen/margin_24"
         android:text="@string/label_register_now"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,6 +1,5 @@
-package com.example.core.data.networkutils
+package com.example.core.data.utils
 
-import com.example.core.data.networkutils.Mapper.toModel
 import com.example.core.data.remote.response.GenericStatusResponse
 import com.example.core.data.remote.response.user.login.LoginResponse
 import com.example.core.data.remote.response.user.register.RegisterResponse
@@ -17,12 +16,25 @@ object Mapper {
     }
 
     fun RegisterResponse.toModel(): RegisterModel {
-        return RegisterModel()
+        return RegisterModel(
+            this.error,
+            this.message
+        )
+    }
+
+    fun LoginResponse.LoginItem.toModel(): LoginModel.LoginItemModel {
+        return LoginModel.LoginItemModel(
+            this.userId,
+            this.name,
+            this.token
+        )
     }
 
     fun LoginResponse.toModel(): LoginModel {
         return LoginModel(
-            this.status?.toModel()
+            this.error,
+            this.message,
+            this.data?.toModel()
         )
     }
 }

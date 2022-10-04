@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.example.domain.model.user.register.RegisterRequest
 import com.example.domain.model.validator.EmailValidator
@@ -33,18 +34,17 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         viewModel.registerResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is NetworkResult.Loading -> {
-
+                    binding.layoutProgressBar.progressIndicator.isVisible = true
                 }
                 is NetworkResult.Error -> {
+                    binding.layoutProgressBar.progressIndicator.isVisible = false
                     result.message?.getContentIfNotHandled()?.let {
                         showToast(it)
                     }
                 }
                 is NetworkResult.Success -> {
+                    binding.layoutProgressBar.progressIndicator.isVisible = false
                     Timber.d(result.data.toString())
-                    result.message?.getContentIfNotHandled()?.let {
-                        showToast(it)
-                    }
                     result.data?.let {
                         it.message?.let { message ->
                             showToast(message)

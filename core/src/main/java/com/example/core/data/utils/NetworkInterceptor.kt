@@ -1,4 +1,4 @@
-package com.example.core.data.networkutils
+package com.example.core.data.utils
 
 import okhttp3.Interceptor
 import okhttp3.Response

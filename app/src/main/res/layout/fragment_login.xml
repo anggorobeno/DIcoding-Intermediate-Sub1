@@ -6,6 +6,20 @@
     android:paddingHorizontal="@dimen/margin_22"
     android:layout_height="match_parent"
     tools:context=".ui.login.LoginFragment">
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:indicatorColor="@color/grey"
+        app:indicatorSize="60dp"
+        app:trackColor="@color/black"
+        android:visibility="invisible"
+        app:trackThickness="@dimen/margin_22"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
         android:id="@+id/tv_register"
         android:layout_width="match_parent"

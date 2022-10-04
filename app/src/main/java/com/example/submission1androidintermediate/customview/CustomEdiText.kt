@@ -247,7 +247,7 @@ class CustomEdiText : RelativeLayout {
                     }
                 }
             })
-            setOnFocusChangeListener { view, hasFocus ->
+            setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     setTypingForm()
                     if (isError) setErrorForm()

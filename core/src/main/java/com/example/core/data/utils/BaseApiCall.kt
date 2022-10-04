@@ -1,4 +1,4 @@
-package com.example.core.data.networkutils
+package com.example.core.data.utils
 
 import android.util.Log
 import com.example.core.data.remote.response.GenericStatusResponse
@@ -27,8 +27,7 @@ object BaseApiCall {
                     response.errorBody()?.charStream(),
                     GenericStatusResponse()::class.java
                 )
-                val errorModel = errorResponse.mapToModel(errorResponse)
-                errorModel.message?.let {
+                errorResponse.message?.let {
                     return error(it)
                 }
             }
