@@ -13,8 +13,6 @@ import dagger.hilt.android.scopes.ActivityScoped
 @Module
 @InstallIn(ActivityComponent::class)
 class AppModule {
-
-
     @Provides
     @ActivityScoped
     fun provideLoginViewModel(
