@@ -11,9 +11,12 @@ import com.example.domain.model.user.login.LoginRequest
 import com.example.domain.model.validator.EmailValidator
 import com.example.domain.model.validator.PasswordValidator
 import com.example.domain.utils.NetworkResult
+import com.example.domain.utils.SingleEvent
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentLoginBinding
+import com.example.submission1androidintermediate.helper.AppUtils.getNavGraph
+import com.example.submission1androidintermediate.helper.AppUtils.navigateToDestination
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.FormType
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,24 +55,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 is NetworkResult.Success -> {
                     showLoadingState(false)
                     result.data?.let {
-                        it.data?.token?.let {
-                            saveTokenJob = viewModel.saveUserToken(it)
+                        it.data?.token?.let { token ->
+                            saveTokenJob = viewModel.saveUserToken(token)
                         }
                     }
                     setLoginJob = viewModel.setLoginStatus(true)
-                    showToast("Login Success")
+                    SingleEvent(result.data?.message).getContentIfNotHandled()
+                        ?.let { showToast(it) }
                     lifecycleScope.launch {
                         saveTokenJob.join()
                         setLoginJob.join()
-                        val graph = findNavController().graph
                         val navOptions = NavOptions.Builder()
-                            .setPopUpTo(graph.id, true)
+                            .setPopUpTo(getNavGraph().id, true)
                             .build()
-                        findNavController().navigate(
-                            R.id.action_loginFragment_to_homeFragment,
-                            null,
-                            navOptions
-                        )
+                        navigateToDestination(R.id.action_loginFragment_to_homeFragment, navOptions)
                     }
                 }
             }
@@ -77,7 +76,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     fun showLoadingState(isLoading: Boolean) {
-        binding.progressCircular.isVisible = isLoading
+        binding.layoutProgressBar.progressCircular.isVisible = isLoading
     }
 
     override fun init() {

@@ -3,34 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:paddingHorizontal="@dimen/margin_22"
     android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/margin_22"
     tools:context=".ui.register.RegisterFragment">
 
-    <include
-        android:id="@+id/layout_progress_bar"
-        layout="@layout/progressbar_indicator"
-         />
 
     <TextView
         android:id="@+id/tv_register"
+        style="@style/WelcomeText.Black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="125dp"
         android:text="@string/label_welcome_register"
-        style="@style/WelcomeText.Black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <com.example.submission1androidintermediate.customview.CustomEdiText
+        android:id="@+id/etFormUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etFormUsername"
         android:layout_marginTop="@dimen/margin_32"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_register"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_register" />
+
     <com.example.submission1androidintermediate.customview.CustomEdiText
         android:id="@+id/etFormEmail"
         android:layout_width="match_parent"
@@ -48,15 +44,15 @@
     <TextView
         android:id="@+id/tv_register_with"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:fontFamily="@font/urbanist_semibold"
-        android:textSize="@dimen/text_size_14"
+        android:text="@string/label_register_with"
         android:textColor="@color/darkGrey"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="@dimen/text_size_14"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnRegister"
-        android:text="@string/label_register_with"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnRegister" />
 
     <View
         android:layout_width="@dimen/margin_0"
@@ -68,6 +64,7 @@
         app:layout_constraintEnd_toStartOf="@id/tv_register_with"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_register_with" />
+
     <View
         android:layout_width="@dimen/margin_0"
         android:layout_height="@dimen/margin_1"
@@ -81,27 +78,38 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRegister"
-        android:fontFamily="@font/urbanist_semibold"
-        android:layout_marginTop="60dp"
-        android:layout_width="match_parent"
-        android:textSize="@dimen/text_size_15"
-        android:enabled="false"
         style="@style/BaseButton.Black"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:enabled="false"
+        android:fontFamily="@font/urbanist_semibold"
         android:text="@string/label_register"
+        android:textSize="@dimen/text_size_15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etFormPassword" />
+
     <TextView
         android:layout_width="match_parent"
-        android:fontFamily="@font/urbanist_regular"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="@dimen/text_size_15"
-        android:textColor="@color/black"
         android:layout_marginBottom="@dimen/margin_24"
+        android:fontFamily="@font/urbanist_regular"
+        android:gravity="center_horizontal"
         android:text="@string/label_register_now"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_15"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <include
+        android:id="@+id/layout_progress_bar"
+        layout="@layout/progressbar_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

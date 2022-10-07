@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progress_indicator"
-        android:layout_width="match_parent"
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
         android:indeterminate="true"
-        app:trackColor="@color/grey"
-        app:indicatorColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:showAnimationBehavior="inward"
-        app:showDelay="@integer/material_motion_duration_medium_2"
-        app:trackThickness="4dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:indicatorColor="@color/grey"
+        app:indicatorSize="60dp"
+        app:trackColor="@color/black"
+        android:visibility="invisible"
+        app:trackThickness="@dimen/margin_22"
+        />
+</LinearLayout>

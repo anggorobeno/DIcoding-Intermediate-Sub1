@@ -1,7 +1,9 @@
 package com.example.domain.model.stories
 
 data class StoriesModel(
-    val data: ArrayList<StoriesModelItem>
+    val data: ArrayList<StoriesModelItem>,
+    val message: String?,
+    val errror: Boolean?
 ) {
     data class StoriesModelItem(
         val id: String?,

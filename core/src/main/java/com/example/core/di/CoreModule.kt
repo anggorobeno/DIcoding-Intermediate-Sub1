@@ -38,7 +38,7 @@ class CoreModule {
             builder.addNetworkInterceptor(authInterceptor)
             if (BuildConfig.DEBUG) {
                 builder.addInterceptor(HttpLoggingInterceptor().setLevel(level = HttpLoggingInterceptor.Level.BODY))
-                builder.addInterceptor(ChuckerInterceptor(context))
+                builder.addNetworkInterceptor(ChuckerInterceptor(context))
             }
             return builder.build()
         } catch (e: Exception) {

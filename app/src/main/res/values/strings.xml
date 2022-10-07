@@ -12,4 +12,5 @@
     <string name="label_login_now">Already have an account? <b><u> Login Now </u></b></string>
     <string name="label_discover_welcome">Discover the best stories by millions of people</string>
     <string name="label_continue_guset">Continue as a guest</string>
+    <string name="label_error_fetch_data">Error fetch data</string>
 </resources>

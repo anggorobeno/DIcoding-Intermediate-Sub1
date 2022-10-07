@@ -3,48 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:paddingHorizontal="@dimen/margin_22"
     android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/margin_22"
     tools:context=".ui.login.LoginFragment">
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_circular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:indicatorColor="@color/grey"
-        app:indicatorSize="60dp"
-        app:trackColor="@color/black"
-        android:visibility="invisible"
-        app:trackThickness="@dimen/margin_22"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <TextView
         android:id="@+id/tv_register"
+        style="@style/WelcomeText.Black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="125dp"
-        style="@style/WelcomeText.Black"
         android:text="@string/label_welcome_sign_in"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <com.example.submission1androidintermediate.customview.CustomEdiText
         android:id="@+id/etFormEmail"
         android:layout_width="match_parent"
-        android:layout_marginTop="32dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_register" />
 
     <com.example.submission1androidintermediate.customview.CustomEdiText
         android:id="@+id/etFormPassword"
         android:layout_width="match_parent"
-        android:layout_marginTop="15dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etFormEmail" />
 
@@ -53,24 +39,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/urbanist_semibold"
-        android:textSize="@dimen/text_size_14"
-        android:textColor="@color/darkGrey"
         android:text="@string/label_forgot_password"
+        android:textColor="@color/darkGrey"
+        android:textSize="@dimen/text_size_14"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etFormPassword"/>
+        app:layout_constraintTop_toBottomOf="@id/etFormPassword" />
 
     <TextView
         android:id="@+id/tv_register_with"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:fontFamily="@font/urbanist_semibold"
-        android:textSize="@dimen/text_size_14"
+        android:text="@string/label_login_with"
         android:textColor="@color/darkGrey"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="@dimen/text_size_14"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_login"
-        android:text="@string/label_login_with"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
     <View
         android:layout_width="0dp"
@@ -82,6 +68,7 @@
         app:layout_constraintEnd_toStartOf="@id/tv_register_with"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_register_with" />
+
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
@@ -95,27 +82,38 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_login"
-        android:fontFamily="@font/urbanist_semibold"
-        android:layout_marginTop="60dp"
-        android:layout_width="match_parent"
-        android:textSize="@dimen/text_size_15"
-        android:enabled="false"
         style="@style/BaseButton.Black"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:enabled="false"
+        android:fontFamily="@font/urbanist_semibold"
         android:text="@string/label_login"
+        android:textSize="@dimen/text_size_15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etFormPassword" />
+
     <TextView
         android:layout_width="match_parent"
-        android:fontFamily="@font/urbanist_regular"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="@dimen/text_size_15"
-        android:textColor="@color/black"
         android:layout_marginBottom="24dp"
+        android:fontFamily="@font/urbanist_regular"
+        android:gravity="center_horizontal"
         android:text="@string/label_login_now"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_15"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
+    <include
+        android:id="@+id/layout_progress_bar"
+        layout="@layout/progressbar_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

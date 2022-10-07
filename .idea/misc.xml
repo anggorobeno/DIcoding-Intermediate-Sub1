@@ -4,8 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Anggoro/AndroidStudioProjects/Submission1AndroidIntermediate/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
+        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/drawable/bg_card_view.xml" value="0.1" />
+        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/drawable/bg_image_rounded.xml" value="0.1" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/drawable/bg_rounded.xml" value="0.1785" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/drawable/bg_rounded_button_black.xml" value="0.1785" />
+        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/drawable/bg_toast.xml" value="0.1785" />
+        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/drawable/ic_add.xml" value="0.1" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/drawable/ic_app_icon.xml" value="0.1785" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/drawable/ic_bg_login.xml" value="0.1785" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/drawable/ic_capture.xml" value="0.1785" />
@@ -13,11 +17,14 @@
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/drawable/ic_switch_camera.xml" value="0.1785" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/font/urbanist_semi_bold.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/custom_toast.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_add_story.xml" value="0.14175724637681159" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_camera.xml" value="0.14175724637681159" />
-        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_home.xml" value="0.14175724637681159" />
+        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_home.xml" value="0.1411901983663944" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_login.xml" value="0.22" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_register.xml" value="0.16666666666666666" />
-        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_welcome.xml" value="0.1" />
+        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_welcome.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/item_story.xml" value="0.22" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/progressbar_indicator.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1785" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />

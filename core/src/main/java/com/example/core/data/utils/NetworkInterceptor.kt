@@ -3,8 +3,8 @@ package com.example.core.data.utils
 import android.util.Log
 import com.example.core.data.local.PreferencesDataStore
 import com.example.core.di.ApplicationScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import com.example.core.di.CoroutinesQualifier
+import kotlinx.coroutines.*
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -14,25 +14,25 @@ import javax.inject.Singleton
 
 @Singleton
 class NetworkInterceptor @Inject constructor(
-    @ApplicationScope private val externalScope: CoroutineScope,
+    @ApplicationScope
+    private val externalScope: CoroutineScope,
+    @CoroutinesQualifier.MainDispatcher
+    private val dispatcher: CoroutineDispatcher,
     private val prefs: PreferencesDataStore
 ) :
     Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         var token = ""
-        var modifiedRequest: Request.Builder
+        val modifiedRequest = originalRequest.newBuilder()
         if (originalRequest.url.toString().contains("stories")) {
-            Log.d("TAG", "intercept: ")
-            externalScope.launch {
-                Log.d("TAG", "intercept: ")
+            runBlocking {
                 prefs.getUserToken()?.let {
-                    Log.d("TAG", "intercept: $it")
                     token = it
                 }
+                modifiedRequest.addHeader("Authorization", "Bearer " + token)
             }
-            modifiedRequest = originalRequest.newBuilder()
-        } else modifiedRequest = originalRequest.newBuilder()
+        }
         return chain.proceed(modifiedRequest.build())
     }
 }

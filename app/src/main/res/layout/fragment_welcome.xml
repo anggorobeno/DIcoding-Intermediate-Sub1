@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="@dimen/margin_22"
+    android:background="@drawable/ic__background"
     tools:context=".ui.welcome.WelcomeFragment">
 
     <TextView

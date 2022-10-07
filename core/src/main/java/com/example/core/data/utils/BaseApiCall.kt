@@ -3,6 +3,7 @@ package com.example.core.data.utils
 import android.util.Log
 import com.example.core.data.remote.response.GenericStatusResponse
 import com.example.domain.utils.NetworkResult
+import com.github.ajalt.timberkt.Timber
 import com.google.gson.Gson
 import retrofit2.Response
 
@@ -13,16 +14,19 @@ object BaseApiCall {
     ): NetworkResult<H> {
         try {
             val response = apiCall()
-            Log.d("TAG", "safeApiCall: ${response.code().toString()}")
             if (response.isSuccessful) {
-                Log.d("TAG", "safeApiCall: ${response.body().toString()}")
                 val body = response.body()
                 val model = responseModel.invoke(body)
-                Log.d("TAG", "safeApiCall: ${model.toString()}")
                 body?.let {
+                    Timber.d {
+                        "ApiCall Success and response is not empty"
+                    }
                     return NetworkResult.Success(model)
                 }
             } else {
+                Timber.d {
+                    "ApiCall failed"
+                }
                 val errorResponse: GenericStatusResponse = Gson().fromJson(
                     response.errorBody()?.charStream(),
                     GenericStatusResponse()::class.java
@@ -33,7 +37,9 @@ object BaseApiCall {
             }
             return error("${response.code()} : ${response.message()}")
         } catch (e: Exception) {
-            Log.d("TAG", "safeApiCall: ${e.message}")
+            Timber.e(e) {
+                e.message.toString()
+            }
             return error(e.message ?: e.toString())
         }
     }

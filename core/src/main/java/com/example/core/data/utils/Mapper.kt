@@ -56,7 +56,9 @@ object Mapper {
             arrayListModel.add(it.toModel())
         }
         return StoriesModel(
-            arrayListModel
+            arrayListModel,
+            this.message,
+            this.error
         )
     }
 }

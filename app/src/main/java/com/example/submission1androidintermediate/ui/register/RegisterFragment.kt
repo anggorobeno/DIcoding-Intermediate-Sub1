@@ -13,14 +13,15 @@ import com.example.domain.model.validator.EmailValidator
 import com.example.domain.model.validator.PasswordValidator
 import com.example.domain.model.validator.UsernameValidator
 import com.example.domain.utils.NetworkResult
+import com.example.domain.utils.SingleEvent
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentRegisterBinding
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.FormType
 import com.example.submission1androidintermediate.ui.login.LoginViewModel
+import com.github.ajalt.timberkt.Timber
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -34,26 +35,32 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         viewModel.registerResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is NetworkResult.Loading -> {
-                    binding.layoutProgressBar.progressIndicator.isVisible = true
+                    showLoadingState(true)
                 }
                 is NetworkResult.Error -> {
-                    binding.layoutProgressBar.progressIndicator.isVisible = false
+                    showLoadingState(false)
                     result.message?.getContentIfNotHandled()?.let {
                         showToast(it)
                     }
                 }
                 is NetworkResult.Success -> {
-                    binding.layoutProgressBar.progressIndicator.isVisible = false
-                    Timber.d(result.data.toString())
-                    result.data?.let {
-                        it.message?.let { message ->
-                            showToast(message)
+                    showLoadingState(false)
+                    Timber.d {
+                        result.data.toString()
+                    }
+                    result.data?.message?.let {
+                        SingleEvent(it).getContentIfNotHandled()?.let {
+                            showToast(it)
                         }
                     }
                 }
             }
         }
+    }
 
+
+    fun showLoadingState(isLoading: Boolean) {
+        binding.layoutProgressBar.progressCircular.isVisible = isLoading
     }
 
     override fun init() {

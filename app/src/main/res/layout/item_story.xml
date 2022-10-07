@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginHorizontal="@dimen/margin_14"
+    android:layout_marginVertical="@dimen/margin_14"
+    app:cardCornerRadius="@dimen/margin_14"
+    app:cardElevation="@dimen/margin_12"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:paddingTop="@dimen/margin_14"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:paddingHorizontal="@dimen/margin_14"
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/margin_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="75dp"
+            android:src="@drawable/ic_profile"
+            android:layout_height="75dp" />
+
+        <TextView
+            android:id="@+id/tv_story_name"
+            style="@style/subtitleText"
+            android:layout_width="wrap_content"
+            tools:text="Anggoro Beno"
+
+            android:layout_marginHorizontal="@dimen/margin_22"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <ImageView
+        android:background="@drawable/bg_image_rounded"
+        android:id="@+id/iv_story_image"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -5,6 +5,7 @@
     <dimen name="margin_1">1dp</dimen>
     <dimen name="margin_4">4dp</dimen>
     <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_14">14dp</dimen>
     <dimen name="margin_22">22dp</dimen>
     <dimen name="margin_24">24dp</dimen>
@@ -14,5 +15,9 @@
     // Text Size
     <dimen name="text_size_14">14sp</dimen>
     <dimen name="text_size_15">15sp</dimen>
+    <dimen name="text_size_18">18sp</dimen>
     <dimen name="text_size_32">32sp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_17">17dp</dimen>
+    <dimen name="margin_48">48dp</dimen>
 </resources>
