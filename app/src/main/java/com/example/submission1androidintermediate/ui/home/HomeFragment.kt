@@ -17,6 +17,7 @@ import com.example.domain.utils.SingleEvent
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentHomeBinding
+import com.example.submission1androidintermediate.helper.AppUtils.navigateToDestination
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.ui.adapter.HomeStoryAdapter
 import com.example.submission1androidintermediate.ui.camera.CameraFragment
@@ -78,9 +79,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupView() {
-        binding.fabAddStory.setOnClickListener {
-            Timber.d("Fab Clicked")
+        binding.fabCamera.setOnClickListener {
+            navigateToDestination(R.id.action_homeFragment_to_cameraFragment)
         }
+
     }
 
     private fun setupAdapter() {
