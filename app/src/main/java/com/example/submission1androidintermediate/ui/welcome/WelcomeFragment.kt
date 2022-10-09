@@ -12,8 +12,12 @@ import com.example.core.data.local.PreferencesDataStore
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentWelcomeBinding
+import com.example.submission1androidintermediate.helper.AppUtils.getNavGraph
+import com.example.submission1androidintermediate.helper.AppUtils.navigateToDestination
+import com.github.ajalt.timberkt.d
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -26,29 +30,15 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>() {
         }
 
     override fun observeViewModel() {
-
-
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    // Do nothing
     }
 
     override fun init() {
-        viewLifecycleOwner.lifecycleScope.launch {
+        runBlocking {
             Timber.d(preferencesDataStore.getLoginStatus().toString())
             preferencesDataStore.getLoginStatus()?.let { isLogin ->
                 if (isLogin) {
-                    val graph = findNavController().graph
-                    val navOptions = NavOptions.Builder()
-                        .setPopUpTo(graph.id, true)
-                        .build()
-                    findNavController().navigate(
-                        R.id.action_welcomeFragment_to_homeFragment,
-                        null,
-                        navOptions
-                    )
+                    navigateToDestination(R.id.action_welcomeFragment_to_homeFragment)
                 }
             }
         }

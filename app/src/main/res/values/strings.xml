@@ -13,4 +13,10 @@
     <string name="label_discover_welcome">Discover the best stories by millions of people</string>
     <string name="label_continue_guset">Continue as a guest</string>
     <string name="label_error_fetch_data">Error fetch data</string>
+    <string name="label_failed_camera_capture">Failed to take picture.</string>
+    <string name="label_success_capture_camera">Photo capture succeeded</string>
+    <string name="label_request_camera_permission">Request camera permission</string>
+    <string name="label_camera_granted">Camera permission granted</string>
+    <string name="label_camera_denied">Camera permission denied</string>
+    <string name="label_error_use_case_binding">Use case binding failed</string>
 </resources>

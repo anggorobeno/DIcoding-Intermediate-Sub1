@@ -1,38 +1,38 @@
-package com.example.submission1androidintermediate.ui.camera
+package com.example.submission1androidintermediate.ui.home.stories.camera
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentCameraBinding
-import timber.log.Timber
+import com.example.submission1androidintermediate.helper.AppUtils.showToast
+import com.example.submission1androidintermediate.helper.StoriesEvent
+import com.example.submission1androidintermediate.ui.home.HomeViewModel
+import com.example.submission1androidintermediate.ui.home.stories.SharedStoriesViewModel
+import com.github.ajalt.timberkt.Timber
+import dagger.hilt.android.AndroidEntryPoint
+import org.greenrobot.eventbus.EventBus
 import java.io.File
-import java.nio.ByteBuffer
-import java.nio.file.Files.createFile
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-
-
+@AndroidEntryPoint
 class CameraFragment : BaseFragment<FragmentCameraBinding>() {
     private var preview: Preview? = null
+    val sharedStoryViewModel: SharedStoriesViewModel by hiltNavGraphViewModels(R.id.story_nav_graph)
     private var imageCapture: ImageCapture? = null
+    private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private var camera: Camera? = null
     private lateinit var safeContext: Context
     private lateinit var outputDirectory: File
@@ -43,19 +43,26 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
         }
 
     override fun observeViewModel() {
-
+        // Do nothing
     }
 
     override fun init() {
-        Timber.d("onViewCreated Called")
         if (allPermissionsGranted()) {
             startCamera()
         } else {
-            Timber.d("Request Camera Permission")
+            Timber.d {
+                getString(R.string.label_request_camera_permission)
+            }
             requestPermission.launch(Manifest.permission.CAMERA)
         }
         binding.captureImage.setOnClickListener { takePhoto() }
+        binding.switchCamera.setOnClickListener {
+            cameraSelector =
+                if (cameraSelector.equals(CameraSelector.DEFAULT_BACK_CAMERA)) CameraSelector.DEFAULT_FRONT_CAMERA
+                else CameraSelector.DEFAULT_BACK_CAMERA
 
+            startCamera()
+        }
         outputDirectory = getOutputDirectory()
 
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -88,18 +95,24 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
             ContextCompat.getMainExecutor(safeContext),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
-                    Toast.makeText(
-                        safeContext,
-                        "Gagal mengambil gambar.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Timber.d {
+                        getString(R.string.label_failed_camera_capture)
+                    }
+                    showToast(getString(R.string.label_failed_camera_capture))
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
-                    val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, msg)
+                    val msg = getString(R.string.label_success_capture_camera)
+                    showToast(msg)
+                    sharedStoryViewModel.saveImageResult(
+                        photoFile,
+                        cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA
+                    )
+                    findNavController().popBackStack()
+                    Timber.d {
+                        savedUri.toString()
+                    }
                 }
             }
         )
@@ -109,10 +122,10 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
+                Timber.d { getString(R.string.label_camera_granted) }
                 startCamera()
-            }
-            else{
-
+            } else {
+                Timber.d { getString(R.string.label_camera_denied) }
             }
         }
 
@@ -124,7 +137,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
 
-        cameraProviderFuture.addListener(Runnable {
+        cameraProviderFuture.addListener({
             // Used to bind the lifecycle of cameras to the lifecycle owner
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
@@ -134,9 +147,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
             imageCapture = ImageCapture.Builder().build()
 
             // Select back camera
-            val cameraSelector =
-                CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                    .build()
+
 
             try {
                 // Unbind use cases before rebinding
@@ -151,7 +162,9 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
                 )
                 preview?.setSurfaceProvider(binding.viewFinder.surfaceProvider)
             } catch (exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
+                Timber.d {
+                    getString(R.string.label_error_use_case_binding)
+                }
             }
 
         }, ContextCompat.getMainExecutor(safeContext))
@@ -159,9 +172,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
     }
 
     companion object {
-        val TAG = "CameraXFragment"
-        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
-        internal const val REQUEST_CODE_PERMISSIONS = 10
+        const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         var isOffline = false // prevent app crash when goes offline
         val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }

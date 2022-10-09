@@ -60,15 +60,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                         }
                     }
                     setLoginJob = viewModel.setLoginStatus(true)
-                    SingleEvent(result.data?.message).getContentIfNotHandled()
-                        ?.let { showToast(it) }
                     lifecycleScope.launch {
+                        SingleEvent(result.data?.message).getContentIfNotHandled()
+                            ?.let { showToast(it) }
                         saveTokenJob.join()
                         setLoginJob.join()
-                        val navOptions = NavOptions.Builder()
-                            .setPopUpTo(getNavGraph().id, true)
-                            .build()
-                        navigateToDestination(R.id.action_loginFragment_to_homeFragment, navOptions)
+                        navigateToDestination(R.id.action_loginFragment_to_homeFragment)
                     }
                 }
             }
@@ -99,6 +96,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 )
             )
 
+        }
+        binding.tvRegisterNow.setOnClickListener {
+            navigateToDestination(R.id.action_loginFragment_to_registerFragment)
         }
     }
 }

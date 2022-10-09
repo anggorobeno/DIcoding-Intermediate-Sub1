@@ -24,14 +24,16 @@ object BaseApiCall {
                     return NetworkResult.Success(model)
                 }
             } else {
-                Timber.d {
-                    "ApiCall failed"
-                }
+
                 val errorResponse: GenericStatusResponse = Gson().fromJson(
                     response.errorBody()?.charStream(),
                     GenericStatusResponse()::class.java
                 )
+
                 errorResponse.message?.let {
+                    Timber.d {
+                        "ApiCall failed: $it"
+                    }
                     return error(it)
                 }
             }

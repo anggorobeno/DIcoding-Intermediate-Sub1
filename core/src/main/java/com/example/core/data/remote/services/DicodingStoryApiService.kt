@@ -1,6 +1,6 @@
 package com.example.core.data.remote.services
 
-import com.example.core.data.remote.response.story.FileUploadResponse
+import com.example.core.data.remote.response.story.StoriesUploadResponse
 import com.example.core.data.remote.response.story.StoriesResponse
 import com.example.domain.model.user.login.LoginRequest
 import com.example.core.data.remote.response.user.login.LoginResponse
@@ -23,7 +23,7 @@ interface DicodingStoryApiService {
     suspend fun uploadStories(
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody,
-    ): Response<FileUploadResponse>
+    ): Response<StoriesUploadResponse>
 
     @GET("stories")
     suspend fun getStories(): Response<StoriesResponse>

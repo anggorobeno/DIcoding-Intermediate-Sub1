@@ -17,6 +17,7 @@ import com.example.domain.utils.SingleEvent
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentRegisterBinding
+import com.example.submission1androidintermediate.helper.AppUtils.navigateToDestination
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.FormType
 import com.example.submission1androidintermediate.ui.login.LoginViewModel
@@ -45,6 +46,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
                 }
                 is NetworkResult.Success -> {
                     showLoadingState(false)
+                    navigateToDestination(R.id.action_registerFragment_to_loginFragment)
                     Timber.d {
                         result.data.toString()
                     }
@@ -83,6 +85,9 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
                     binding.etFormPassword.getText()
                 )
             )
+        }
+        binding.tvLoginNow.setOnClickListener {
+            navigateToDestination(R.id.action_registerFragment_to_loginFragment)
         }
     }
 

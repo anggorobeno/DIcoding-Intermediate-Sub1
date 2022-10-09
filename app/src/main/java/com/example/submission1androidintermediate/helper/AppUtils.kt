@@ -1,6 +1,10 @@
 package com.example.submission1androidintermediate.helper
 
 import android.app.Activity
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.os.Environment
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +18,12 @@ import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.submission1androidintermediate.R
+import com.example.submission1androidintermediate.ui.home.stories.camera.CameraFragment
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 object AppUtils {
     fun Activity.showToast(message: String) {
@@ -39,8 +49,7 @@ object AppUtils {
     fun Fragment.navigateToDestination(@IdRes dest: Int, navOptions: NavOptions? = null) {
         if (navOptions != null) {
             this.findNavController().navigate(dest, null, navOptions)
-        }
-        else this.findNavController().navigate(dest)
+        } else this.findNavController().navigate(dest)
     }
 
     fun Fragment.getNavGraph(): NavGraph {

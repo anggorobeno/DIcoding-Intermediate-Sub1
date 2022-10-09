@@ -1,28 +1,22 @@
 package com.example.submission1androidintermediate.ui.home
 
-import androidx.fragment.app.Fragment
+import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.NavOptions
-import androidx.navigation.fragment.findNavController
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.utils.NetworkResult
-import com.example.domain.utils.SingleEvent
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentHomeBinding
 import com.example.submission1androidintermediate.helper.AppUtils.navigateToDestination
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
+import com.example.submission1androidintermediate.helper.StoriesEvent
 import com.example.submission1androidintermediate.ui.adapter.HomeStoryAdapter
-import com.example.submission1androidintermediate.ui.camera.CameraFragment
-import com.example.submission1androidintermediate.ui.login.LoginFragment
 import dagger.hilt.android.AndroidEntryPoint
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -37,14 +31,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     fun showLoadingState(isLoading: Boolean) {
         binding.layoutProgressBar.progressCircular.isVisible = isLoading
     }
+    @Subscribe
+    fun onEventReceived(event: StoriesEvent) {
+        if (event.message == "onStoriesUploadSuccess") viewModel.getStories()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
 
     override fun observeViewModel() {
         viewModel.storiesResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is NetworkResult.Success -> {
-                    SingleEvent(result.data?.message).getContentIfNotHandled()?.let {
-                        showToast(it)
-                    }
                     showLoadingState(false)
                     result.data?.let { adapter.setList(it) }
                     Timber.d(result.data?.data.toString())
@@ -60,8 +65,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     showLoadingState(true)
                 }
             }
-
-
+        }
+        viewModel.toastText.observe(viewLifecycleOwner) { message ->
+            message?.getContentIfNotHandled()?.let {
+                showToast(it)
+            }
         }
 
 
@@ -69,19 +77,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
 
     override fun init() {
-        viewModel.getStories()
         setupAdapter()
         setupView()
-//        binding.btnCamera.setOnClickListener {
-//            findNavController().navigate(R.id.action_homeFragment_to_cameraFragment)
-//        }
-
     }
 
     private fun setupView() {
         binding.fabCamera.setOnClickListener {
-            navigateToDestination(R.id.action_homeFragment_to_cameraFragment)
+            navigateToDestination(R.id.action_homeFragment_to_addStoryFragment)
         }
+
 
     }
 

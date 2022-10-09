@@ -1,0 +1,27 @@
+dependencies {
+    // Networking
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$interceptor_version"
+
+    //Dagger
+    implementation "com.google.dagger:hilt-android:$dagger_hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$dagger_hilt_version"
+
+    // Common
+    implementation "androidx.core:core-ktx:$kotlin_core_ktx_version"
+    implementation "androidx.appcompat:appcompat:$app_compat_version"
+    implementation "com.google.android.material:material:$material_version"
+
+    implementation "org.greenrobot:eventbus:$event_bus_version"
+    implementation "com.github.ajalt:timberkt:$timber_version"
+
+    // Testing
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$junit_ui_test_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+
+    // Local Persistence
+    implementation "androidx.datastore:datastore-preferences:$datastore_version"
+
+}

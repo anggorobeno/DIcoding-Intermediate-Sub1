@@ -40,7 +40,10 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         observeViewModel()
     }
 
+
+
     abstract fun observeViewModel()
 
     abstract fun init()
+
 }

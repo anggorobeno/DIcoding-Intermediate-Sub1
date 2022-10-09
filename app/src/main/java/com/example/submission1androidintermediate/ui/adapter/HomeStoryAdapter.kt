@@ -26,6 +26,7 @@ class HomeStoryAdapter : RecyclerView.Adapter<HomeStoryAdapter.StoryViewHolder>(
     }
 
     fun setList(data: StoriesModel) {
+        this.list.clear()
         this.list.addAll(data.data)
         notifyDataSetChanged()
     }
