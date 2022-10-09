@@ -133,8 +133,7 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
 
 
     override fun init() {
-        binding.btncamera.setOnClickListener {
-        }
+
         binding.fabCamera.setOnClickListener {
             navigateToDestination(R.id.action_addStoryFragment_to_cameraFragment)
         }

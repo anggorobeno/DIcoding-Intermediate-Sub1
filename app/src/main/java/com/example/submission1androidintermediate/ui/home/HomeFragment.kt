@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +15,6 @@ import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentHomeBinding
 import com.example.submission1androidintermediate.helper.AppUtils.navigateToDestination
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
-import com.example.submission1androidintermediate.helper.AppUtils.smoothSnapToPosition
 import com.example.submission1androidintermediate.helper.StoriesEvent
 import com.example.submission1androidintermediate.ui.adapter.HomeStoryAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,6 +53,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun observeViewModel() {
+        postponeEnterTransition()
         viewModel.storiesResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is NetworkResult.Success -> {
@@ -89,7 +88,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
 
     override fun init() {
-        postponeEnterTransition()
         setupAdapter()
         setupView()
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -108,18 +106,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun setupAdapter() {
         binding.rvStory.apply {
+            postponeEnterTransition()
             layoutManager =
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
             adapter = this@HomeFragment.adapter
+            viewTreeObserver.addOnPreDrawListener {
+                startPostponedEnterTransition()
+                true
+            }
         }
-        adapter.onClickCallback = { item, imageViewStory, textView, imageViewProfile ->
+        adapter.onClickCallback = { item, binding ->
             val action = HomeFragmentDirections.actionHomeFragmentToDetailStoryFragment(item)
-            imageViewStory.transitionName = item.photoUrl
-            imageViewProfile.transitionName = item.id
-            textView.transitionName = item.id
+            binding.ivStoryImage.transitionName = item.id
             val extras = FragmentNavigatorExtras(
-                imageViewStory to item.photoUrl.toString(),
-                textView to item.id.toString(),
+                binding.ivStoryImage to item.id.toString(),
             )
             findNavController().navigate(directions = action, navigatorExtras = extras)
         }

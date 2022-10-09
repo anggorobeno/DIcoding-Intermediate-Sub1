@@ -3,6 +3,8 @@ package com.example.submission1androidintermediate.ui.home.stories
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
@@ -39,34 +41,36 @@ class DetailStoryFragment : BaseFragment<FragmentDetailStoryBinding>() {
     override fun init() {
         postponeEnterTransition()
         val extraParcelable = args.storyItem as StoriesModel.StoriesModelItem
-        binding.ivStoryImage.transitionName = extraParcelable.photoUrl
-        binding.tvUsername.transitionName = extraParcelable.id
+        binding.ivStoryImage.transitionName = extraParcelable.id
         Glide.with(requireContext())
             .load(extraParcelable.photoUrl)
             .apply(getGlideRequestOption(requireContext()))
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    startPostponedEnterTransition()
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    startPostponedEnterTransition()
-                    return false
-                }
-            })
+//            .listener(object : RequestListener<Drawable> {
+//                override fun onLoadFailed(
+//                    e: GlideException?,
+//                    model: Any?,
+//                    target: Target<Drawable>?,
+//                    isFirstResource: Boolean
+//                ): Boolean {
+//                    startPostponedEnterTransition()
+//                    return false
+//                }
+//
+//                override fun onResourceReady(
+//                    resource: Drawable?,
+//                    model: Any?,
+//                    target: Target<Drawable>?,
+//                    dataSource: DataSource?,
+//                    isFirstResource: Boolean
+//                ): Boolean {
+//                    startPostponedEnterTransition()
+//                    return false
+//                }
+//            })
             .into(binding.ivStoryImage)
+        (view?.parent as ViewGroup).doOnPreDraw {
+            startPostponedEnterTransition()
+        }
         binding.tvUsername.text = extraParcelable.name
         binding.tvDesc.text = extraParcelable.description
         binding.tvCreatedAt.text = AppUtils.getDate(extraParcelable.createdAt)

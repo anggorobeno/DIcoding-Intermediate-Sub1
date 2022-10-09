@@ -39,7 +39,7 @@
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="com.example.submission1androidintermediate.ui.welcome.WelcomeFragment"
-        android:label="fragment_welcome"
+        android:label="Welcome"
         tools:layout="@layout/fragment_welcome">
         <action
             android:id="@+id/action_welcomeFragment_to_loginFragment"
@@ -68,7 +68,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.submission1androidintermediate.ui.home.HomeFragment"
-        android:label="fragment_home"
+        android:label="Home"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_addStoryFragment"
@@ -85,7 +85,7 @@
     <fragment
         android:id="@+id/detailStoryFragment"
         android:name="com.example.submission1androidintermediate.ui.home.stories.DetailStoryFragment"
-        android:label="fragment_detail_story"
+        android:label="Detail Story"
         tools:layout="@layout/fragment_detail_story" >
         <argument
             android:name="storyItem"
@@ -99,7 +99,7 @@
         <fragment
             android:id="@+id/addStoryFragment"
             android:name="com.example.submission1androidintermediate.ui.home.stories.AddStoryFragment"
-            android:label="fragment_add_story"
+            android:label="Add Story"
             tools:layout="@layout/fragment_add_story">
             <action
                 android:id="@+id/action_addStoryFragment_to_cameraFragment"
