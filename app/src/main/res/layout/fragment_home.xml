@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/swipe_refresh_layout"
+    >
+
+
+
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,10 +17,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment"
     app:layoutDescription="@xml/fragment_home_scene">
-    <FrameLayout
-        android:id="@+id/main_bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_story"
         android:layout_width="match_parent"
@@ -18,49 +26,66 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_story" />
+    <View
+        android:id="@+id/background_blur"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
+        android:background="@color/white"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/main_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="56dp"
-        android:src="@drawable/ic_more"
-        app:backgroundTint="@color/black"
+        style="@style/BaseFab.Black"
+        android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/white" />
+         />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/main_fab_disable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp"
+        style="@style/BaseFab.White"
+        android:src="@drawable/ic_close"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_gallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_image"
-        app:backgroundTint="#FF8D8D8C"
+        style="@style/BaseFab.Black"
         app:layout_constraintCircle="@id/main_fab"
         app:layout_constraintCircleAngle="270"
         app:layout_constraintCircleRadius="100dp"
-        app:tint="@color/white" />
+         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_camera"
-        app:backgroundTint="#FF8D8D8C"
+        style="@style/BaseFab.Black"
         app:layout_constraintCircle="@id/main_fab"
         app:layout_constraintCircleAngle="315"
         app:layout_constraintCircleRadius="100dp"
-        app:tint="@color/white" />
+         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/third_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add"
-        app:backgroundTint="#FF8D8D8C"
+        style="@style/BaseFab.Black"
         app:layout_constraintCircle="@id/main_fab"
         app:layout_constraintCircleAngle="0"
         app:layout_constraintCircleRadius="100dp"
-        app:tint="@color/white" />
+         />
 
     <include
         android:id="@+id/layout_progress_bar"
@@ -73,3 +98,4 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

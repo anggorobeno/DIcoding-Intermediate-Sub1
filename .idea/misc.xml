@@ -3,13 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Anggoro/AndroidStudioProjects/Submission1AndroidIntermediate/app/src/main/res/drawable/ic_add.xml" value="0.1785" />
         <entry key="..\:/Users/Anggoro/AndroidStudioProjects/Submission1AndroidIntermediate/app/src/main/res/drawable/ic_capture.xml" value="0.1785" />
+        <entry key="..\:/Users/Anggoro/AndroidStudioProjects/Submission1AndroidIntermediate/app/src/main/res/drawable/ic_close.xml" value="0.1785" />
         <entry key="..\:/Users/Anggoro/AndroidStudioProjects/Submission1AndroidIntermediate/app/src/main/res/drawable/ic_more.xml" value="0.1785" />
         <entry key="..\:/Users/Anggoro/AndroidStudioProjects/Submission1AndroidIntermediate/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
         <entry key="..\:/Users/Anggoro/AndroidStudioProjects/Submission1AndroidIntermediate/app/src/main/res/layout/custom_toast.xml" value="0.1" />
-        <entry key="..\:/Users/Anggoro/AndroidStudioProjects/Submission1AndroidIntermediate/app/src/main/res/layout/fragment_add_story.xml" value="0.1796875" />
+        <entry key="..\:/Users/Anggoro/AndroidStudioProjects/Submission1AndroidIntermediate/app/src/main/res/layout/fragment_add_story.xml" value="0.22" />
+        <entry key="..\:/Users/Anggoro/AndroidStudioProjects/Submission1AndroidIntermediate/app/src/main/res/layout/fragment_detail_story.xml" value="0.1796875" />
         <entry key="..\:/Users/Anggoro/AndroidStudioProjects/Submission1AndroidIntermediate/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/Users/Anggoro/AndroidStudioProjects/Submission1AndroidIntermediate/app/src/main/res/layout/fragment_login.xml" value="0.1796875" />
+        <entry key="..\:/Users/Anggoro/AndroidStudioProjects/Submission1AndroidIntermediate/app/src/main/res/layout/item_story.xml" value="0.1796875" />
+        <entry key="..\:/Users/Anggoro/AndroidStudioProjects/Submission1AndroidIntermediate/app/src/main/res/layout/progressbar_indicator.xml" value="0.1796875" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/drawable/bg_card_view.xml" value="0.1" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/drawable/bg_image_rounded.xml" value="0.1" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/drawable/bg_rounded.xml" value="0.1785" />

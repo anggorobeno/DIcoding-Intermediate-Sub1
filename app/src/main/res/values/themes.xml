@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Submission1AndroidIntermediate" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/black</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -11,6 +11,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -75,6 +76,27 @@
         <item name="fontFamily">@font/urbanist_semibold</item>
         <item name="android:textSize">@dimen/text_size_18</item>
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="CaptionText">
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/urbanist_regular</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="BaseFab" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="fabCustomSize">60dp</item>
+    </style>
+
+    <style name="BaseFab.Black" parent="BaseFab">
+        <item name="backgroundTint">@color/black</item>
+        <item name="tint">@color/white</item>
+    </style>
+
+    <style name="BaseFab.White" parent="BaseFab">
+        <item name="backgroundTint">@color/white</item>
+        <item name="tint">@color/black</item>
     </style>
 
 </resources>

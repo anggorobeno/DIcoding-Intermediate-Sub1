@@ -1,43 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.stories.AddStoryFragment">
+    android:padding="@dimen/margin_22"
+    tools:context=".ui.home.stories.AddStoryFragment"
+    app:layoutDescription="@xml/fragment_add_story_scene">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_width="0dp"
+        android:src="@drawable/ic_image"
+        android:scaleType="fitXY"
+        android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/et_description"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/main_fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="91dp"
+        android:src="@drawable/ic_add"
+        style="@style/BaseFab.Black"
+        android:layout_marginTop="@dimen/margin_22"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+         />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_image"
+        app:backgroundTint="#FF8D8D8C"
+        app:layout_constraintCircle="@id/main_fab"
+        app:layout_constraintCircleAngle="225"
+        app:layout_constraintCircleRadius="100dp"
+        app:tint="@color/white" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/CaptionText"
+        android:id="@+id/tv_pick_from_gallery"
+        android:text="@string/label_pick_from_gallery"
+        android:layout_marginTop="@dimen/margin_12"
+        app:layout_constraintTop_toBottomOf="@id/fab_gallery"
+        app:layout_constraintStart_toStartOf="@id/fab_gallery"
+        app:layout_constraintEnd_toEndOf="@id/fab_gallery"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_camera"
+        app:backgroundTint="#FF8D8D8C"
+        app:layout_constraintCircle="@id/main_fab"
+        app:layout_constraintCircleAngle="135"
+        app:layout_constraintCircleRadius="100dp"
+        app:tint="@color/white" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_take_picture"
+        style="@style/CaptionText"
+        android:layout_marginTop="@dimen/margin_12"
+        android:text="@string/label_take_picture"
+        app:layout_constraintStart_toStartOf="@id/fab_camera"
+        app:layout_constraintEnd_toEndOf="@id/fab_camera"
+        app:layout_constraintTop_toBottomOf="@id/fab_camera"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_desc"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_marginTop="140dp"
+        android:hint="@string/label_enter_desc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/main_fab">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <Button
         android:id="@+id/btncamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="camera"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_upload"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        style="@style/BaseButton.Black"
         android:layout_height="wrap_content"
-        android:text="upload"
+        android:text="@string/label_upload"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <include
@@ -50,4 +119,4 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>

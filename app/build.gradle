@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-parcelize'
     id 'kotlin-kapt'
 }
 apply from: '../shared_dependencies.gradle'
@@ -55,6 +57,7 @@ dependencies {
     implementation "com.jakewharton.threetenabp:threetenabp:$threeten_android_version"
 
     // Ui
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipe_version"
     implementation "de.hdodenhof:circleimageview:$circle_image_view_version"
     implementation "com.jakewharton.timber:timber:$timber_java_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"

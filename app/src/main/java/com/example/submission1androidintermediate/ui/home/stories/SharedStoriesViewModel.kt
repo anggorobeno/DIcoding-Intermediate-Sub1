@@ -1,8 +1,10 @@
 package com.example.submission1androidintermediate.ui.home.stories
 
+import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.Image
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,6 +34,8 @@ class SharedStoriesViewModel @Inject constructor(private val useCase: StoriesUse
     private var _storiesUploadResult = MutableLiveData<NetworkResult<StoriesUploadModel>>()
     val storiesUploadResult: LiveData<NetworkResult<StoriesUploadModel>> get() = _storiesUploadResult
 
+    private var _imageFromGallery = MutableLiveData<File>()
+    val imageFromGallery: LiveData<File> get() = _imageFromGallery
 
     fun uploadImage(description: String, file: File) {
         viewModelScope.launch {
@@ -55,6 +59,5 @@ class SharedStoriesViewModel @Inject constructor(private val useCase: StoriesUse
             val result = BitmapFactory.decodeFile(image.path)
             _imageBitmap.value = ImageUtils.rotateBitmap(result, isBackCamera)
         }
-
     }
 }

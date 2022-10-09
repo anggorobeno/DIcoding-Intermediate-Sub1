@@ -1,6 +1,7 @@
 package com.example.submission1androidintermediate.helper
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -14,11 +15,19 @@ import androidx.annotation.IdRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
 import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bumptech.glide.request.RequestOptions
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.ui.home.stories.camera.CameraFragment
+import com.google.android.material.progressindicator.CircularProgressIndicator
+import org.threeten.bp.ZonedDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -46,13 +55,56 @@ object AppUtils {
         toast.show()
     }
 
-    fun Fragment.navigateToDestination(@IdRes dest: Int, navOptions: NavOptions? = null) {
-        if (navOptions != null) {
+    fun Fragment.navigateToDestination(
+        @IdRes dest: Int? = null,
+        navOptions: NavOptions? = null,
+        navDirections: NavDirections? = null
+    ) {
+        if (dest != null && navOptions != null) {
             this.findNavController().navigate(dest, null, navOptions)
-        } else this.findNavController().navigate(dest)
+        } else if (navDirections != null) {
+            this.findNavController().navigate(navDirections)
+        } else if (dest != null) this.findNavController().navigate(dest)
     }
 
     fun Fragment.getNavGraph(): NavGraph {
         return this.findNavController().graph
+    }
+
+    fun RecyclerView.smoothSnapToPosition(
+        position: Int,
+        snapMode: Int = LinearSmoothScroller.SNAP_TO_START
+    ) {
+        val smoothScroller = object : LinearSmoothScroller(this.context) {
+            override fun getVerticalSnapPreference(): Int = snapMode
+            override fun getHorizontalSnapPreference(): Int = snapMode
+        }
+        smoothScroller.targetPosition = position
+        layoutManager?.startSmoothScroll(smoothScroller)
+    }
+
+    private fun getCircularProgressBar(context: Context): CircularProgressDrawable {
+        val progressBar = CircularProgressDrawable(context).apply {
+            strokeWidth = 5f
+            centerRadius = 30f
+            start()
+        }
+        return progressBar
+    }
+
+    fun getGlideRequestOption(context: Context): RequestOptions {
+        return RequestOptions.placeholderOf(getCircularProgressBar(context))
+    }
+
+    fun getDate(input: String?): String {
+        return try {
+            val date = ZonedDateTime.parse(input)
+            val formatter = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm:ss")
+            val formattedDate = date.format(formatter)
+            formattedDate
+        } catch (e: Exception) {
+            e.printStackTrace()
+            "N/A"
+        }
     }
 }

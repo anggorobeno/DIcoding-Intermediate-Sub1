@@ -15,6 +15,7 @@ import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentCameraBinding
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
+import com.example.submission1androidintermediate.helper.ImageUtils
 import com.example.submission1androidintermediate.helper.StoriesEvent
 import com.example.submission1androidintermediate.ui.home.HomeViewModel
 import com.example.submission1androidintermediate.ui.home.stories.SharedStoriesViewModel
@@ -63,7 +64,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
 
             startCamera()
         }
-        outputDirectory = getOutputDirectory()
+        outputDirectory = ImageUtils.getOutputDirectory(requireActivity())
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
@@ -72,14 +73,6 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
         return REQUIRED_PERMISSIONS.all {
             ContextCompat.checkSelfPermission(safeContext, it) == PackageManager.PERMISSION_GRANTED
         }
-    }
-
-
-    private fun getOutputDirectory(): File {
-        val mediaDir = activity?.externalMediaDirs?.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
-        }
-        return if (mediaDir != null && mediaDir.exists()) mediaDir else activity?.filesDir!!
     }
 
     private fun takePhoto() {
@@ -104,14 +97,13 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = getString(R.string.label_success_capture_camera)
-                    showToast(msg)
                     sharedStoryViewModel.saveImageResult(
                         photoFile,
                         cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA
                     )
                     findNavController().popBackStack()
                     Timber.d {
-                        savedUri.toString()
+                        "$msg $savedUri.toString()"
                     }
                 }
             }
@@ -145,9 +137,6 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
             preview = Preview.Builder().build()
 
             imageCapture = ImageCapture.Builder().build()
-
-            // Select back camera
-
 
             try {
                 // Unbind use cases before rebinding

@@ -19,4 +19,8 @@
     <string name="label_camera_granted">Camera permission granted</string>
     <string name="label_camera_denied">Camera permission denied</string>
     <string name="label_error_use_case_binding">Use case binding failed</string>
+    <string name="label_enter_desc">Enter Description</string>
+    <string name="label_upload">Upload</string>
+    <string name="label_pick_from_gallery">Pick from gallery</string>
+    <string name="label_take_picture">Take picture</string>
 </resources>

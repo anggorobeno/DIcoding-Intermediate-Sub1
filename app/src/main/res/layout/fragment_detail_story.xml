@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.stories.DetailStoryFragment">
+
+    <ImageView
+        android:id="@+id/iv_story_image"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_user_profile"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_profile"
+        android:layout_margin="@dimen/margin_22"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_story_image" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_username"
+        tools:text="Anggoro"
+        android:textSize="@dimen/text_size_18"
+        style="@style/CaptionText"
+        android:layout_margin="@dimen/margin_22"
+        app:layout_constraintTop_toBottomOf="@id/iv_user_profile"
+        app:layout_constraintStart_toStartOf="@id/iv_user_profile"
+        app:layout_constraintEnd_toEndOf="@id/iv_user_profile"
+        />
+    <TextView
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_created_at"
+        android:fontFamily="@font/urbanist_semibold"
+        tools:text="Jumat,24 April 2030"
+        app:layout_constraintStart_toEndOf="@id/iv_user_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_user_profile"/>
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:fontFamily="@font/urbanist_regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="@dimen/margin_22"
+        app:layout_constraintTop_toBottomOf="@id/tv_username" />
+</androidx.constraintlayout.widget.ConstraintLayout>

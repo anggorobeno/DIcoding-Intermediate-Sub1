@@ -72,7 +72,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
     }
 
-    fun showLoadingState(isLoading: Boolean) {
+    private fun showLoadingState(isLoading: Boolean) {
         binding.layoutProgressBar.progressCircular.isVisible = isLoading
     }
 
