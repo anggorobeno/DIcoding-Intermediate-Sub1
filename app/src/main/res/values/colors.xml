@@ -11,6 +11,10 @@
     <color name="blackGrey">#66707A</color>
     <color name="grey">#8391A1</color>
     <color name="darkGrey">#6A707C</color>
+    <color name="dark_blue">#001A41</color>
+    <color name="colorGrey100">#4E5764</color>
+    <color name="colorRipple">#818181</color>
+
 
 
     //Input Field

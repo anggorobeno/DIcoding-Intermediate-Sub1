@@ -2,13 +2,17 @@ package com.example.submission1androidintermediate.ui.home.stories
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.transition.Slide
 import com.bumptech.glide.Glide
 import com.example.core.di.CoroutinesQualifier
 import com.example.domain.utils.NetworkResult
@@ -21,6 +25,8 @@ import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.ImageUtils
 import com.example.submission1androidintermediate.helper.StoriesEvent
 import com.github.ajalt.timberkt.Timber
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -49,6 +55,16 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
         get() = {
             FragmentAddStoryBinding.inflate(layoutInflater)
         }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+            scrimColor = Color.TRANSPARENT
+            startContainerColor = requireContext().getColor(R.color.black)
+            endContainerColor = requireContext().getColor(R.color.white)
+        }
+    }
 
     private val launcherIntentGallery =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -133,6 +149,7 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
 
 
     override fun init() {
+
 
         binding.fabCamera.setOnClickListener {
             navigateToDestination(R.id.action_addStoryFragment_to_cameraFragment)

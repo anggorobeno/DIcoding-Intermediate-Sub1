@@ -71,6 +71,21 @@
         <item name="postSplashScreenTheme">@style/Theme.Submission1AndroidIntermediate</item>
     </style>
 
+    <style name="errorText">
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="errorText.Title">
+        <item name="fontFamily">@font/batik_sans_bold</item>
+        <item name="android:textSize">@dimen/text_size_20</item>
+    </style>
+
+    <style name="errorText.subtitle">
+        <item name="fontFamily">@font/batik_sans_reguler</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
     <style name="subtitleText">
         <item name="textAllCaps">false</item>
         <item name="fontFamily">@font/urbanist_semibold</item>

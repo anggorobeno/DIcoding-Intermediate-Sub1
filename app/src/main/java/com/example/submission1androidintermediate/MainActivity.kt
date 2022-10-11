@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -24,10 +25,10 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
+    private lateinit var navController: NavController
 
     @Inject
     lateinit var preferencesDataStore: PreferencesDataStore
-    var isLoggedIn = false
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -38,12 +39,14 @@ class MainActivity : AppCompatActivity() {
         }
         val navHost =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
-        val navController = navHost!!.navController
+        navController = navHost!!.navController
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment))
         binding.toolbar.setupWithNavController(
             navController,
             appBarConfiguration
         )
+        setSupportActionBar(binding.toolbar)
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val noToolbarDestination =
                 setOf(
@@ -54,12 +57,9 @@ class MainActivity : AppCompatActivity() {
                 )
             binding.toolbar.isVisible = !noToolbarDestination.contains(destination.id)
         }
-
-        val navInflater = navController.navInflater
-        val graph = navInflater.inflate(R.navigation.nav_graph)
-
-
     }
 
-
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
 }

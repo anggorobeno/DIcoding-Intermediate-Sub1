@@ -38,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="56dp"
+        android:transitionName="fab_to_add"
         style="@style/BaseFab.Black"
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_add_story"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:transitionGroup="true"
+    android:transitionName="fab_to_add"
     android:padding="@dimen/margin_22"
     app:layoutDescription="@xml/fragment_add_story_scene"
     tools:context=".ui.home.stories.AddStoryFragment">
@@ -19,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/main_fab"
+        android:id="@+id/fab_selector"
         style="@style/BaseFab.Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,9 +42,9 @@
         app:layout_constraintCircle="@id/main_fab"
         app:layout_constraintCircleAngle="225"
         app:layout_constraintCircleRadius="100dp"
-        app:layout_constraintEnd_toEndOf="@id/main_fab"
-        app:layout_constraintStart_toStartOf="@id/main_fab"
-        app:layout_constraintTop_toTopOf="@id/main_fab"
+        app:layout_constraintEnd_toEndOf="@id/fab_selector"
+        app:layout_constraintStart_toStartOf="@id/fab_selector"
+        app:layout_constraintTop_toTopOf="@id/fab_selector"
         app:tint="@color/white" />
 
     <TextView
@@ -65,9 +68,9 @@
         app:layout_constraintCircle="@id/main_fab"
         app:layout_constraintCircleAngle="135"
         app:layout_constraintCircleRadius="100dp"
-        app:layout_constraintEnd_toEndOf="@id/main_fab"
-        app:layout_constraintStart_toStartOf="@id/main_fab"
-        app:layout_constraintTop_toTopOf="@id/main_fab"
+        app:layout_constraintEnd_toEndOf="@id/fab_selector"
+        app:layout_constraintStart_toStartOf="@id/fab_selector"
+        app:layout_constraintTop_toTopOf="@id/fab_selector"
         app:tint="@color/white" />
 
     <TextView
@@ -101,7 +104,7 @@
         android:hint="@string/label_enter_desc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_fab">
+        app:layout_constraintTop_toBottomOf="@id/fab_selector">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_description"

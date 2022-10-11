@@ -23,4 +23,8 @@
     <string name="label_upload">Upload</string>
     <string name="label_pick_from_gallery">Pick from gallery</string>
     <string name="label_take_picture">Take picture</string>
+    <string name="page_not_avalaible">Page not avalaible</string>
+    <string name="error_state_default_text">Something went wrong :(</string>
+    <string name="label_reload">Reload</string>
+    <string name="menu_logout">Logout</string>
 </resources>

@@ -41,6 +41,12 @@ class PreferencesDataStore @Inject constructor(val context: Context) {
     suspend fun getLoginStatus() = LOGIN_STATUS.getValue()
     suspend fun setLoginStatus(value: Boolean) = LOGIN_STATUS.setValue(value)
 
+    suspend fun clear(){
+        context.dataStore.edit {
+            it.clear()
+        }
+    }
+
     private suspend fun <T> Preferences.Key<T>.getValue(): T? {
         return context.dataStore.data
             .catchAndHandleError()

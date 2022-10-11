@@ -7,7 +7,7 @@
         motion:constraintSetStart="@id/collapsed"
         motion:duration="200"
         motion:motionInterpolator="linear">
-        <OnClick motion:targetId="@id/main_fab" />
+        <OnClick motion:targetId="@id/fab_selector" />
 
     </Transition>
 
@@ -15,7 +15,7 @@
         <Constraint
             android:id="@+id/btn_upload"/>
         <Constraint
-            android:id="@+id/main_fab"
+            android:id="@+id/fab_selector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_22"
@@ -30,7 +30,7 @@
             android:layout_marginTop="@dimen/margin_22"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toBottomOf="@id/main_fab" />
+            motion:layout_constraintTop_toBottomOf="@id/fab_selector" />
         <Constraint
             android:id="@id/fab_gallery"
             android:layout_width="wrap_content"
@@ -38,10 +38,10 @@
             android:scaleX="0"
             android:scaleY="0"
             android:visibility="invisible"
-            motion:layout_constraintBottom_toBottomOf="@id/main_fab"
-            motion:layout_constraintEnd_toEndOf="@id/main_fab"
-            motion:layout_constraintStart_toStartOf="@id/main_fab"
-            motion:layout_constraintTop_toTopOf="@id/main_fab" />
+            motion:layout_constraintBottom_toBottomOf="@id/fab_selector"
+            motion:layout_constraintEnd_toEndOf="@id/fab_selector"
+            motion:layout_constraintStart_toStartOf="@id/fab_selector"
+            motion:layout_constraintTop_toTopOf="@id/fab_selector" />
         <Constraint
             android:id="@+id/tv_pick_from_gallery"
             android:layout_width="wrap_content"
@@ -60,10 +60,10 @@
             android:scaleX="0"
             android:scaleY="0"
             android:visibility="invisible"
-            motion:layout_constraintBottom_toBottomOf="@id/main_fab"
-            motion:layout_constraintEnd_toEndOf="@id/main_fab"
-            motion:layout_constraintStart_toStartOf="@id/main_fab"
-            motion:layout_constraintTop_toTopOf="@id/main_fab" />
+            motion:layout_constraintBottom_toBottomOf="@id/fab_selector"
+            motion:layout_constraintEnd_toEndOf="@id/fab_selector"
+            motion:layout_constraintStart_toStartOf="@id/fab_selector"
+            motion:layout_constraintTop_toTopOf="@id/fab_selector" />
         <Constraint
             android:id="@+id/tv_take_picture"
             android:layout_width="wrap_content"
@@ -80,7 +80,7 @@
         <Constraint
             android:id="@+id/btn_upload"/>
         <Constraint
-            android:id="@id/main_fab"
+            android:id="@id/fab_selector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_22"
@@ -105,7 +105,7 @@
             android:scaleX="1"
             android:scaleY="1"
             android:visibility="visible"
-            motion:layout_constraintCircle="@id/main_fab"
+            motion:layout_constraintCircle="@id/fab_selector"
             motion:layout_constraintCircleAngle="225"
             motion:layout_constraintCircleRadius="100dp" />
         <Constraint
@@ -125,7 +125,7 @@
             android:scaleX="1"
             android:scaleY="1"
             android:visibility="visible"
-            motion:layout_constraintCircle="@id/main_fab"
+            motion:layout_constraintCircle="@id/fab_selector"
             motion:layout_constraintCircleAngle="135"
             motion:layout_constraintCircleRadius="100dp" />
         <Constraint

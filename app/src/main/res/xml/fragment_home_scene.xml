@@ -7,7 +7,6 @@
         motion:constraintSetStart="@id/collapsed"
         motion:duration="200"
         motion:motionInterpolator="linear">
-        <OnClick motion:targetId="@id/main_fab" />
 
     </Transition>
     <Transition
@@ -15,7 +14,6 @@
         motion:constraintSetStart="@id/collapsed"
         motion:duration="200"
         motion:motionInterpolator="linear">
-        <OnClick motion:targetId="@id/main_fab_disable" />
 
     </Transition>
 

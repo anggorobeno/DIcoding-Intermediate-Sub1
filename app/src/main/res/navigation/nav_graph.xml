@@ -72,11 +72,7 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_addStoryFragment"
-            app:destination="@id/story_nav_graph"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/fade_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/story_nav_graph"/>
         <action
             android:id="@+id/action_homeFragment_to_detailStoryFragment"
             app:destination="@id/detailStoryFragment"
