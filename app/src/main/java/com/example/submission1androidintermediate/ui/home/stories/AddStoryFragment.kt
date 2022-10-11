@@ -62,8 +62,8 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
             scrimColor = Color.TRANSPARENT
-            startContainerColor = ResourcesCompat.getColor(resources,R.color.black,null)
-            endContainerColor = ResourcesCompat.getColor(resources,R.color.white,null)
+            startContainerColor = ResourcesCompat.getColor(resources, R.color.black, null)
+            endContainerColor = ResourcesCompat.getColor(resources, R.color.white, null)
         }
     }
 
@@ -140,11 +140,15 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
 
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permission ->
-            permission.entries.forEach {
-                Timber.d {
-                    it.toString()
+            var isAllGranted = true
+            permission.entries.forEach { (key, value) ->
+                if (!value) {
+                    isAllGranted = false
+                    return@registerForActivityResult
                 }
             }
+            if (isAllGranted) launcherIntentGallery.launch("image/*")
+
 
         }
 

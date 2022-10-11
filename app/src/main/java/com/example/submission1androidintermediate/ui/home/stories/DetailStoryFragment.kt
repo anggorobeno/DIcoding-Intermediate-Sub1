@@ -44,6 +44,7 @@ class DetailStoryFragment : BaseFragment<FragmentDetailStoryBinding>() {
     ): View? {
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+            drawingViewId = R.id.nav_host_fragment
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(ResourcesCompat.getColor(resources,R.color.white,null))
         }
