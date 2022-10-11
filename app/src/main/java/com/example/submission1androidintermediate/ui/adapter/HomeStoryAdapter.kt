@@ -32,6 +32,7 @@ class HomeStoryAdapter : RecyclerView.Adapter<HomeStoryAdapter.StoryViewHolder>(
     inner class StoryViewHolder(private val binding: ItemStoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: StoriesModel.StoriesModelItem) {
+            binding.cardView.transitionName = item.id
             binding.root.setOnClickListener {
                 onClickCallback?.invoke(
                     item, binding

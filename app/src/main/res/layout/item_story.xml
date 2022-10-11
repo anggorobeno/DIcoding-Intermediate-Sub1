@@ -5,6 +5,7 @@
     android:layout_marginVertical="@dimen/margin_14"
     app:cardCornerRadius="@dimen/margin_14"
     app:cardElevation="@dimen/margin_12"
+    android:id="@+id/card_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">

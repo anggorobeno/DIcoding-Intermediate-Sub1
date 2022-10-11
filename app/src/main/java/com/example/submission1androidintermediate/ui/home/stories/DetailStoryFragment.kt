@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
@@ -36,16 +37,24 @@ class DetailStoryFragment : BaseFragment<FragmentDetailStoryBinding>() {
         // Do nothing
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(ResourcesCompat.getColor(resources,R.color.white,null))
+        }
+        return super.onCreateView(inflater, container, savedInstanceState)
+
+    }
+
     override fun init() {
         postponeEnterTransition()
         val extraParcelable = args.storyItem as StoriesModel.StoriesModelItem
-        ViewCompat.setTransitionName(binding.ivStoryImage, extraParcelable.id)
-        enterTransition = MaterialContainerTransform().apply {
-            startView = requireActivity().findViewById(R.id.iv_story_image)
-            endView = binding.ivStoryImage
-            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
-            scrimColor = Color.TRANSPARENT
-        }
+
         Glide.with(requireContext())
             .load(extraParcelable.photoUrl)
             .apply(getGlideRequestOption(requireContext()))

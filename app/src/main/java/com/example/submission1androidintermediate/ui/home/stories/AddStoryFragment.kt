@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -61,8 +62,8 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
             scrimColor = Color.TRANSPARENT
-            startContainerColor = requireContext().getColor(R.color.black)
-            endContainerColor = requireContext().getColor(R.color.white)
+            startContainerColor = ResourcesCompat.getColor(resources,R.color.black,null)
+            endContainerColor = ResourcesCompat.getColor(resources,R.color.white,null)
         }
     }
 
@@ -149,8 +150,12 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
 
 
     override fun init() {
-
-
+        postponeEnterTransition()
+        (requireView().parent as ViewGroup).viewTreeObserver
+            .addOnPreDrawListener {
+                startPostponedEnterTransition()
+                true
+            }
         binding.fabCamera.setOnClickListener {
             navigateToDestination(R.id.action_addStoryFragment_to_cameraFragment)
         }

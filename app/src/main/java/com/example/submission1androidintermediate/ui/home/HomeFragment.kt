@@ -18,6 +18,7 @@ import com.example.submission1androidintermediate.helper.AppUtils.navigateToDest
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.StoriesEvent
 import com.example.submission1androidintermediate.ui.adapter.HomeStoryAdapter
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,6 +70,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         EventBus.getDefault().unregister(this)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
     override fun observeViewModel() {
         viewModel.storiesResult.observe(viewLifecycleOwner) { result ->
             when (result) {
@@ -100,14 +108,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
+        super.onViewCreated(view, savedInstanceState)
+
+    }
+
 
     override fun init() {
-        postponeEnterTransition()
-        (requireView().parent as ViewGroup).viewTreeObserver
-            .addOnPreDrawListener {
-                startPostponedEnterTransition()
-                true
-            }
         setupMenu()
         setupAdapter()
         setupView()
@@ -159,8 +168,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 binding.mainFab to "fab_to_add",
             )
             findNavController().navigate(
-                directions = action,
-                navigatorExtras = extras
+                action,
+                extras
             )
         }
         binding.fabCamera.setOnClickListener {
@@ -180,11 +189,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
         adapter.onClickCallback = { item, binding ->
             val action = HomeFragmentDirections.actionHomeFragmentToDetailStoryFragment(item)
-            ViewCompat.setTransitionName(binding.ivStoryImage, item.id)
             val extras = FragmentNavigatorExtras(
-                binding.ivStoryImage to item.id.toString(),
+                binding.cardView to "card_view_to_detail",
             )
-            findNavController().navigate(directions = action, navigatorExtras = extras)
+            findNavController().navigate(action,extras)
         }
     }
 

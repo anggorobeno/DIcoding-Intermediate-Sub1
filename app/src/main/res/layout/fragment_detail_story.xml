@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:transitionGroup="true"
+    android:id="@+id/card_view"
+    android:transitionName="card_view_to_detail"
     android:layout_height="match_parent"
     tools:context=".ui.home.stories.DetailStoryFragment">
 
@@ -26,17 +28,15 @@
         app:layout_constraintTop_toBottomOf="@id/iv_story_image" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/tv_username"
-        tools:text="Anggoro"
-        android:textSize="@dimen/text_size_18"
         style="@style/CaptionText"
-        android:layout_margin="@dimen/margin_22"
-        app:layout_constraintTop_toBottomOf="@id/iv_user_profile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_18"
+        android:layout_marginTop="@dimen/margin_22"
         app:layout_constraintStart_toStartOf="@id/iv_user_profile"
-        app:layout_constraintEnd_toEndOf="@id/iv_user_profile"
-        />
+        app:layout_constraintTop_toBottomOf="@id/iv_user_profile"
+        tools:text="Anggoro" />
     <TextView
         android:gravity="center_horizontal"
         android:layout_width="wrap_content"
