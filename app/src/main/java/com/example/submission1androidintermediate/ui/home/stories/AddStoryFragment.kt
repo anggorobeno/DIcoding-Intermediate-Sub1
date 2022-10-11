@@ -117,7 +117,7 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
             }
         }
         sharedViewModel.imageBitmap.observe(viewLifecycleOwner) {
-            lifecycleScope.launch(ioDispatcher) {
+            viewLifecycleOwner.lifecycleScope.launch(ioDispatcher) {
                 ImageUtils.bitmapToFile(it, requireActivity())?.let { file ->
                     imageFile = file
                 }

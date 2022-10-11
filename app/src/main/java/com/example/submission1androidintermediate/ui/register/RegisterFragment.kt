@@ -3,6 +3,7 @@ package com.example.submission1androidintermediate.ui.register
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import com.example.domain.model.user.register.RegisterRequest
 import com.example.domain.model.validator.EmailValidator
 import com.example.domain.model.validator.PasswordValidator
@@ -40,7 +41,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
                 }
                 is NetworkResult.Success -> {
                     showLoadingState(false)
-                    navigateToDestination(R.id.action_registerFragment_to_loginFragment)
+                    val navOption = NavOptions.Builder()
+                        .setPopUpTo(R.id.registerFragment, true)
+                        .build()
+                    navigateToDestination(R.id.action_registerFragment_to_loginFragment, navOption)
                     Timber.d {
                         result.data.toString()
                     }

@@ -6,13 +6,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.di.CoroutinesQualifier
 import com.example.domain.model.stories.StoriesUploadModel
 import com.example.domain.usecase.stories.StoriesUseCase
 import com.example.domain.utils.NetworkResult
 import com.example.submission1androidintermediate.helper.ImageUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -24,6 +28,12 @@ import javax.inject.Inject
 @HiltViewModel
 class SharedStoriesViewModel @Inject constructor(private val useCase: StoriesUseCase) :
     ViewModel() {
+    @Inject
+    @CoroutinesQualifier.IoDispatcher
+    lateinit var ioDispatcher: CoroutineDispatcher
+    @Inject
+    @CoroutinesQualifier.MainDispatcher
+    lateinit var mainDispatcher: CoroutineDispatcher
     private var _imageBitmap = MutableLiveData<Bitmap>()
     val imageBitmap: LiveData<Bitmap> get() = _imageBitmap
 
@@ -31,7 +41,7 @@ class SharedStoriesViewModel @Inject constructor(private val useCase: StoriesUse
     val storiesUploadResult: LiveData<NetworkResult<StoriesUploadModel>> get() = _storiesUploadResult
 
     fun uploadImage(description: String, file: File) {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             val desc = description.toRequestBody("text/plain".toMediaType())
             val requestImageFile =
                 ImageUtils.reduceFileImage(file).asRequestBody("image/jpeg".toMediaTypeOrNull())
@@ -40,17 +50,23 @@ class SharedStoriesViewModel @Inject constructor(private val useCase: StoriesUse
                 file.name,
                 requestImageFile
             )
-            useCase.uploadStories(desc, imageMultipart).collectLatest {
-                _storiesUploadResult.value = it
+            withContext(mainDispatcher){
+                useCase.uploadStories(desc, imageMultipart).collectLatest {
+                    _storiesUploadResult.value = it
+                }
             }
+
         }
 
     }
 
     fun saveImageResult(image: File, isBackCamera: Boolean) {
-        viewModelScope.launch {
-            val result = BitmapFactory.decodeFile(image.path)
-            _imageBitmap.value = ImageUtils.rotateBitmap(result, isBackCamera)
+        viewModelScope.launch(ioDispatcher) {
+            val bitmap = BitmapFactory.decodeFile(image.path)
+            val result = ImageUtils.rotateBitmap(bitmap,isBackCamera)
+            withContext(mainDispatcher){
+                _imageBitmap.value = result
+            }
         }
     }
 }
