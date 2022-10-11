@@ -1,7 +1,5 @@
 package com.example.domain.model.user.login
 
-import com.example.domain.model.GenericStatusModel
-
 data class LoginModel(
     val error: Boolean?,
     val message: String?,

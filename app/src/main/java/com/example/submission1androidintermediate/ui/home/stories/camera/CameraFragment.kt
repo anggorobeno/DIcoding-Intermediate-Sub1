@@ -16,12 +16,9 @@ import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentCameraBinding
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.ImageUtils
-import com.example.submission1androidintermediate.helper.StoriesEvent
-import com.example.submission1androidintermediate.ui.home.HomeViewModel
 import com.example.submission1androidintermediate.ui.home.stories.SharedStoriesViewModel
 import com.github.ajalt.timberkt.Timber
 import dagger.hilt.android.AndroidEntryPoint
-import org.greenrobot.eventbus.EventBus
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -59,7 +56,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
         binding.captureImage.setOnClickListener { takePhoto() }
         binding.switchCamera.setOnClickListener {
             cameraSelector =
-                if (cameraSelector.equals(CameraSelector.DEFAULT_BACK_CAMERA)) CameraSelector.DEFAULT_FRONT_CAMERA
+                if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) CameraSelector.DEFAULT_FRONT_CAMERA
                 else CameraSelector.DEFAULT_BACK_CAMERA
 
             startCamera()
@@ -162,7 +159,6 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
 
     companion object {
         const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
-        var isOffline = false // prevent app crash when goes offline
         val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 }

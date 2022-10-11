@@ -13,7 +13,6 @@ import androidx.core.view.isVisible
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.transition.Slide
 import com.bumptech.glide.Glide
 import com.example.core.di.CoroutinesQualifier
 import com.example.domain.utils.NetworkResult
@@ -25,8 +24,6 @@ import com.example.submission1androidintermediate.helper.AppUtils.navigateToDest
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.ImageUtils
 import com.example.submission1androidintermediate.helper.StoriesEvent
-import com.github.ajalt.timberkt.Timber
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineDispatcher
@@ -46,7 +43,7 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
 
     @Inject
     @CoroutinesQualifier.MainDispatcher
-    lateinit var mainCoroutinesDispacter: CoroutineDispatcher
+    lateinit var mainCoroutinesDispatcher: CoroutineDispatcher
 
     @Inject
     @CoroutinesQualifier.IoDispatcher
@@ -61,9 +58,9 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+            drawingViewId = R.id.nav_host_fragment
             scrimColor = Color.TRANSPARENT
-            startContainerColor = ResourcesCompat.getColor(resources, R.color.black, null)
-            endContainerColor = ResourcesCompat.getColor(resources, R.color.white, null)
+            setAllContainerColors(ResourcesCompat.getColor(resources,R.color.white,null))
         }
     }
 
@@ -80,7 +77,7 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
                     )
                 }
                 imageFile = myFile
-                withContext(mainCoroutinesDispacter) {
+                withContext(mainCoroutinesDispatcher) {
                     Glide.with(requireContext())
                         .load(uri)
                         .apply(getGlideRequestOption(requireContext()))
@@ -124,7 +121,7 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
                 ImageUtils.bitmapToFile(it, requireActivity())?.let { file ->
                     imageFile = file
                 }
-                withContext(mainCoroutinesDispacter) {
+                withContext(mainCoroutinesDispatcher) {
                     Glide.with(requireContext())
                         .load(it)
                         .apply(getGlideRequestOption(requireContext()))
@@ -141,7 +138,7 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permission ->
             var isAllGranted = true
-            permission.entries.forEach { (key, value) ->
+            permission.entries.forEach { (_, value) ->
                 if (!value) {
                     isAllGranted = false
                     return@registerForActivityResult

@@ -1,6 +1,5 @@
 package com.example.core.data.utils
 
-import android.util.Log
 import com.example.core.data.remote.response.GenericStatusResponse
 import com.example.domain.utils.NetworkResult
 import com.github.ajalt.timberkt.Timber

@@ -1,16 +1,16 @@
 package com.example.core.di
 
 import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.core.BuildConfig
 import com.example.core.data.local.PreferencesDataStore
-import com.example.core.data.utils.NetworkInterceptor
 import com.example.core.data.remote.services.DicodingStoryApiService
+import com.example.core.data.utils.NetworkInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -38,7 +38,14 @@ class CoreModule {
             builder.addNetworkInterceptor(authInterceptor)
             if (BuildConfig.DEBUG) {
                 builder.addInterceptor(HttpLoggingInterceptor().setLevel(level = HttpLoggingInterceptor.Level.BODY))
-                builder.addNetworkInterceptor(ChuckerInterceptor(context))
+                builder.addNetworkInterceptor(
+                    ChuckerInterceptor.Builder(context)
+                        .collector(ChuckerCollector(context))
+                        .maxContentLength(250000L)
+                        .redactHeaders(emptySet())
+                        .alwaysReadResponseBody(false)
+                        .build()
+                )
             }
             return builder.build()
         } catch (e: Exception) {

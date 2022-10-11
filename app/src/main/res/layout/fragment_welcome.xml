@@ -55,7 +55,7 @@
         android:textSize="@dimen/text_size_15"
         android:textColor="@color/black"
         android:layout_marginBottom="24dp"
-        android:text="@string/label_continue_guset"
+        android:text="@string/label_continue_guest"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

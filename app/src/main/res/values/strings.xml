@@ -11,7 +11,7 @@
     <string name="label_register">Register</string>
     <string name="label_login_now">Already have an account? <b><u> Login Now </u></b></string>
     <string name="label_discover_welcome">Discover the best stories by millions of people</string>
-    <string name="label_continue_guset">Continue as a guest</string>
+    <string name="label_continue_guest">Continue as a guest</string>
     <string name="label_error_fetch_data">Error fetch data</string>
     <string name="label_failed_camera_capture">Failed to take picture.</string>
     <string name="label_success_capture_camera">Photo capture succeeded</string>
@@ -23,7 +23,7 @@
     <string name="label_upload">Upload</string>
     <string name="label_pick_from_gallery">Pick from gallery</string>
     <string name="label_take_picture">Take picture</string>
-    <string name="page_not_avalaible">Page not avalaible</string>
+    <string name="page_not_available">Page not available</string>
     <string name="error_state_default_text">Something went wrong :(</string>
     <string name="label_reload">Reload</string>
     <string name="menu_logout">Logout</string>

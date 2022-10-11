@@ -2,10 +2,6 @@ package com.example.submission1androidintermediate.helper
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
-import android.os.Environment
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -13,26 +9,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
-import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.request.RequestOptions
 import com.example.submission1androidintermediate.R
-import com.example.submission1androidintermediate.ui.home.stories.camera.CameraFragment
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.text.SimpleDateFormat
-import java.util.*
 
 object AppUtils {
     fun Activity.showToast(message: String) {
@@ -65,22 +50,6 @@ object AppUtils {
         } else if (navDirections != null) {
             this.findNavController().navigate(navDirections)
         } else if (dest != null) this.findNavController().navigate(dest)
-    }
-
-    fun Fragment.getNavGraph(): NavGraph {
-        return this.findNavController().graph
-    }
-
-    fun RecyclerView.smoothSnapToPosition(
-        position: Int,
-        snapMode: Int = LinearSmoothScroller.SNAP_TO_START
-    ) {
-        val smoothScroller = object : LinearSmoothScroller(this.context) {
-            override fun getVerticalSnapPreference(): Int = snapMode
-            override fun getHorizontalSnapPreference(): Int = snapMode
-        }
-        smoothScroller.targetPosition = position
-        layoutManager?.startSmoothScroll(smoothScroller)
     }
 
     private fun getCircularProgressBar(context: Context): CircularProgressDrawable {

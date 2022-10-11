@@ -20,8 +20,6 @@ import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.customview.helper.restoreChildViewStates
 import com.example.submission1androidintermediate.customview.helper.saveChildViewStates
 import com.example.submission1androidintermediate.helper.FormType
-import com.example.submission1androidintermediate.helper.StringHelper.isEmailValid
-import com.example.submission1androidintermediate.helper.StringHelper.isValidPassword
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import timber.log.Timber
@@ -59,7 +57,7 @@ class CustomEdiText : RelativeLayout {
     }
 
 
-    override fun onSaveInstanceState(): Parcelable? {
+    override fun onSaveInstanceState(): Parcelable {
         return Bundle().apply {
             putParcelable(SUPER_STATE_KEY, super.onSaveInstanceState())
             putSparseParcelableArray(SPARSE_STATE_KEY, saveChildViewStates())
@@ -151,7 +149,7 @@ class CustomEdiText : RelativeLayout {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT
             )
-            setBackgroundColor(resources.getColor(R.color.transparent))
+            setBackgroundColor(ResourcesCompat.getColor(resources, R.color.transparent, null))
             typeface = ResourcesCompat.getFont(context, R.font.urbanist_regular)
             inputType = InputType.TYPE_CLASS_TEXT
             setTextColor(ResourcesCompat.getColor(resources, R.color.grey, null))
@@ -163,7 +161,7 @@ class CustomEdiText : RelativeLayout {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
-            setBackgroundColor(resources.getColor(R.color.transparent))
+            setBackgroundColor(ResourcesCompat.getColor(resources, R.color.transparent, null))
             addView(editTextForm)
             addView(viewUnderline)
             isErrorEnabled = true
@@ -178,15 +176,34 @@ class CustomEdiText : RelativeLayout {
     }
 
     private fun setDefaultForm() {
-        viewUnderline.setBackgroundColor(resources.getColor(R.color.underlineFormDefaultColor))
+        viewUnderline.setBackgroundColor(
+            ResourcesCompat.getColor(
+                resources,
+                R.color.underlineFormDefaultColor,
+                null
+            )
+        )
+
     }
 
     private fun setTypingForm() {
-        viewUnderline.setBackgroundColor(resources.getColor(R.color.underlineFormBlueColor))
+        viewUnderline.setBackgroundColor(
+            ResourcesCompat.getColor(
+                resources,
+                R.color.underlineFormBlueColor,
+                null
+            )
+        )
     }
 
     private fun setErrorForm() {
-        viewUnderline.setBackgroundColor(resources.getColor(R.color.underlineFormRedColor))
+        viewUnderline.setBackgroundColor(
+            ResourcesCompat.getColor(
+                resources,
+                R.color.underlineFormRedColor,
+                null
+            )
+        )
     }
 
     override fun dispatchKeyEventPreIme(event: KeyEvent): Boolean {
@@ -213,7 +230,7 @@ class CustomEdiText : RelativeLayout {
         editTextForm.apply {
             addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
+                    // Do nothing
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -229,10 +246,9 @@ class CustomEdiText : RelativeLayout {
                             } else showErrorMessage(type.data.getErrorMessage())
                         }
                         is FormType.Username<*> -> {
-                            if(type.data.isValid(p0.toString())){
+                            if (type.data.isValid(p0.toString())) {
                                 hideErrorMessage()
-                            }
-                            else showErrorMessage(type.data.getErrorMessage())
+                            } else showErrorMessage(type.data.getErrorMessage())
                         }
                     }
                 }

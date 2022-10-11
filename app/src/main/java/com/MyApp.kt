@@ -3,8 +3,7 @@ package com
 import android.app.Application
 import com.example.submission1androidintermediate.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
-import timber.log.Timber
-import timber.log.Timber.*
+import timber.log.Timber.DebugTree
 import timber.log.Timber.Forest.plant
 
 

@@ -4,7 +4,7 @@ import java.util.regex.Pattern
 
 class EmailValidator : Validator {
     override fun isValid(input: String): Boolean {
-        val expression: String = "^[\\w.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"
+        val expression = "^[\\w.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"
         val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
         val matcher = pattern.matcher(input)
         return matcher.matches()
@@ -15,7 +15,6 @@ class EmailValidator : Validator {
     }
 
     override fun getErrorMessage(): String {
-        val erroMessage: String = "Email format not correct"
-        return erroMessage
+        return "Email format not correct"
     }
 }

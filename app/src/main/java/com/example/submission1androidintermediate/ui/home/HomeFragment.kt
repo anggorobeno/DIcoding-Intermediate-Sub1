@@ -2,7 +2,10 @@ package com.example.submission1androidintermediate.ui.home
 
 import android.os.Bundle
 import android.view.*
-import androidx.core.view.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
@@ -17,13 +20,10 @@ import com.example.submission1androidintermediate.databinding.FragmentHomeBindin
 import com.example.submission1androidintermediate.helper.AppUtils.navigateToDestination
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.StoriesEvent
-import com.example.submission1androidintermediate.ui.adapter.HomeStoryAdapter
-import com.google.android.material.transition.MaterialContainerTransform
+import com.example.submission1androidintermediate.ui.home.adapter.HomeStoryAdapter
 import com.google.android.material.transition.MaterialElevationScale
-
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
@@ -49,7 +49,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             FragmentHomeBinding.inflate(layoutInflater)
         }
 
-    fun showLoadingState(isLoading: Boolean) {
+    private fun showLoadingState(isLoading: Boolean) {
         binding.layoutProgressBar.progressCircular.isVisible = isLoading
     }
 
@@ -70,13 +70,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         EventBus.getDefault().unregister(this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
     override fun observeViewModel() {
         viewModel.storiesResult.observe(viewLifecycleOwner) { result ->
             when (result) {

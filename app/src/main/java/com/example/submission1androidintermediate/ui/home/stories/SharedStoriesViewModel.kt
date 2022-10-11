@@ -1,10 +1,7 @@
 package com.example.submission1androidintermediate.ui.home.stories
 
-import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.Image
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.model.stories.StoriesUploadModel
 import com.example.domain.usecase.stories.StoriesUseCase
 import com.example.domain.utils.NetworkResult
-import com.example.submission1androidintermediate.helper.AppUtils
 import com.example.submission1androidintermediate.helper.ImageUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -33,9 +29,6 @@ class SharedStoriesViewModel @Inject constructor(private val useCase: StoriesUse
 
     private var _storiesUploadResult = MutableLiveData<NetworkResult<StoriesUploadModel>>()
     val storiesUploadResult: LiveData<NetworkResult<StoriesUploadModel>> get() = _storiesUploadResult
-
-    private var _imageFromGallery = MutableLiveData<File>()
-    val imageFromGallery: LiveData<File> get() = _imageFromGallery
 
     fun uploadImage(description: String, file: File) {
         viewModelScope.launch {

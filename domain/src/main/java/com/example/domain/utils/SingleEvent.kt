@@ -3,14 +3,14 @@ package com.example.domain.utils
 open class SingleEvent< T>(private val content: T) {
 
     @Suppress("MemberVisibilityCanBePrivate")
-    var hasBeendHandled = false
+    var hasBeenHandled = false
         private set
 
     fun getContentIfNotHandled(): T? {
-        return if (hasBeendHandled) {
+        return if (hasBeenHandled) {
             null
         } else {
-            hasBeendHandled = true
+            hasBeenHandled = true
             content
         }
     }

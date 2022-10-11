@@ -7,10 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.doOnPreDraw
 import androidx.navigation.fragment.navArgs
-import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -22,7 +19,6 @@ import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentDetailStoryBinding
 import com.example.submission1androidintermediate.helper.AppUtils
 import com.example.submission1androidintermediate.helper.AppUtils.getGlideRequestOption
-import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.google.android.material.transition.MaterialContainerTransform
 
 

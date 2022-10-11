@@ -3,7 +3,7 @@ package com.example.domain.model.validator
 import java.util.regex.Pattern
 
 class UsernameValidator: Validator {
-    val minSixCharacter = Pattern.compile("^.{6,}$")
+    private val minSixCharacter: Pattern = Pattern.compile("^.{6,}$")
 
     override fun isValid(input: String): Boolean {
         if (!minSixCharacter.matcher(input).matches()){

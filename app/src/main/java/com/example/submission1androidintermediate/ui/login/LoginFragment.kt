@@ -4,9 +4,6 @@ import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavOptions
-import androidx.navigation.fragment.findNavController
-import com.example.core.data.local.PreferencesDataStore
 import com.example.domain.model.user.login.LoginRequest
 import com.example.domain.model.validator.EmailValidator
 import com.example.domain.model.validator.PasswordValidator
@@ -15,15 +12,12 @@ import com.example.domain.utils.SingleEvent
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentLoginBinding
-import com.example.submission1androidintermediate.helper.AppUtils.getNavGraph
 import com.example.submission1androidintermediate.helper.AppUtils.navigateToDestination
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.FormType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {

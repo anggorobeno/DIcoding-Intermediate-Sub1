@@ -1,11 +1,6 @@
 package com.example.submission1androidintermediate.ui.register
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.example.domain.model.user.register.RegisterRequest
@@ -20,7 +15,6 @@ import com.example.submission1androidintermediate.databinding.FragmentRegisterBi
 import com.example.submission1androidintermediate.helper.AppUtils.navigateToDestination
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.FormType
-import com.example.submission1androidintermediate.ui.login.LoginViewModel
 import com.github.ajalt.timberkt.Timber
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -50,7 +44,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
                     Timber.d {
                         result.data.toString()
                     }
-                    result.data?.message?.let {
+                    result.data?.message?.let { it ->
                         SingleEvent(it).getContentIfNotHandled()?.let {
                             showToast(it)
                         }
@@ -61,7 +55,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
     }
 
 
-    fun showLoadingState(isLoading: Boolean) {
+    private fun showLoadingState(isLoading: Boolean) {
         binding.layoutProgressBar.progressCircular.isVisible = isLoading
     }
 
