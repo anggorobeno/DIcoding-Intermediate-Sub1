@@ -1,6 +1,7 @@
 package com.example.submission1androidintermediate
 
 import android.os.Bundle
+import android.os.StrictMode
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+        StrictMode.enableDefaults()
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Timber.d {

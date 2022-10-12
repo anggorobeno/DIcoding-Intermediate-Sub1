@@ -62,6 +62,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+        }
         EventBus.getDefault().register(this)
     }
 
@@ -75,9 +81,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             when (result) {
                 is NetworkResult.Success -> {
                     showLoadingState(false)
-                    result.data?.let { adapter.setList(it) }
+                    result.data?.let { adapter.setList(it,this) }
                     Timber.d(result.data?.data.toString())
                     binding.swipeRefreshLayout.isRefreshing = false
+//                    (view?.parent as ViewGroup).doOnPreDraw { startPostponedEnterTransition() }
+
                 }
                 is NetworkResult.Error -> {
                     result.message?.getContentIfNotHandled()?.let { message ->
@@ -101,25 +109,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
-        super.onViewCreated(view, savedInstanceState)
-
-    }
 
 
     override fun init() {
+        postponeEnterTransition()
         setupMenu()
         setupAdapter()
         setupView()
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
-        }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
-        }
-
     }
 
     private fun setupMenu() {
@@ -185,7 +181,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             val extras = FragmentNavigatorExtras(
                 binding.cardView to "card_view_to_detail",
             )
-            findNavController().navigate(action,extras)
+            findNavController().navigate(action, extras)
         }
     }
 

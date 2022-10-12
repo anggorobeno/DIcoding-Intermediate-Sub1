@@ -10,6 +10,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
@@ -19,6 +20,8 @@ import com.example.submission1androidintermediate.helper.ImageUtils
 import com.example.submission1androidintermediate.ui.home.stories.SharedStoriesViewModel
 import com.github.ajalt.timberkt.Timber
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -61,7 +64,9 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
 
             startCamera()
         }
-        outputDirectory = ImageUtils.getOutputDirectory(requireActivity())
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO){
+            outputDirectory = ImageUtils.getOutputDirectory(requireActivity())
+        }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }

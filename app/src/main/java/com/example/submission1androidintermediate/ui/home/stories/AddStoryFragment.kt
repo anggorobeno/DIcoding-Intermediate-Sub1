@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
@@ -54,16 +55,6 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
             FragmentAddStoryBinding.inflate(layoutInflater)
         }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
-            drawingViewId = R.id.nav_host_fragment
-            scrimColor = Color.TRANSPARENT
-            setAllContainerColors(ResourcesCompat.getColor(resources,R.color.white,null))
-        }
-    }
-
     private val launcherIntentGallery =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             lifecycleScope.launch(ioDispatcher) {
@@ -92,6 +83,24 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
                 requireContext(),
                 it
             ) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        postponeEnterTransition()
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+            drawingViewId = R.id.nav_host_fragment
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(ResourcesCompat.getColor(resources,R.color.white,null))
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        (requireView().parent as ViewGroup).doOnPreDraw {
+            startPostponedEnterTransition()
         }
     }
 
@@ -151,12 +160,6 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
 
 
     override fun init() {
-        postponeEnterTransition()
-        (requireView().parent as ViewGroup).viewTreeObserver
-            .addOnPreDrawListener {
-                startPostponedEnterTransition()
-                true
-            }
         binding.fabCamera.setOnClickListener {
             navigateToDestination(R.id.action_addStoryFragment_to_cameraFragment)
         }

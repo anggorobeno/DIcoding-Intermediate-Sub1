@@ -5,11 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.data.local.PreferencesDataStore
+import com.example.core.di.CoroutinesQualifier
 import com.example.domain.model.user.login.LoginModel
 import com.example.domain.model.user.login.LoginRequest
 import com.example.domain.usecase.user.UserUseCase
 import com.example.domain.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -19,6 +21,10 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val useCase: UserUseCase) : ViewModel() {
     private var _loginResult = MutableLiveData<NetworkResult<LoginModel>>()
+
+    @Inject
+    @CoroutinesQualifier.IoDispatcher
+    lateinit var ioDispatcher: CoroutineDispatcher
 
     @Inject
     lateinit var prefs: PreferencesDataStore
@@ -35,7 +41,7 @@ class LoginViewModel @Inject constructor(private val useCase: UserUseCase) : Vie
     }
 
     fun saveUserToken(token: String): Job {
-        val job = viewModelScope.launch {
+        val job = viewModelScope.launch(ioDispatcher) {
             prefs.saveUserToken(token)
             Timber.d(prefs.getUserToken())
         }
@@ -43,7 +49,7 @@ class LoginViewModel @Inject constructor(private val useCase: UserUseCase) : Vie
     }
 
     fun setLoginStatus(isLogin: Boolean): Job {
-        val job = viewModelScope.launch {
+        val job = viewModelScope.launch(ioDispatcher) {
             prefs.setLoginStatus(isLogin)
             Timber.d(prefs.getLoginStatus().toString())
         }
