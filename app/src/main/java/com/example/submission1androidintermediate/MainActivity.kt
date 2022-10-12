@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.core.data.local.PreferencesDataStore
 import com.example.submission1androidintermediate.databinding.ActivityMainBinding
@@ -37,11 +38,18 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
         navController = navHost!!.navController
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment))
+        /*
+            set up toolbar so navigation back icon is automatically visible
+         */
         binding.toolbar.setupWithNavController(
             navController,
             appBarConfiguration
         )
         setSupportActionBar(binding.toolbar)
+        /*
+            fix for navigation back button not reacting to user click when activity restart
+         */
+        binding.toolbar.setNavigationOnClickListener { _ ->  NavigationUI.navigateUp(navController, appBarConfiguration) }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val noToolbarDestination =
@@ -54,7 +62,6 @@ class MainActivity : AppCompatActivity() {
             binding.toolbar.isVisible = !noToolbarDestination.contains(destination.id)
         }
     }
-
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
