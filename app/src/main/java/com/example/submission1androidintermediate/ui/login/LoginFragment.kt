@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.core.di.CoroutinesQualifier
 import com.example.domain.model.user.login.LoginRequest
 import com.example.domain.model.validator.EmailValidator
 import com.example.domain.model.validator.PasswordValidator
@@ -17,11 +16,8 @@ import com.example.submission1androidintermediate.helper.AppUtils.navigateToDest
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.FormType
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
