@@ -35,5 +35,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/BaseButton.Black"
+        android:id="@+id/btn_retry"
+        android:text="@string/label_reload"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_subtitle"
+        android:layout_margin="@dimen/margin_22"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

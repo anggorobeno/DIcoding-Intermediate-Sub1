@@ -26,5 +26,10 @@ interface DicodingStoryApiService {
     ): Response<StoriesUploadResponse>
 
     @GET("stories")
-    suspend fun getStories(): Response<StoriesResponse>
+    suspend fun getStories(
+        @Query("page")
+        page: Int = 1,
+        @Query("size")
+        size: Int = 10
+    ): Response<StoriesResponse>
 }

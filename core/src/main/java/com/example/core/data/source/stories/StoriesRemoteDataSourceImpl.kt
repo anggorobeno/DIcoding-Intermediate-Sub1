@@ -7,7 +7,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 
-class StoriesDataSourceImpl(private val apiService: DicodingStoryApiService) : StoriesDataSource {
+class StoriesRemoteDataSourceImpl(private val apiService: DicodingStoryApiService) : StoriesDataSource {
     override suspend fun getStories(): Response<StoriesResponse> {
         return apiService.getStories()
     }

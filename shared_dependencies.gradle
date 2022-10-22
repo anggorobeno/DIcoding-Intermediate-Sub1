@@ -16,6 +16,9 @@ dependencies {
     implementation "org.greenrobot:eventbus:$event_bus_version"
     implementation "com.github.ajalt:timberkt:$timber_version"
 
+    // Paging
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+    implementation "androidx.room:room-paging:$room_paging_version"
     // Testing
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$junit_ui_test_version"

@@ -11,6 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.di.CoroutinesQualifier
 import com.example.domain.utils.NetworkResult
@@ -21,6 +23,8 @@ import com.example.submission1androidintermediate.helper.AppUtils.navigateToDest
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.StoriesEvent
 import com.example.submission1androidintermediate.ui.home.adapter.HomeStoryAdapter
+import com.example.submission1androidintermediate.ui.home.adapter.HomeStoryPagingAdapter
+import com.example.submission1androidintermediate.ui.home.adapter.LoadingStateAdapter
 import com.github.ajalt.timberkt.d
 import com.google.android.material.transition.MaterialElevationScale
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,7 +39,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val viewModel: HomeViewModel by viewModels()
-    private var adapter: HomeStoryAdapter? = null
+    private var homeStoryPagingAdapter: HomeStoryPagingAdapter? = null
 
     @Inject
     @CoroutinesQualifier.MainDispatcher
@@ -51,14 +55,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
 
     private fun showLoadingState(isLoading: Boolean) {
-        binding.swipeRefreshLayout.isRefreshing = isLoading
         binding.layoutProgressBar.progressCircular.isVisible = isLoading
     }
 
     @Subscribe
     fun onEventReceived(event: StoriesEvent) {
         if (event.message == "onStoriesUploadSuccess") {
-            viewModel.getStories()
+            refreshContent()
         }
     }
 
@@ -78,24 +81,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         EventBus.getDefault().unregister(this)
     }
 
-    override fun onDestroyView() {
-        /*
-            Remove recycler view adapter and adapter instance
-         */
-        binding.rvStory.adapter = null
-        adapter = null
-        super.onDestroyView()
-    }
-
-
     override fun observeViewModel() {
         viewModel.storiesResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is NetworkResult.Success -> {
                     showLoadingState(false)
-                    result.data?.let { adapter?.setList(it) }
+//                    result.data?.let { adapter.submitData(it) }
                     Timber.d(result.data?.data.toString())
-                    (view?.parent as ViewGroup).doOnPreDraw { startPostponedEnterTransition() }
 
                 }
                 is NetworkResult.Error -> {
@@ -116,10 +108,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 showToast(it)
             }
         }
+        viewModel.storiesPagingResult.observe(viewLifecycleOwner) {
+            homeStoryPagingAdapter?.submitData(viewLifecycleOwner.lifecycle, it)
+            (view?.parent as ViewGroup).doOnPreDraw { startPostponedEnterTransition() }
+
+        }
 
 
     }
-
 
 
     override fun init() {
@@ -172,27 +168,60 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 extras
             )
         }
-        binding.fabCamera.setOnClickListener {
-            navigateToDestination(R.id.action_homeFragment_to_addStoryFragment)
-        }
         binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.getStories()
+            binding.swipeRefreshLayout.isRefreshing = false
+            homeStoryPagingAdapter?.refresh()
         }
     }
 
+    private fun refreshContent() {
+        viewModel.getStoriesPaging()
+    }
+
     private fun setupAdapter() {
-        binding.rvStory.apply {
-            this@HomeFragment.adapter = HomeStoryAdapter()
-            layoutManager =
-                LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
-            adapter = this@HomeFragment.adapter
+        homeStoryPagingAdapter = HomeStoryPagingAdapter()
+        binding.layoutEmptyState.btnRetry.setOnClickListener {
+            refreshContent()
         }
-        adapter?.onClickCallback = { item, binding ->
+        homeStoryPagingAdapter?.onClickCallback = { item, binding ->
             val action = HomeFragmentDirections.actionHomeFragmentToDetailStoryFragment(item)
             val extras = FragmentNavigatorExtras(
                 binding.cardView to "card_view_to_detail",
             )
             findNavController().navigate(action, extras)
+        }
+        homeStoryPagingAdapter?.addLoadStateListener(::updateUi)
+        binding.rvStory.apply {
+            layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+            adapter = homeStoryPagingAdapter?.withLoadStateFooter(
+                footer = LoadingStateAdapter {
+                    homeStoryPagingAdapter?.retry()
+                }
+            )
+        }
+
+    }
+
+    private fun updateUi(combinedLoadStates: CombinedLoadStates) {
+        showToast(combinedLoadStates.toString())
+        binding.apply {
+            when (combinedLoadStates.source.refresh) {
+                is LoadState.Loading -> {
+                    layoutProgressBar.progressCircular.isVisible = true
+                }
+                is LoadState.Error -> {
+                    layoutProgressBar.progressCircular.isVisible = false
+                    llEmptyState.isVisible = true
+                    rvStory.isVisible = false
+                }
+                is LoadState.NotLoading -> {
+                    layoutProgressBar.progressCircular.isVisible = false
+                    rvStory.isVisible = true
+                    llEmptyState.isVisible = false
+                }
+
+            }
         }
     }
 

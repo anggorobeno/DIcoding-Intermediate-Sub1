@@ -1,6 +1,7 @@
 package com.example.core.di
 
 import com.example.core.data.source.stories.StoriesDataSource
+import com.example.core.data.source.stories.StoriesPagingSource
 import com.example.core.data.source.stories.StoriesRepository
 import com.example.core.data.source.user.UserDataSource
 import com.example.core.data.source.user.UserRepository
@@ -10,6 +11,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Module
@@ -17,13 +19,18 @@ import javax.inject.Singleton
 class RepositoryModule {
     @Provides
     @Singleton
-    fun provideUserRepository(remoteDataSource: UserDataSource): IUserRepository {
+    fun provideUserRepository(
+        remoteDataSource: UserDataSource
+    ): IUserRepository {
         return UserRepository(remoteDataSource)
     }
 
     @Provides
     @Singleton
-    fun provideStoriesRepository(remoteDataSource: StoriesDataSource): IStoriesRepository {
-        return StoriesRepository(remoteDataSource)
+    fun provideStoriesRepository(
+        remoteDataSource: StoriesDataSource,
+        storiesPagingSource: Provider<StoriesPagingSource>
+    ): IStoriesRepository {
+        return StoriesRepository(remoteDataSource, storiesPagingSource)
     }
 }
