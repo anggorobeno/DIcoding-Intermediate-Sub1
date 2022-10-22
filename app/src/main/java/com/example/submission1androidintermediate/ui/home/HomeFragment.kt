@@ -1,18 +1,18 @@
 package com.example.submission1androidintermediate.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.view.*
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.di.CoroutinesQualifier
 import com.example.domain.utils.NetworkResult
@@ -23,6 +23,8 @@ import com.example.submission1androidintermediate.helper.AppUtils.navigateToDest
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.StoriesEvent
 import com.example.submission1androidintermediate.ui.home.adapter.HomeStoryAdapter
+import com.example.submission1androidintermediate.ui.home.adapter.HomeStoryPagingAdapter
+import com.example.submission1androidintermediate.ui.home.adapter.LoadingStateAdapter
 import com.google.android.material.transition.MaterialElevationScale
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineDispatcher
@@ -36,7 +38,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val viewModel: HomeViewModel by viewModels()
-    private val adapter: HomeStoryAdapter = HomeStoryAdapter()
+    private var homeStoryPagingAdapter: HomeStoryPagingAdapter? = null
 
     @Inject
     @CoroutinesQualifier.MainDispatcher
@@ -58,7 +60,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     @Subscribe
     fun onEventReceived(event: StoriesEvent) {
         if (event.message == "onStoriesUploadSuccess") {
-            viewModel.getStories()
+            refreshContent()
         }
     }
 
@@ -83,10 +85,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             when (result) {
                 is NetworkResult.Success -> {
                     showLoadingState(false)
-                    result.data?.let { adapter.setList(it,this) }
+//                    result.data?.let { adapter.submitData(it) }
                     Timber.d(result.data?.data.toString())
-                    binding.swipeRefreshLayout.isRefreshing = false
-//                    (view?.parent as ViewGroup).doOnPreDraw { startPostponedEnterTransition() }
 
                 }
                 is NetworkResult.Error -> {
@@ -107,10 +107,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 showToast(it)
             }
         }
+        viewModel.storiesPagingResult.observe(viewLifecycleOwner) {
+            homeStoryPagingAdapter?.submitData(viewLifecycleOwner.lifecycle, it)
+            (view?.parent as ViewGroup).doOnPreDraw { startPostponedEnterTransition() }
+
+        }
 
 
     }
-
 
 
     override fun init() {
@@ -163,27 +167,60 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 extras
             )
         }
-        binding.fabCamera.setOnClickListener {
-            navigateToDestination(R.id.action_homeFragment_to_addStoryFragment)
-        }
         binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.getStories()
-            binding.swipeRefreshLayout.isRefreshing = true
+            binding.swipeRefreshLayout.isRefreshing = false
+            homeStoryPagingAdapter?.refresh()
         }
     }
 
+    private fun refreshContent() {
+        viewModel.getStoriesPaging()
+    }
+
     private fun setupAdapter() {
-        binding.rvStory.apply {
-            layoutManager =
-                LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
-            adapter = this@HomeFragment.adapter
+        homeStoryPagingAdapter = HomeStoryPagingAdapter()
+        binding.layoutEmptyState.btnRetry.setOnClickListener {
+            refreshContent()
         }
-        adapter.onClickCallback = { item, binding ->
+        homeStoryPagingAdapter?.onClickCallback = { item, binding ->
             val action = HomeFragmentDirections.actionHomeFragmentToDetailStoryFragment(item)
             val extras = FragmentNavigatorExtras(
                 binding.cardView to "card_view_to_detail",
             )
             findNavController().navigate(action, extras)
+        }
+        homeStoryPagingAdapter?.addLoadStateListener(::updateUi)
+        binding.rvStory.apply {
+            layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+            adapter = homeStoryPagingAdapter?.withLoadStateFooter(
+                footer = LoadingStateAdapter {
+                    homeStoryPagingAdapter?.retry()
+                }
+            )
+        }
+
+    }
+
+    private fun updateUi(combinedLoadStates: CombinedLoadStates) {
+        showToast(combinedLoadStates.toString())
+        binding.apply {
+            when (combinedLoadStates.source.refresh) {
+                is LoadState.Loading -> {
+                    layoutProgressBar.progressCircular.isVisible = true
+                }
+                is LoadState.Error -> {
+                    layoutProgressBar.progressCircular.isVisible = false
+                    llEmptyState.isVisible = true
+                    rvStory.isVisible = false
+                }
+                is LoadState.NotLoading -> {
+                    layoutProgressBar.progressCircular.isVisible = false
+                    rvStory.isVisible = true
+                    llEmptyState.isVisible = false
+                }
+
+            }
         }
     }
 

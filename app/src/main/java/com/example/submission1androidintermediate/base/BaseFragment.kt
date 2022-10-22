@@ -15,7 +15,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     lateinit var preferencesDataStore: PreferencesDataStore
     private lateinit var safeContext: Context
 
-    protected lateinit var binding: VB
+    private var _binding: VB? = null
+    protected val binding: VB get() = _binding!!
     protected abstract val setLayout: (LayoutInflater) -> VB
 
     override fun onAttach(context: Context) {
@@ -28,7 +29,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = setLayout(inflater)
+        _binding = setLayout(inflater)
         return binding.root
     }
 
@@ -38,7 +39,10 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         observeViewModel()
     }
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     abstract fun observeViewModel()
 

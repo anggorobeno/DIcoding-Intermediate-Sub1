@@ -34,16 +34,17 @@
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/font/urbanist_semi_bold.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/custom_toast.xml" value="0.4466666666666667" />
-        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_add_story.xml" value="0.1" />
+        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_add_story.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_camera.xml" value="0.14175724637681159" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_detail_story.xml" value="0.14175724637681159" />
-        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_login.xml" value="0.22" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_register.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/fragment_welcome.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/item_loading.xml" value="0.14175724637681159" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/item_story.xml" value="0.22" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/layout_content_home.xml" value="0.14175724637681159" />
-        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/layout_empty_state.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/layout_empty_state.xml" value="0.22" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/layout/progressbar_indicator.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/menu/menu.xml" value="0.1796875" />
         <entry key="..\:/Users/anggo/StudioProjects/DIcoding-Intermediate-Sub1/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1785" />

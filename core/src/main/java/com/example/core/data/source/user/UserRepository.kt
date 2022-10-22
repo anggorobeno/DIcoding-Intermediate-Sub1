@@ -1,5 +1,6 @@
 package com.example.core.data.source.user
 
+import com.example.core.data.source.stories.StoriesPagingSource
 import com.example.core.data.utils.BaseApiCall
 import com.example.core.data.utils.Mapper.toModel
 import com.example.domain.model.user.login.LoginModel
@@ -13,7 +14,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class UserRepository(private val dataSource: UserDataSource) : IUserRepository {
+class UserRepository(
+    private val dataSource: UserDataSource,
+) : IUserRepository {
     override fun loginUser(body: LoginRequest): Flow<NetworkResult<LoginModel>> {
         return flow {
             emit(NetworkResult.Loading())
@@ -30,9 +33,11 @@ class UserRepository(private val dataSource: UserDataSource) : IUserRepository {
             emit(NetworkResult.Loading())
             emit(BaseApiCall.safeApiCall({
                 dataSource.registerUser(body)
-            }){ response ->
+            }) { response ->
                 response!!.toModel()
             })
-        }
+        }.flowOn(Dispatchers.IO)
     }
+
+
 }
