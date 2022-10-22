@@ -1,12 +1,10 @@
 package com.example.submission1androidintermediate.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.view.*
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +21,7 @@ import com.example.submission1androidintermediate.helper.AppUtils.navigateToDest
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.StoriesEvent
 import com.example.submission1androidintermediate.ui.home.adapter.HomeStoryAdapter
+import com.github.ajalt.timberkt.d
 import com.google.android.material.transition.MaterialElevationScale
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineDispatcher
@@ -36,7 +35,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val viewModel: HomeViewModel by viewModels()
-    private val adapter: HomeStoryAdapter = HomeStoryAdapter()
+    private var adapter: HomeStoryAdapter? = null
 
     @Inject
     @CoroutinesQualifier.MainDispatcher
@@ -52,6 +51,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
 
     private fun showLoadingState(isLoading: Boolean) {
+        binding.swipeRefreshLayout.isRefreshing = isLoading
         binding.layoutProgressBar.progressCircular.isVisible = isLoading
     }
 
@@ -78,15 +78,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         EventBus.getDefault().unregister(this)
     }
 
+    override fun onDestroyView() {
+        /*
+            Remove recycler view adapter and adapter instance
+         */
+        binding.rvStory.adapter = null
+        adapter = null
+        super.onDestroyView()
+    }
+
+
     override fun observeViewModel() {
         viewModel.storiesResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is NetworkResult.Success -> {
                     showLoadingState(false)
-                    result.data?.let { adapter.setList(it,this) }
+                    result.data?.let { adapter?.setList(it) }
                     Timber.d(result.data?.data.toString())
-                    binding.swipeRefreshLayout.isRefreshing = false
-//                    (view?.parent as ViewGroup).doOnPreDraw { startPostponedEnterTransition() }
+                    (view?.parent as ViewGroup).doOnPreDraw { startPostponedEnterTransition() }
 
                 }
                 is NetworkResult.Error -> {
@@ -168,17 +177,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.getStories()
-            binding.swipeRefreshLayout.isRefreshing = true
         }
     }
 
     private fun setupAdapter() {
         binding.rvStory.apply {
+            this@HomeFragment.adapter = HomeStoryAdapter()
             layoutManager =
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
             adapter = this@HomeFragment.adapter
         }
-        adapter.onClickCallback = { item, binding ->
+        adapter?.onClickCallback = { item, binding ->
             val action = HomeFragmentDirections.actionHomeFragmentToDetailStoryFragment(item)
             val extras = FragmentNavigatorExtras(
                 binding.cardView to "card_view_to_detail",

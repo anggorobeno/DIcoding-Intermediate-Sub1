@@ -12,7 +12,7 @@ dependencies {
     implementation "androidx.core:core-ktx:$kotlin_core_ktx_version"
     implementation "androidx.appcompat:appcompat:$app_compat_version"
     implementation "com.google.android.material:material:$material_version"
-
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
     implementation "org.greenrobot:eventbus:$event_bus_version"
     implementation "com.github.ajalt:timberkt:$timber_version"
 
