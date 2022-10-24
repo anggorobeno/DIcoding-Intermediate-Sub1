@@ -13,9 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingData
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.request.RequestOptions
 import com.example.submission1androidintermediate.R
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.single
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
@@ -75,5 +78,24 @@ object AppUtils {
             e.printStackTrace()
             "N/A"
         }
+    }
+    @Suppress("UNCHECKED_CAST")
+     suspend fun <T : Any> PagingData<T>.toList(): List<T> {
+        val flow = PagingData::class.java.getDeclaredField("flow").apply {
+            isAccessible = true
+        }.get(this) as Flow<Any?>
+        val pageEventInsert = flow.single()
+        val pageEventInsertClass = Class.forName("androidx.paging.PageEvent\$Insert")
+        val pagesField = pageEventInsertClass.getDeclaredField("pages").apply {
+            isAccessible = true
+        }
+        val pages = pagesField.get(pageEventInsert) as List<Any?>
+        val transformablePageDataField =
+            Class.forName("androidx.paging.TransformablePage").getDeclaredField("data").apply {
+                isAccessible = true
+            }
+        val listItems =
+            pages.flatMap { transformablePageDataField.get(it) as List<*> }
+        return listItems as List<T>
     }
 }

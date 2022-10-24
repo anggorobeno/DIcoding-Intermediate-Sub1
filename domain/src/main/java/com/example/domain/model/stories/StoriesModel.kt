@@ -14,6 +14,8 @@ data class StoriesModel(
         val name: String?,
         val description: String?,
         val photoUrl: String?,
-        val createdAt: String?
+        val createdAt: String?,
+        val lon: String? = null,
+        val lat: String? = null
     ) : Parcelable
 }

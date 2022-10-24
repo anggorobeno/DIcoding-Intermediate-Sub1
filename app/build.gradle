@@ -5,6 +5,7 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 apply from: '../shared_dependencies.gradle'
 
@@ -68,4 +69,10 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
     implementation "androidx.camera:camera-view:$camerax_version"
 
+    // liveData Scope
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+    // Maps
+    implementation 'com.google.maps.android:maps-ktx:3.4.0'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.0'
 }

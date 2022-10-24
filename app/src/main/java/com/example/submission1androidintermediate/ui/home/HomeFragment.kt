@@ -15,6 +15,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.di.CoroutinesQualifier
+import com.example.domain.model.stories.MapModel
 import com.example.domain.utils.NetworkResult
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
@@ -22,10 +23,8 @@ import com.example.submission1androidintermediate.databinding.FragmentHomeBindin
 import com.example.submission1androidintermediate.helper.AppUtils.navigateToDestination
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.StoriesEvent
-import com.example.submission1androidintermediate.ui.home.adapter.HomeStoryAdapter
 import com.example.submission1androidintermediate.ui.home.adapter.HomeStoryPagingAdapter
 import com.example.submission1androidintermediate.ui.home.adapter.LoadingStateAdapter
-import com.github.ajalt.timberkt.d
 import com.google.android.material.transition.MaterialElevationScale
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineDispatcher
@@ -51,12 +50,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override val setLayout: (LayoutInflater) -> FragmentHomeBinding
         get() = {
-            FragmentHomeBinding.inflate(layoutInflater)
+            FragmentHomeBinding.inflate(it)
         }
-
-    private fun showLoadingState(isLoading: Boolean) {
-        binding.layoutProgressBar.progressCircular.isVisible = isLoading
-    }
 
     @Subscribe
     fun onEventReceived(event: StoriesEvent) {
@@ -81,40 +76,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         EventBus.getDefault().unregister(this)
     }
 
+    override fun onDestroyView() {
+        homeStoryPagingAdapter = null
+        super.onDestroyView()
+    }
+
     override fun observeViewModel() {
-        viewModel.storiesResult.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is NetworkResult.Success -> {
-                    showLoadingState(false)
-//                    result.data?.let { adapter.submitData(it) }
-                    Timber.d(result.data?.data.toString())
-
-                }
-                is NetworkResult.Error -> {
-                    result.message?.getContentIfNotHandled()?.let { message ->
-                        showToast(message)
-                    }
-                    showLoadingState(false)
-                    Timber.d(result.message.toString())
-                }
-                is NetworkResult.Loading -> {
-                    showLoadingState(true)
-                }
-            }
-
-        }
-        viewModel.toastText.observe(viewLifecycleOwner) { message ->
-            message?.getContentIfNotHandled()?.let {
-                showToast(it)
-            }
-        }
         viewModel.storiesPagingResult.observe(viewLifecycleOwner) {
             homeStoryPagingAdapter?.submitData(viewLifecycleOwner.lifecycle, it)
             (view?.parent as ViewGroup).doOnPreDraw { startPostponedEnterTransition() }
-
         }
-
-
     }
 
 
@@ -171,6 +142,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             binding.swipeRefreshLayout.isRefreshing = false
             homeStoryPagingAdapter?.refresh()
+        }
+        binding.mapFab.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToMapsFragment()
+            findNavController().navigate(action)
         }
     }
 

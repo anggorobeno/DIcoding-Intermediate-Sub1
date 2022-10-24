@@ -6,6 +6,7 @@ import com.example.core.data.remote.response.story.StoriesUploadResponse
 import com.example.core.data.remote.response.user.login.LoginResponse
 import com.example.core.data.remote.response.user.register.RegisterResponse
 import com.example.domain.model.GenericStatusModel
+import com.example.domain.model.stories.MapModel
 import com.example.domain.model.stories.StoriesModel
 import com.example.domain.model.stories.StoriesUploadModel
 import com.example.domain.model.user.login.LoginModel
@@ -49,6 +50,8 @@ object Mapper {
             this.description,
             this.photoUrl,
             this.createdAt,
+            this.lon,
+            this.lat
         )
     }
 
@@ -68,6 +71,14 @@ object Mapper {
         return StoriesUploadModel(
             this.message,
             this.error
+        )
+    }
+
+    fun StoriesModel.StoriesModelItem.toMapModel(): MapModel {
+        return MapModel(
+            this.name,
+            this.lat?.toDouble(),
+            this.lon?.toDouble()
         )
     }
 }

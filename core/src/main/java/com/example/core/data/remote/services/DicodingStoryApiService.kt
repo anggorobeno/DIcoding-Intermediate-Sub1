@@ -28,8 +28,10 @@ interface DicodingStoryApiService {
     @GET("stories")
     suspend fun getStories(
         @Query("page")
-        page: Int = 1,
+        page: Int,
         @Query("size")
-        size: Int = 10
+        size: Int,
+        @Query("location")
+        location: Int = 1
     ): Response<StoriesResponse>
 }

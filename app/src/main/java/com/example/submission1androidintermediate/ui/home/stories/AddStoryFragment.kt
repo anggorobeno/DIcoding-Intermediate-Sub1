@@ -3,6 +3,8 @@ package com.example.submission1androidintermediate.ui.home.stories
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -25,6 +27,13 @@ import com.example.submission1androidintermediate.helper.AppUtils.navigateToDest
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.ImageUtils
 import com.example.submission1androidintermediate.helper.StoriesEvent
+import com.github.ajalt.timberkt.Timber
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineDispatcher
@@ -32,14 +41,24 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import java.io.File
+import java.io.IOException
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
     private val sharedViewModel: SharedStoriesViewModel by hiltNavGraphViewModels(R.id.story_nav_graph)
-    private val requiredPermission = arrayOf(
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var mMap: GoogleMap
+    private lateinit var imageFile: File
+    private val requiredPermissionToPostStory = arrayOf(
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+
+    private val requiredLocationPermission = arrayOf(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION
     )
 
     @Inject
@@ -49,7 +68,6 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
     @Inject
     @CoroutinesQualifier.IoDispatcher
     lateinit var ioDispatcher: CoroutineDispatcher
-    private lateinit var imageFile: File
     override val setLayout: (LayoutInflater) -> FragmentAddStoryBinding
         get() = {
             FragmentAddStoryBinding.inflate(layoutInflater)
@@ -77,13 +95,17 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
             }
         }
 
-    private fun allPermissionsGranted(): Boolean {
-        return requiredPermission.all {
+    private fun allPostStoryPermissionsGranted(): Boolean {
+        return requiredPermissionToPostStory.all {
             ContextCompat.checkSelfPermission(
                 requireContext(),
                 it
             ) == PackageManager.PERMISSION_GRANTED
         }
+    }
+
+    private fun allLocationPermissionGranted() = requiredLocationPermission.all {
+        ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,7 +115,7 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
             drawingViewId = R.id.nav_host_fragment
             scrimColor = Color.TRANSPARENT
-            setAllContainerColors(ResourcesCompat.getColor(resources,R.color.white,null))
+            setAllContainerColors(ResourcesCompat.getColor(resources, R.color.transparent, null))
         }
     }
 
@@ -144,7 +166,7 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
         binding.layoutProgressBar.progressCircular.isVisible = isLoading
     }
 
-    private val requestPermission =
+    private val requestPostStoryPermission =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permission ->
             var isAllGranted = true
             permission.entries.forEach { (_, value) ->
@@ -154,21 +176,85 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
                 }
             }
             if (isAllGranted) launcherIntentGallery.launch("image/*")
+        }
 
+
+    private val requestLocationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    // Precise location access granted.
+                    getMyLastLocation()
+                }
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    // Only approximate location access granted.
+                    getMyLastLocation()
+                }
+                else -> {
+                    // No location access granted.
+                }
+            }
 
         }
 
+    private fun getMyLastLocation() {
+        if (allLocationPermissionGranted()) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    showToast("${location.latitude} ${location.longitude}")
+                    setAddressName(location.latitude,location.longitude)
+
+                } else {
+                    showToast("Location is not found. Try again")
+                }
+            }
+        } else {
+            requestLocationPermission.launch(requiredLocationPermission)
+        }
+    }
+
+    private fun setAddressName(lat: Double, lon: Double): String? {
+        var addressName: String? = null
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        try {
+            val list = geocoder.getFromLocation(lat, lon, 1)
+            if (list != null && list.size != 0) {
+                addressName = list[0].getAddressLine(0)
+                binding.tvMyLocation.text = addressName
+                Timber.d { "getAddressName: $addressName" }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return addressName
+    }
+
+    private fun launchGallery() {
+        if (allPostStoryPermissionsGranted()) {
+            launcherIntentGallery.launch("image/*")
+        } else {
+            requestPostStoryPermission.launch(requiredPermissionToPostStory)
+        }
+    }
+
+    private fun showStartMarker(location: Location) {
+//        val startLocation = LatLng(location.latitude, location.longitude)
+//        mMap.addMarker(
+//            MarkerOptions()
+//                .position(startLocation)
+//                .title(getString(R.string.start_point))
+//        )
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 17f))
+    }
 
     override fun init() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         binding.fabCamera.setOnClickListener {
-            navigateToDestination(R.id.action_addStoryFragment_to_cameraFragment)
+//            navigateToDestination(R.id.action_addStoryFragment_to_cameraFragment)
+            getMyLastLocation()
         }
         binding.fabGallery.setOnClickListener {
-            if (allPermissionsGranted()) {
-                launcherIntentGallery.launch("image/*")
-            } else {
-                requestPermission.launch(requiredPermission)
-            }
+            launchGallery()
         }
 
         binding.btnUpload.setOnClickListener {

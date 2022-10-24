@@ -2,9 +2,11 @@ package com
 
 import android.app.Application
 import com.example.submission1androidintermediate.BuildConfig
+import com.github.ajalt.timberkt.Timber
+import com.github.ajalt.timberkt.Timber.DebugTree
+import com.github.ajalt.timberkt.Timber.plant
 import dagger.hilt.android.HiltAndroidApp
-import timber.log.Timber.DebugTree
-import timber.log.Timber.Forest.plant
+
 
 
 @HiltAndroidApp
@@ -13,9 +15,8 @@ class MyApp : Application() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
             plant(DebugTree())
-            com.github.ajalt.timberkt.Timber.plant(com.github.ajalt.timberkt.Timber.DebugTree())
         }
-        com.github.ajalt.timberkt.Timber.d {
+        Timber.d {
             "Application onCreate called"
         }
     }

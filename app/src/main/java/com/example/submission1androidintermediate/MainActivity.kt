@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        StrictMode.enableDefaults()
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Timber.d {
@@ -57,7 +56,8 @@ class MainActivity : AppCompatActivity() {
                     R.id.welcomeFragment,
                     R.id.loginFragment,
                     R.id.registerFragment,
-                    R.id.cameraFragment
+                    R.id.cameraFragment,
+                    R.id.mapsFragment
                 )
             binding.toolbar.isVisible = !noToolbarDestination.contains(destination.id)
         }

@@ -9,7 +9,7 @@ import retrofit2.Response
 
 class StoriesRemoteDataSourceImpl(private val apiService: DicodingStoryApiService) : StoriesDataSource {
     override suspend fun getStories(): Response<StoriesResponse> {
-        return apiService.getStories()
+        return apiService.getStories(1,10)
     }
 
     override suspend fun uploadStories(

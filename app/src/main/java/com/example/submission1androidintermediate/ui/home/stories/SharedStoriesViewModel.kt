@@ -42,6 +42,7 @@ class SharedStoriesViewModel @Inject constructor(private val useCase: StoriesUse
     fun uploadImage(description: String, file: File) {
         viewModelScope.launch(ioDispatcher) {
             val desc = description.toRequestBody("text/plain".toMediaType())
+
             val requestImageFile =
                 ImageUtils.reduceFileImage(file).asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(

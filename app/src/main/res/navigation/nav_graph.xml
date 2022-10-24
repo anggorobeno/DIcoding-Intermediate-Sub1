@@ -84,6 +84,9 @@
             app:popEnterAnim="@anim/fade_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/welcomeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailStoryFragment"
@@ -118,5 +121,16 @@
             android:label="fragment_camera"
             tools:layout="@layout/fragment_camera" />
     </navigation>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.submission1androidintermediate.ui.home.map.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" >
+        <argument
+            android:name="mapItem"
+            app:argType="com.example.domain.model.stories.MapModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 
 </navigation>
