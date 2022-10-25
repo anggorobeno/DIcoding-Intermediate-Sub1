@@ -3,27 +3,21 @@ package com.example.submission1androidintermediate
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
-import android.os.StrictMode
 import android.view.View
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
-import androidx.core.view.marginBottom
-import androidx.core.view.marginTop
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.core.data.local.PreferencesDataStore
 import com.example.submission1androidintermediate.databinding.ActivityMainBinding
-import com.example.submission1androidintermediate.ui.home.HomeFragmentDirections
+import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.github.ajalt.timberkt.Timber
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -33,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var navController: NavController
+    private var pressedTime: Long = 0
 
     @Inject
     lateinit var preferencesDataStore: PreferencesDataStore
@@ -105,6 +100,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
+            backPressClose(destination)
             val noToolbarDestination =
                 setOf(
                     R.id.welcomeFragment,
@@ -143,10 +139,22 @@ class MainActivity : AppCompatActivity() {
             } else {
                 showBottomBar()
                 showFab(true)
-
             }
 
         }
+    }
+
+    private fun backPressClose(destination: NavDestination) {
+        if (destination.id == R.id.homeFragment)
+            onBackPressedDispatcher.addCallback(this) {
+                // exit app after pressing back twice within 2 seconds to match toast duration
+                if (pressedTime + 2000 > System.currentTimeMillis()) {
+                    finishAndRemoveTask()
+                } else {
+                    showToast(getString(R.string.label_press_back_to_exit))
+                }
+                pressedTime = System.currentTimeMillis()
+            }
     }
 
     private fun hideBottomAppBar() {

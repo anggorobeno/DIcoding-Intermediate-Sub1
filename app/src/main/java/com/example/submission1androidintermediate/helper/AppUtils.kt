@@ -24,10 +24,14 @@ import org.threeten.bp.format.DateTimeFormatter
 
 object AppUtils {
     fun Activity.showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        showCustomToast(message, this)
     }
 
     fun Fragment.showToast(message: String) {
+        showCustomToast(message, this.requireContext())
+    }
+
+    fun showCustomToast(message: String, context: Context) {
         val view: View = LayoutInflater.from(context).inflate(R.layout.custom_toast, null)
         val text = view.findViewById<TextView>(R.id.toast_message)
         text.text = message
@@ -79,8 +83,9 @@ object AppUtils {
             "N/A"
         }
     }
+
     @Suppress("UNCHECKED_CAST")
-     suspend fun <T : Any> PagingData<T>.toList(): List<T> {
+    suspend fun <T : Any> PagingData<T>.toList(): List<T> {
         val flow = PagingData::class.java.getDeclaredField("flow").apply {
             isAccessible = true
         }.get(this) as Flow<Any?>

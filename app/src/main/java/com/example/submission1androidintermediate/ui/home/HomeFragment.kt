@@ -2,6 +2,7 @@ package com.example.submission1androidintermediate.ui.home
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.doOnPreDraw
@@ -13,12 +14,16 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.di.CoroutinesQualifier
+import com.example.domain.model.stories.StoriesModel
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentHomeBinding
 import com.example.submission1androidintermediate.helper.AppUtils.navigateToDestination
+import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.StoriesEvent
 import com.example.submission1androidintermediate.ui.home.adapter.HomeStoryPagingAdapter
 import com.example.submission1androidintermediate.ui.home.adapter.LoadingStateAdapter
@@ -141,7 +146,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
 
     }
-    private fun scrollToTop(position: Int){
+
+    private fun scrollToTop(position: Int) {
         binding.rvStory.smoothScrollToPosition(position)
     }
 
@@ -181,14 +187,33 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     layoutProgressBar.progressCircular.isVisible = true
                 }
                 is LoadState.Error -> {
+                    // Show Error State
                     layoutProgressBar.progressCircular.isVisible = false
                     llEmptyState.isVisible = true
                     rvStory.isVisible = false
                 }
                 is LoadState.NotLoading -> {
+                    // Show Success State
                     layoutProgressBar.progressCircular.isVisible = false
                     rvStory.isVisible = true
                     llEmptyState.isVisible = false
+
+                    // Show Empty State
+                    if (combinedLoadStates.append.endOfPaginationReached && homeStoryPagingAdapter!!.itemCount < 1) {
+                        llEmptyState.isVisible = true
+                        rvStory.isVisible = false
+                        layoutEmptyState.apply {
+                            ivErrorImage.setImageDrawable(
+                                ResourcesCompat.getDrawable(
+                                    resources,
+                                    R.drawable.error_empty,
+                                    null
+                                )
+                            )
+                            tvTitle.text = getString(R.string.label_empty_state_title)
+                            tvSubtitle.text = getString(R.string.label_empty_state_subtitle)
+                        }
+                    }
                 }
 
             }
