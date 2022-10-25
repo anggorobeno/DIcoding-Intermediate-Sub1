@@ -58,10 +58,7 @@
         <action
             android:id="@+id/action_welcomeFragment_to_homeFragment"
             app:destination="@id/homeFragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/fade_in_left"
-            app:popExitAnim="@anim/slide_out_right"
+
             app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true" />
     </fragment>

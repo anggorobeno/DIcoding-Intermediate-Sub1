@@ -98,12 +98,8 @@ class MainActivity : AppCompatActivity() {
             setShowMotionSpecResource(R.animator.fab_show)
             setHideMotionSpecResource(R.animator.fab_hide)
             setOnClickListener {
-                val action = HomeFragmentDirections.actionHomeFragmentToAddStoryFragment()
-                val extras = FragmentNavigatorExtras(
-                    binding.fabAddStory to "fab_to_add2",
-                )
                 navController.navigate(
-                    action
+                    R.id.action_homeFragment_to_addStoryFragment
                 )
             }
         }
@@ -141,7 +137,6 @@ class MainActivity : AppCompatActivity() {
             } else if (noFabDestination.contains(destination.id)) {
                 showBottomBar()
                 showFab(false)
-
             } else if (authDestination.contains(destination.id)) {
                 showFab(false)
                 hideBottomAppBar()
@@ -156,7 +151,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideBottomAppBar() {
         binding.run {
-            bottomAppBar.isVisible = false
             bottomAppBar.performHide()
             // Get a handle on the animator that hides the bottom app bar so we can wait to hide
             // the fab and bottom app bar until after it's exit animation finishes.
@@ -165,8 +159,6 @@ class MainActivity : AppCompatActivity() {
                 override fun onAnimationEnd(animation: Animator?) {
                     if (isCanceled) return
 
-                    // Hide the BottomAppBar to avoid it showing above the keyboard
-                    // when composing a new email.
                     bottomAppBar.visibility = View.GONE
                     fabAddStory.visibility = View.INVISIBLE
                 }

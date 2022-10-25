@@ -20,6 +20,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.transition.Slide
 import com.bumptech.glide.Glide
 import com.example.core.di.CoroutinesQualifier
 import com.example.domain.utils.NetworkResult
@@ -113,12 +114,9 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onStart() {
-        super.onStart()
 
     }
+
 
     override fun observeViewModel() {
         sharedViewModel.storiesUploadResult.observe(viewLifecycleOwner) { result ->
@@ -231,29 +229,29 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
         }
     }
 
-    private fun showStartMarker(location: Location) {
-//        val startLocation = LatLng(location.latitude, location.longitude)
-//        mMap.addMarker(
-//            MarkerOptions()
-//                .position(startLocation)
-//                .title(getString(R.string.start_point))
-//        )
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 17f))
-    }
 
     private fun updateButtonState() {
         binding.btnUpload.isEnabled = binding.etDescription.text.toString()
             .isNotEmpty() && ::imageFile.isInitialized && lon != 0.0 && lat != 0.0
     }
 
-    override fun init() {
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            startView = requireActivity().findViewById(R.id.fab_add_story)
+    private fun setTransition(){
+        /*
+         * setEnterTransition if start view is view from activity to fragment end view
+         * setSharedElementTransition if start view if from fragment to fragment end view
+         */
+        enterTransition = MaterialContainerTransform().apply {
+            startView = activity?.findViewById(R.id.fab_add_story)
             endView = binding.clAddStory
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(ResourcesCompat.getColor(resources, R.color.transparent, null))
         }
+        returnTransition = Slide()
+    }
+
+    override fun init() {
+        setTransition()
         updateButtonState()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         binding.fabCamera.setOnClickListener {

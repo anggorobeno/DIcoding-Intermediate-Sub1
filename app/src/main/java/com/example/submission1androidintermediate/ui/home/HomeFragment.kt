@@ -22,7 +22,9 @@ import com.example.submission1androidintermediate.helper.AppUtils.navigateToDest
 import com.example.submission1androidintermediate.helper.StoriesEvent
 import com.example.submission1androidintermediate.ui.home.adapter.HomeStoryPagingAdapter
 import com.example.submission1androidintermediate.ui.home.adapter.LoadingStateAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -53,11 +55,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     fun onEventReceived(event: StoriesEvent) {
         if (event.message == "onStoriesUploadSuccess") {
             refreshContent()
+            scrollToTop(0)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+        }
         exitTransition = MaterialElevationScale(false).apply {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
@@ -80,8 +86,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun observeViewModel() {
         viewModel.storiesPagingResult.observe(viewLifecycleOwner) {
             homeStoryPagingAdapter?.submitData(viewLifecycleOwner.lifecycle, it)
-            (view?.parent as ViewGroup).doOnPreDraw { startPostponedEnterTransition() }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        (view?.parent as ViewGroup).doOnPreDraw { startPostponedEnterTransition() }
     }
 
 
@@ -119,21 +129,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupView() {
-//        binding.mainFab.setOnClickListener {
-//            val action = HomeFragmentDirections.actionHomeFragmentToAddStoryFragment()
-//            val extras = FragmentNavigatorExtras(
-//                binding.mainFab to "fab_to_add",
-//            )
-//            findNavController().navigate(
-//                action,
-//                extras
-//            )
-//        }
+        val nav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
+        nav?.setOnItemReselectedListener { item ->
+            if (item.itemId == R.id.homeFragment) {
+                scrollToTop(0)
+            }
+        }
         binding.swipeRefreshLayout.setOnRefreshListener {
             binding.swipeRefreshLayout.isRefreshing = false
             homeStoryPagingAdapter?.refresh()
         }
 
+    }
+    private fun scrollToTop(position: Int){
+        binding.rvStory.smoothScrollToPosition(position)
     }
 
     private fun refreshContent() {

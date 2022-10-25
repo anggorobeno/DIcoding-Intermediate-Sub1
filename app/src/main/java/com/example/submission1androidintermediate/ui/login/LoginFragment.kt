@@ -1,5 +1,6 @@
 package com.example.submission1androidintermediate.ui.login
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -15,6 +16,7 @@ import com.example.submission1androidintermediate.databinding.FragmentLoginBindi
 import com.example.submission1androidintermediate.helper.AppUtils.navigateToDestination
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.FormType
+import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -34,6 +36,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override val setLayout: (LayoutInflater) -> FragmentLoginBinding = { layoutInflater ->
         FragmentLoginBinding.inflate(layoutInflater)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+        }
     }
 
     override fun observeViewModel() {

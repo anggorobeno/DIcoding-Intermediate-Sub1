@@ -30,4 +30,9 @@
     <string name="label_fab_add_story_content_desc">Floating Action Button to Add Story</string>
     <string name="label_location_not_set">Location Not Set</string>
     <string name="label_my_location">My Location</string>
+    <string name="fab_to_add_story_transition">fab_to_add_story</string>
+    <string name="label_menu_home">Home</string>
+    <string name="label_menu_maps">Maps</string>
+    <string name="label_menu_saved_image">Saved</string>
+    <string name="label_menu_account">Account</string>
 </resources>
