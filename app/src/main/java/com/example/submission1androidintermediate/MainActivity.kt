@@ -1,18 +1,29 @@
 package com.example.submission1androidintermediate
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.os.StrictMode
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
+import androidx.core.view.marginBottom
+import androidx.core.view.marginTop
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.core.data.local.PreferencesDataStore
 import com.example.submission1androidintermediate.databinding.ActivityMainBinding
+import com.example.submission1androidintermediate.ui.home.HomeFragmentDirections
 import com.github.ajalt.timberkt.Timber
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -48,7 +59,54 @@ class MainActivity : AppCompatActivity() {
         /*
             fix for navigation back button not reacting to user click when activity restart
          */
-        binding.toolbar.setNavigationOnClickListener { _ ->  NavigationUI.navigateUp(navController, appBarConfiguration) }
+        binding.toolbar.setNavigationOnClickListener { _ ->
+            NavigationUI.navigateUp(
+                navController,
+                appBarConfiguration
+            )
+        }
+        binding.bottomNav.setupWithNavController(navController)
+        binding.bottomNav.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.mapsFragment -> {
+                    navController.navigate(R.id.mapsFragment)
+                    true
+                }
+                R.id.homeFragment -> {
+                    navController.navigate(R.id.homeFragment)
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+        binding.bottomNav.setOnItemReselectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.mapsFragment -> {
+                    /* No op to prevent fragment recreate on reselected */
+
+                }
+                R.id.homeFragment -> {
+                    /* No op to prevent fragment recreate on reselected */
+
+                }
+            }
+
+        }
+        binding.fabAddStory.apply {
+            setShowMotionSpecResource(R.animator.fab_show)
+            setHideMotionSpecResource(R.animator.fab_hide)
+            setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToAddStoryFragment()
+                val extras = FragmentNavigatorExtras(
+                    binding.fabAddStory to "fab_to_add2",
+                )
+                navController.navigate(
+                    action
+                )
+            }
+        }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val noToolbarDestination =
@@ -59,9 +117,84 @@ class MainActivity : AppCompatActivity() {
                     R.id.cameraFragment,
                     R.id.mapsFragment
                 )
+            val authDestination =
+                setOf(
+                    R.id.welcomeFragment,
+                    R.id.loginFragment,
+                    R.id.registerFragment,
+                )
+            val noBottomBarDestination =
+                setOf(
+                    R.id.cameraFragment,
+                )
+            val noFabDestination =
+                setOf(
+                    R.id.mapsFragment,
+                    R.id.addStoryFragment
+                )
+
             binding.toolbar.isVisible = !noToolbarDestination.contains(destination.id)
+
+            if (noBottomBarDestination.contains(destination.id)) {
+                showFab(false)
+                hideBottomAppBar()
+            } else if (noFabDestination.contains(destination.id)) {
+                showBottomBar()
+                showFab(false)
+
+            } else if (authDestination.contains(destination.id)) {
+                showFab(false)
+                hideBottomAppBar()
+            } else {
+                showBottomBar()
+                showFab(true)
+
+            }
+
         }
     }
+
+    private fun hideBottomAppBar() {
+        binding.run {
+            bottomAppBar.isVisible = false
+            bottomAppBar.performHide()
+            // Get a handle on the animator that hides the bottom app bar so we can wait to hide
+            // the fab and bottom app bar until after it's exit animation finishes.
+            bottomAppBar.animate().setListener(object : AnimatorListenerAdapter() {
+                var isCanceled = false
+                override fun onAnimationEnd(animation: Animator?) {
+                    if (isCanceled) return
+
+                    // Hide the BottomAppBar to avoid it showing above the keyboard
+                    // when composing a new email.
+                    bottomAppBar.visibility = View.GONE
+                    fabAddStory.visibility = View.INVISIBLE
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                    isCanceled = true
+                }
+            })
+        }
+    }
+
+    private fun showBottomBar() {
+        binding.bottomAppBar.apply {
+            isVisible = true
+            performShow()
+        }
+    }
+
+    private fun showFab(isShown: Boolean) {
+        binding.fabAddStory.apply {
+            if (isShown) {
+                show()
+            } else {
+                hide()
+            }
+        }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }

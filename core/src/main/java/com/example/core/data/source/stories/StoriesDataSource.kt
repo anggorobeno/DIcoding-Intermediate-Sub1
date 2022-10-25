@@ -10,6 +10,8 @@ interface StoriesDataSource {
     suspend fun getStories(): Response<StoriesResponse>
     suspend fun uploadStories(
         description: RequestBody,
+        lat: RequestBody,
+        lon: RequestBody,
         file: MultipartBody.Part
     ): Response<StoriesUploadResponse>
 }

@@ -30,6 +30,7 @@ class SharedStoriesViewModel @Inject constructor(private val useCase: StoriesUse
     @Inject
     @CoroutinesQualifier.IoDispatcher
     lateinit var ioDispatcher: CoroutineDispatcher
+
     @Inject
     @CoroutinesQualifier.MainDispatcher
     lateinit var mainDispatcher: CoroutineDispatcher
@@ -39,10 +40,11 @@ class SharedStoriesViewModel @Inject constructor(private val useCase: StoriesUse
     private var _storiesUploadResult = MutableLiveData<NetworkResult<StoriesUploadModel>>()
     val storiesUploadResult: LiveData<NetworkResult<StoriesUploadModel>> get() = _storiesUploadResult
 
-    fun uploadImage(description: String, file: File) {
+    fun uploadImage(description: String, file: File, lat: String, lon: String) {
         viewModelScope.launch(ioDispatcher) {
             val desc = description.toRequestBody("text/plain".toMediaType())
-
+            val latitude = lat.toRequestBody("text/plain".toMediaType())
+            val longitude = lon.toRequestBody("text/plain".toMediaType())
             val requestImageFile =
                 ImageUtils.reduceFileImage(file).asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
@@ -50,8 +52,8 @@ class SharedStoriesViewModel @Inject constructor(private val useCase: StoriesUse
                 file.name,
                 requestImageFile
             )
-            withContext(mainDispatcher){
-                useCase.uploadStories(desc, imageMultipart).collectLatest {
+            withContext(mainDispatcher) {
+                useCase.uploadStories(desc, latitude, longitude, imageMultipart).collectLatest {
                     _storiesUploadResult.value = it
                 }
             }
@@ -63,8 +65,8 @@ class SharedStoriesViewModel @Inject constructor(private val useCase: StoriesUse
     fun saveImageResult(image: File, isBackCamera: Boolean) {
         viewModelScope.launch(ioDispatcher) {
             val bitmap = BitmapFactory.decodeFile(image.path)
-            val result = ImageUtils.rotateBitmap(bitmap,isBackCamera)
-            withContext(mainDispatcher){
+            val result = ImageUtils.rotateBitmap(bitmap, isBackCamera)
+            withContext(mainDispatcher) {
                 _imageBitmap.value = result
             }
         }

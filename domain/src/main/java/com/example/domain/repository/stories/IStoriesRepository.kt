@@ -12,6 +12,8 @@ interface IStoriesRepository {
     fun getStories(): Flow<NetworkResult<StoriesModel>>
     fun uploadStories(
         description: RequestBody,
+        lat: RequestBody,
+        lon: RequestBody,
         file: MultipartBody.Part
     ): Flow<NetworkResult<StoriesUploadModel>>
 

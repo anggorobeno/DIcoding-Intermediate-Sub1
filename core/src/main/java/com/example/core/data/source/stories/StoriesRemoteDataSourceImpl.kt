@@ -7,15 +7,18 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 
-class StoriesRemoteDataSourceImpl(private val apiService: DicodingStoryApiService) : StoriesDataSource {
+class StoriesRemoteDataSourceImpl(private val apiService: DicodingStoryApiService) :
+    StoriesDataSource {
     override suspend fun getStories(): Response<StoriesResponse> {
-        return apiService.getStories(1,10)
+        return apiService.getStories(1, 10)
     }
 
     override suspend fun uploadStories(
         description: RequestBody,
+        lat: RequestBody,
+        lon: RequestBody,
         file: MultipartBody.Part
     ): Response<StoriesUploadResponse> {
-        return apiService.uploadStories(file, description)
+        return apiService.uploadStories(file, description, lat, lon)
     }
 }

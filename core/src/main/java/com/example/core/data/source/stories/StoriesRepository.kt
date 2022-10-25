@@ -36,12 +36,14 @@ class StoriesRepository(
 
     override fun uploadStories(
         description: RequestBody,
+        lat: RequestBody,
+        lon: RequestBody,
         file: MultipartBody.Part
     ): Flow<NetworkResult<StoriesUploadModel>> {
         return flow {
             emit(NetworkResult.Loading())
             emit(BaseApiCall.safeApiCall({
-                remoteDataSource.uploadStories(description, file)
+                remoteDataSource.uploadStories(description, lat, lon, file)
             }, { response ->
                 response!!.toModel()
             }))

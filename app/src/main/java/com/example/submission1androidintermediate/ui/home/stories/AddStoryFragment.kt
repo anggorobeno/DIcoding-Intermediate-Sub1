@@ -7,12 +7,16 @@ import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doBeforeTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -30,10 +34,7 @@ import com.example.submission1androidintermediate.helper.StoriesEvent
 import com.github.ajalt.timberkt.Timber
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineDispatcher
@@ -51,6 +52,8 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var mMap: GoogleMap
     private lateinit var imageFile: File
+    private var lat = 0.0
+    private var lon = 0.0
     private val requiredPermissionToPostStory = arrayOf(
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.READ_EXTERNAL_STORAGE
@@ -110,20 +113,11 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        postponeEnterTransition()
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
-            drawingViewId = R.id.nav_host_fragment
-            scrimColor = Color.TRANSPARENT
-            setAllContainerColors(ResourcesCompat.getColor(resources, R.color.transparent, null))
-        }
     }
 
     override fun onStart() {
         super.onStart()
-        (requireView().parent as ViewGroup).doOnPreDraw {
-            startPostponedEnterTransition()
-        }
+
     }
 
     override fun observeViewModel() {
@@ -201,9 +195,9 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
         if (allLocationPermissionGranted()) {
             fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 if (location != null) {
-                    showToast("${location.latitude} ${location.longitude}")
-                    setAddressName(location.latitude,location.longitude)
-
+                    lat = location.latitude
+                    lon = location.longitude
+                    setAddressName(location.latitude, location.longitude)
                 } else {
                     showToast("Location is not found. Try again")
                 }
@@ -220,7 +214,7 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
             val list = geocoder.getFromLocation(lat, lon, 1)
             if (list != null && list.size != 0) {
                 addressName = list[0].getAddressLine(0)
-                binding.tvMyLocation.text = addressName
+                binding.tvCurrentLocation.text = addressName
                 Timber.d { "getAddressName: $addressName" }
             }
         } catch (e: IOException) {
@@ -247,20 +241,45 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 17f))
     }
 
+    private fun updateButtonState() {
+        binding.btnUpload.isEnabled = binding.etDescription.text.toString()
+            .isNotEmpty() && ::imageFile.isInitialized && lon != 0.0 && lat != 0.0
+    }
+
     override fun init() {
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            startView = requireActivity().findViewById(R.id.fab_add_story)
+            endView = binding.clAddStory
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(ResourcesCompat.getColor(resources, R.color.transparent, null))
+        }
+        updateButtonState()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         binding.fabCamera.setOnClickListener {
-//            navigateToDestination(R.id.action_addStoryFragment_to_cameraFragment)
+            navigateToDestination(R.id.action_addStoryFragment_to_cameraFragment)
+            updateButtonState()
+        }
+        binding.tvCurrentLocation.setOnClickListener {
             getMyLastLocation()
+            updateButtonState()
         }
         binding.fabGallery.setOnClickListener {
             launchGallery()
+            updateButtonState()
         }
 
+        binding.etDescription.doOnTextChanged { _, _, _, _ ->
+            updateButtonState()
+        }
         binding.btnUpload.setOnClickListener {
-            if (binding.etDescription.text.toString().isNotEmpty() && ::imageFile.isInitialized
+            if (binding.etDescription.text.toString()
+                    .isNotEmpty() && ::imageFile.isInitialized && lon != 0.0 && lat != 0.0
             ) {
-                sharedViewModel.uploadImage(binding.etDescription.text.toString(), imageFile)
+                sharedViewModel.uploadImage(
+                    binding.etDescription.text.toString(), imageFile,
+                    lat.toString(), lon.toString()
+                )
             }
         }
     }

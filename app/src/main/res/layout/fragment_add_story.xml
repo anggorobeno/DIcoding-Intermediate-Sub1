@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cl_add_story"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_add_story"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:transitionGroup="true"
-    android:transitionName="fab_to_add"
     android:padding="@dimen/margin_22"
     app:layoutDescription="@xml/fragment_add_story_scene"
     tools:context=".ui.home.stories.AddStoryFragment">
@@ -30,7 +28,7 @@
         android:src="@drawable/ic_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView" />
+        app:layout_constraintTop_toBottomOf="@id/tv_current_location" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_gallery"
@@ -38,8 +36,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_image"
         app:backgroundTint="#FF8D8D8C"
-        app:layout_constraintBottom_toBottomOf="@id/main_fab"
-        app:layout_constraintCircle="@id/main_fab"
+        app:layout_constraintBottom_toBottomOf="@id/fab_selector"
+        app:layout_constraintCircle="@id/fab_selector"
         app:layout_constraintCircleAngle="225"
         app:layout_constraintCircleRadius="100dp"
         app:layout_constraintEnd_toEndOf="@id/fab_selector"
@@ -64,8 +62,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_camera"
         app:backgroundTint="#FF8D8D8C"
-        app:layout_constraintBottom_toBottomOf="@id/main_fab"
-        app:layout_constraintCircle="@id/main_fab"
+        app:layout_constraintBottom_toBottomOf="@id/fab_selector"
+        app:layout_constraintCircle="@id/fab_selector"
         app:layout_constraintCircleAngle="135"
         app:layout_constraintCircleRadius="100dp"
         app:layout_constraintEnd_toEndOf="@id/fab_selector"
@@ -118,8 +116,8 @@
         style="@style/BaseButton.Black"
         android:layout_width="@dimen/margin_0"
         android:layout_height="wrap_content"
-        android:text="@string/label_upload"
         android:layout_marginTop="@dimen/margin_22"
+        android:text="@string/label_upload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_desc" />
@@ -128,10 +126,23 @@
         android:id="@+id/tv_my_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Location"
-        app:drawableStartCompat="@drawable/ic_location"
+        android:layout_marginTop="@dimen/margin_22"
+        android:fontFamily="@font/urbanist_semibold"
+        android:text="@string/label_my_location"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
         tools:layout_editor_absoluteX="22dp"
         tools:layout_editor_absoluteY="376dp" />
 
+    <TextView
+        android:id="@+id/tv_current_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/urbanist_regular"
+        android:layout_marginTop="@dimen/margin_22"
+        android:text="@string/label_location_not_set"
+        app:drawableStartCompat="@drawable/ic_location"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_my_location" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

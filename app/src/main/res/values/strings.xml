@@ -28,4 +28,6 @@
     <string name="label_reload">Reload</string>
     <string name="menu_logout">Logout</string>
     <string name="label_fab_add_story_content_desc">Floating Action Button to Add Story</string>
+    <string name="label_location_not_set">Location Not Set</string>
+    <string name="label_my_location">My Location</string>
 </resources>

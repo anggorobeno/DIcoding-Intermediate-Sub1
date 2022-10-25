@@ -16,9 +16,11 @@ class StoriesInteractor(private val repository: IStoriesRepository) : StoriesUse
 
     override fun uploadStories(
         description: RequestBody,
+        lat: RequestBody,
+        lon: RequestBody,
         file: MultipartBody.Part
     ): Flow<NetworkResult<StoriesUploadModel>> {
-        return repository.uploadStories(description, file)
+        return repository.uploadStories(description, lat, lon, file)
     }
 
     override fun getStoriesPaging(): Flow<PagingData<StoriesModel.StoriesModelItem>> {

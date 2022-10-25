@@ -15,13 +15,10 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.di.CoroutinesQualifier
-import com.example.domain.model.stories.MapModel
-import com.example.domain.utils.NetworkResult
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentHomeBinding
 import com.example.submission1androidintermediate.helper.AppUtils.navigateToDestination
-import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.example.submission1androidintermediate.helper.StoriesEvent
 import com.example.submission1androidintermediate.ui.home.adapter.HomeStoryPagingAdapter
 import com.example.submission1androidintermediate.ui.home.adapter.LoadingStateAdapter
@@ -32,7 +29,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -101,7 +97,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu, menu)
+                menuInflater.inflate(R.menu.home_action_bar_menu, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -110,14 +106,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     viewLifecycleOwner.lifecycleScope.launch(ioDispatcher) {
                         preferencesDataStore.clear()
                         withContext(mainDispatcher) {
-                            val navOption = NavOptions.Builder()
-                                .setPopUpTo(R.id.homeFragment, true)
-                                .setEnterAnim(R.anim.fade_in_left)
-                                .setExitAnim(R.anim.slide_out_right)
-                                .build()
                             navigateToDestination(
-                                dest = R.id.welcomeFragment,
-                                navOptions = navOption
+                                dest = R.id.action_homeFragment_to_welcomeFragment,
                             )
                         }
                     }
@@ -129,24 +119,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupView() {
-        binding.mainFab.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToAddStoryFragment()
-            val extras = FragmentNavigatorExtras(
-                binding.mainFab to "fab_to_add",
-            )
-            findNavController().navigate(
-                action,
-                extras
-            )
-        }
+//        binding.mainFab.setOnClickListener {
+//            val action = HomeFragmentDirections.actionHomeFragmentToAddStoryFragment()
+//            val extras = FragmentNavigatorExtras(
+//                binding.mainFab to "fab_to_add",
+//            )
+//            findNavController().navigate(
+//                action,
+//                extras
+//            )
+//        }
         binding.swipeRefreshLayout.setOnRefreshListener {
             binding.swipeRefreshLayout.isRefreshing = false
             homeStoryPagingAdapter?.refresh()
         }
-        binding.mapFab.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToMapsFragment()
-            findNavController().navigate(action)
-        }
+
     }
 
     private fun refreshContent() {
@@ -179,7 +166,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun updateUi(combinedLoadStates: CombinedLoadStates) {
-        showToast(combinedLoadStates.toString())
         binding.apply {
             when (combinedLoadStates.source.refresh) {
                 is LoadState.Loading -> {
