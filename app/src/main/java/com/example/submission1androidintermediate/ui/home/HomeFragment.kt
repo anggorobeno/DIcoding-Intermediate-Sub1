@@ -2,12 +2,14 @@ package com.example.submission1androidintermediate.ui.home
 
 import android.os.Bundle
 import android.view.*
+import androidx.activity.addCallback
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -42,7 +44,8 @@ import javax.inject.Inject
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val viewModel: HomeViewModel by viewModels()
     private var homeStoryPagingAdapter: HomeStoryPagingAdapter? = null
-    private var nav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
+    private var nav: BottomNavigationView? = null
+    private var pressedTime: Long = 0
 
     @Inject
     @CoroutinesQualifier.MainDispatcher
@@ -61,7 +64,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     fun onEventReceived(event: StoriesEvent) {
         if (event.message == "onStoriesUploadSuccess") {
             refreshContent()
-            scrollToTop(0)
         }
     }
 
@@ -80,6 +82,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun onDestroy() {
+        nav = null
         super.onDestroy()
         EventBus.getDefault().unregister(this)
     }
@@ -88,6 +91,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         homeStoryPagingAdapter = null
         nav = null
         super.onDestroyView()
+
     }
 
     override fun observeViewModel() {
@@ -136,20 +140,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupView() {
+        nav = activity?.findViewById(R.id.bottom_nav)
         nav?.setOnItemReselectedListener { item ->
             if (item.itemId == R.id.homeFragment) {
-                scrollToTop(0)
+                scrollToTop()
             }
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
             binding.swipeRefreshLayout.isRefreshing = false
             homeStoryPagingAdapter?.refresh()
         }
-
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner) {
+            // exit app after pressing back twice within 2 seconds to match toast duration
+            if (pressedTime + 2000 > System.currentTimeMillis()) {
+                activity?.finishAndRemoveTask()
+            } else {
+                showToast(getString(R.string.label_press_back_to_exit))
+            }
+            pressedTime = System.currentTimeMillis()
+        }
     }
 
-    private fun scrollToTop(position: Int) {
-        binding.rvStory.smoothScrollToPosition(position)
+    private fun scrollToTop() {
+        if (_binding == null) return
+        binding.rvStory.smoothScrollToPosition(0)
     }
 
     private fun refreshContent() {

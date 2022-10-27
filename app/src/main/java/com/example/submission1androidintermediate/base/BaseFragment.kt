@@ -17,7 +17,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     protected val dataStore get() = preferencesDataStore as PreferencesDataStoreHelper
     private lateinit var safeContext: Context
 
-    private var _binding: VB? = null
+    protected var _binding: VB? = null
     protected val binding: VB get() = _binding!!
     protected abstract val setLayout: (LayoutInflater) -> VB
 

@@ -4,8 +4,10 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
@@ -16,6 +18,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.core.data.local.IDataStore
 import com.example.submission1androidintermediate.databinding.ActivityMainBinding
+import com.example.submission1androidintermediate.helper.AppUtils.marginInDp
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.github.ajalt.timberkt.Timber
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +30,30 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var navController: NavController
-    private var pressedTime: Long = 0
+    private val noToolbarDestination =
+        setOf(
+            R.id.welcomeFragment,
+            R.id.loginFragment,
+            R.id.registerFragment,
+            R.id.cameraFragment,
+            R.id.mapsFragment
+        )
+    private val authDestination =
+        setOf(
+            R.id.welcomeFragment,
+            R.id.loginFragment,
+            R.id.registerFragment,
+        )
+    private val noBottomBarDestination =
+        setOf(
+            R.id.cameraFragment,
+        )
+    private val noFabDestination =
+        setOf(
+            R.id.mapsFragment,
+            R.id.addStoryFragment,
+            R.id.detailStoryFragment
+        )
 
     @Inject
     lateinit var preferencesDataStore: IDataStore
@@ -100,40 +126,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            backPressClose(destination)
-            val noToolbarDestination =
-                setOf(
-                    R.id.welcomeFragment,
-                    R.id.loginFragment,
-                    R.id.registerFragment,
-                    R.id.cameraFragment,
-                    R.id.mapsFragment
-                )
-            val authDestination =
-                setOf(
-                    R.id.welcomeFragment,
-                    R.id.loginFragment,
-                    R.id.registerFragment,
-                )
-            val noBottomBarDestination =
-                setOf(
-                    R.id.cameraFragment,
-                )
-            val noFabDestination =
-                setOf(
-                    R.id.mapsFragment,
-                    R.id.addStoryFragment,
-                    R.id.detailStoryFragment
-                )
-
+            updateMargin(destination)
             binding.toolbar.isVisible = !noToolbarDestination.contains(destination.id)
 
             if (noBottomBarDestination.contains(destination.id)) {
                 showFab(false)
                 hideBottomAppBar()
             } else if (noFabDestination.contains(destination.id)) {
-                showBottomBar()
                 showFab(false)
+                showBottomBar()
             } else if (authDestination.contains(destination.id)) {
                 showFab(false)
                 hideBottomAppBar()
@@ -145,22 +146,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun backPressClose(destination: NavDestination) {
-        if (destination.id == R.id.homeFragment)
-            onBackPressedDispatcher.addCallback(this) {
-                // exit app after pressing back twice within 2 seconds to match toast duration
-                if (pressedTime + 2000 > System.currentTimeMillis()) {
-                    finishAndRemoveTask()
-                } else {
-                    showToast(getString(R.string.label_press_back_to_exit))
-                }
-                pressedTime = System.currentTimeMillis()
-            }
-        else onBackPressedDispatcher.addCallback {
-            // replace backpressed callback with default onSupportNavigateUp callback
-            navController.navigateUp() || super.onSupportNavigateUp()
-        }
+    private fun updateMargin(destination: NavDestination) {
+        /*
+        update margin to hide empty space after hiding bottom app bar / toolbar
+         */
+        val marginLayoutParams =
+            binding.navHostFragment.layoutParams as ViewGroup.MarginLayoutParams
+        if (!noToolbarDestination.contains(destination.id)) {
+            marginLayoutParams.setMargins(0, 56f.marginInDp(this), 0, 0)
+        } else marginLayoutParams.setMargins(0, 0, 0, 56f.marginInDp(this))
+        binding.navHostFragment.layoutParams = marginLayoutParams
     }
+
+
 
     private fun hideBottomAppBar() {
         binding.run {

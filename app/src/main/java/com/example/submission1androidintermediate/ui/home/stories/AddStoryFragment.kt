@@ -235,7 +235,7 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
             .isNotEmpty() && ::imageFile.isInitialized && lon != 0.0 && lat != 0.0
     }
 
-    private fun setTransition(){
+    private fun setTransition() {
         /*
          * setEnterTransition if start view is view from activity to fragment end view
          * setSharedElementTransition if start view if from fragment to fragment end view
@@ -244,6 +244,7 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
             startView = activity?.findViewById(R.id.fab_add_story)
             endView = binding.clAddStory
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+            drawingViewId = binding.clAddStory.id
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(ResourcesCompat.getColor(resources, R.color.transparent, null))
         }

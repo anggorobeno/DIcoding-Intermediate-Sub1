@@ -2,6 +2,7 @@ package com.example.submission1androidintermediate.helper
 
 import android.app.Activity
 import android.content.Context
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -82,5 +83,13 @@ object AppUtils {
             e.printStackTrace()
             "N/A"
         }
+    }
+
+
+    fun Float.marginInDp(context: Context): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, this, context.resources
+                .displayMetrics
+        ).toInt()
     }
 }
