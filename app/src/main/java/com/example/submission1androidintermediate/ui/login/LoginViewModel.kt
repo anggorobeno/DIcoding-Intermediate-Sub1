@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core.data.local.PreferencesDataStore
+import com.example.core.data.local.IDataStore
 import com.example.core.di.CoroutinesQualifier
 import com.example.domain.model.user.login.LoginModel
 import com.example.domain.model.user.login.LoginRequest
@@ -27,7 +27,7 @@ class LoginViewModel @Inject constructor(private val useCase: UserUseCase) : Vie
     lateinit var ioDispatcher: CoroutineDispatcher
 
     @Inject
-    lateinit var prefs: PreferencesDataStore
+    lateinit var prefs: IDataStore
     val loginResult: LiveData<NetworkResult<LoginModel>> = _loginResult
     fun doLoginUser(body: LoginRequest): Job {
         return viewModelScope.launch {

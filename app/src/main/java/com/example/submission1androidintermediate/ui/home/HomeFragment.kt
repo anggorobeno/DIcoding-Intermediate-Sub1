@@ -42,6 +42,7 @@ import javax.inject.Inject
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val viewModel: HomeViewModel by viewModels()
     private var homeStoryPagingAdapter: HomeStoryPagingAdapter? = null
+    private var nav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
 
     @Inject
     @CoroutinesQualifier.MainDispatcher
@@ -85,6 +86,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onDestroyView() {
         homeStoryPagingAdapter = null
+        nav = null
         super.onDestroyView()
     }
 
@@ -119,7 +121,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                 if (menuItem.itemId == R.id.menu_logout) {
                     viewLifecycleOwner.lifecycleScope.launch(ioDispatcher) {
-                        preferencesDataStore.clear()
+                        dataStore.clear()
                         withContext(mainDispatcher) {
                             navigateToDestination(
                                 dest = R.id.action_homeFragment_to_welcomeFragment,
@@ -134,7 +136,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupView() {
-        val nav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
         nav?.setOnItemReselectedListener { item ->
             if (item.itemId == R.id.homeFragment) {
                 scrollToTop(0)

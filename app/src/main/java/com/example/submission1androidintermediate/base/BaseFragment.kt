@@ -7,16 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.example.core.data.local.PreferencesDataStore
+import com.example.core.data.local.IDataStore
+import com.example.core.data.local.PreferencesDataStoreHelper
 import javax.inject.Inject
 
 abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     @Inject
-    lateinit var preferencesDataStore: PreferencesDataStore
+    lateinit var preferencesDataStore: IDataStore
+    protected val dataStore get() = preferencesDataStore as PreferencesDataStoreHelper
     private lateinit var safeContext: Context
 
     private var _binding: VB? = null
-    protected val binding: VB  get() = _binding!!
+    protected val binding: VB get() = _binding!!
     protected abstract val setLayout: (LayoutInflater) -> VB
 
     override fun onAttach(context: Context) {

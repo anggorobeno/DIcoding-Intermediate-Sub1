@@ -14,7 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
-import com.example.core.data.local.PreferencesDataStore
+import com.example.core.data.local.IDataStore
 import com.example.submission1androidintermediate.databinding.ActivityMainBinding
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.github.ajalt.timberkt.Timber
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private var pressedTime: Long = 0
 
     @Inject
-    lateinit var preferencesDataStore: PreferencesDataStore
+    lateinit var preferencesDataStore: IDataStore
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -122,7 +122,8 @@ class MainActivity : AppCompatActivity() {
             val noFabDestination =
                 setOf(
                     R.id.mapsFragment,
-                    R.id.addStoryFragment
+                    R.id.addStoryFragment,
+                    R.id.detailStoryFragment
                 )
 
             binding.toolbar.isVisible = !noToolbarDestination.contains(destination.id)
@@ -137,8 +138,8 @@ class MainActivity : AppCompatActivity() {
                 showFab(false)
                 hideBottomAppBar()
             } else {
-                showBottomBar()
                 showFab(true)
+                showBottomBar()
             }
 
         }
@@ -155,6 +156,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 pressedTime = System.currentTimeMillis()
             }
+        else onBackPressedDispatcher.addCallback {
+            // replace backpressed callback with default onSupportNavigateUp callback
+            navController.navigateUp() || super.onSupportNavigateUp()
+        }
     }
 
     private fun hideBottomAppBar() {

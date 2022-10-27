@@ -1,4 +1,4 @@
-package com.example.submission1androidintermediate.usecase
+package com.example.submission1androidintermediate.usecase.user
 
 import com.example.domain.model.user.login.LoginModel
 import com.example.domain.model.user.login.LoginRequest

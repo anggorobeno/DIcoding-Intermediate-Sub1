@@ -1,6 +1,6 @@
 package com.example.core.data.utils
 
-import com.example.core.data.local.PreferencesDataStore
+import com.example.core.data.local.IDataStore
 import com.example.core.di.CoroutinesQualifier
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.runBlocking
@@ -13,7 +13,7 @@ import javax.inject.Singleton
 class NetworkInterceptor @Inject constructor(
     @CoroutinesQualifier.MainDispatcher
     private val dispatcher: CoroutineDispatcher,
-    private val prefs: PreferencesDataStore
+    private val prefs: IDataStore
 ) :
     Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {

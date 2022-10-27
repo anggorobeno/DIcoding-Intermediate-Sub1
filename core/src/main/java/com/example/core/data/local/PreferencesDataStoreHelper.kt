@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("PreferencesDataStore")
 
-class PreferencesDataStore @Inject constructor(val context: Context) {
+class PreferencesDataStoreHelper (val context: Context) : IDataStore {
     companion object {
         val USER_TOKEN: Preferences.Key<String> = stringPreferencesKey("user_token")
         val LOGIN_STATUS: Preferences.Key<Boolean> = booleanPreferencesKey("login_status")
@@ -35,13 +35,13 @@ class PreferencesDataStore @Inject constructor(val context: Context) {
         return this@catchAndHandleError
     }
 
-    suspend fun getUserToken() = USER_TOKEN.getValue()
-    suspend fun saveUserToken(value: String) = USER_TOKEN.setValue(value)
+    override suspend fun getUserToken() = USER_TOKEN.getValue()
+    override suspend fun saveUserToken(value: String) = USER_TOKEN.setValue(value)
 
-    suspend fun getLoginStatus() = LOGIN_STATUS.getValue()
-    suspend fun setLoginStatus(value: Boolean) = LOGIN_STATUS.setValue(value)
+    override suspend fun getLoginStatus() = LOGIN_STATUS.getValue()
+    override suspend fun setLoginStatus(value: Boolean) = LOGIN_STATUS.setValue(value)
 
-    suspend fun clear(){
+    suspend fun clear() {
         context.dataStore.edit {
             it.clear()
         }
@@ -60,4 +60,11 @@ class PreferencesDataStore @Inject constructor(val context: Context) {
             .map { preferences -> preferences[this] }
             .firstOrNull() ?: defaultValue
     }
+}
+
+interface IDataStore {
+    suspend fun getUserToken(): String?
+    suspend fun saveUserToken(value: String)
+    suspend fun getLoginStatus(): Boolean?
+    suspend fun setLoginStatus(value: Boolean)
 }

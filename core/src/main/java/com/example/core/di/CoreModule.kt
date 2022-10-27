@@ -4,7 +4,8 @@ import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.core.BuildConfig
-import com.example.core.data.local.PreferencesDataStore
+import com.example.core.data.local.IDataStore
+import com.example.core.data.local.PreferencesDataStoreHelper
 import com.example.core.data.remote.services.DicodingStoryApiService
 import com.example.core.data.utils.NetworkInterceptor
 import dagger.Module
@@ -70,8 +71,8 @@ class CoreModule {
         retrofit.create(DicodingStoryApiService::class.java)
     @Provides
     @Singleton
-    fun provideDataStore(@ApplicationContext context: Context): PreferencesDataStore {
-        return PreferencesDataStore(context)
+    fun provideDataStore(@ApplicationContext context: Context): IDataStore {
+        return PreferencesDataStoreHelper(context)
     }
 
 

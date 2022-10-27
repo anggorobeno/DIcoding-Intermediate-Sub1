@@ -9,7 +9,6 @@ import com.example.domain.model.stories.StoriesModel
 import com.example.domain.usecase.stories.StoriesUseCase
 import com.example.domain.utils.NetworkResult
 import com.example.domain.utils.SingleEvent
-import com.example.submission1androidintermediate.helper.AppUtils.toList
 import com.github.ajalt.timberkt.Timber
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

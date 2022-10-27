@@ -31,7 +31,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MapsFragment : BaseFragment<FragmentMapsBinding>() {
     private lateinit var map: GoogleMap
     private val viewModel: MapViewModel by viewModels()
-    private val args: MapsFragmentArgs by navArgs()
 
     private val requiredPermission = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -61,6 +60,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>() {
                     Timber.d {
                         "Location Permission denied"
                     }
+                    shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)
                 }
             }
 
@@ -93,11 +93,13 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>() {
         setMapStyle()
     }
 
-    private fun addMarkers(listMap: List<MapModel>) {
+    private fun addMarkers(listMap: List<MapModel?>) {
         if (listMap.isEmpty()) return
         val boundsBuilder = LatLngBounds.Builder()
         listMap.forEach { data ->
-            val latLng = LatLng(data.lat ?: 0.0, data.lon ?: 0.0)
+            val lat = data?.lat ?: return
+            val lon = data.lon ?: return
+            val latLng = LatLng(lat, lon)
             boundsBuilder.include(latLng)
             map.addMarker {
                 position(latLng)
