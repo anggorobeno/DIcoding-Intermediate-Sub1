@@ -1,17 +1,14 @@
 package com.example.core.data.source.stories
 
-import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.core.data.remote.response.story.StoriesResponse
-import com.example.core.helper.TestHelper
-import com.example.domain.model.stories.StoriesModel
 
 class FakeStoriesPagingSource : PagingSource<Int, StoriesResponse.StoriesResponseItem>() {
     override val keyReuseSupported: Boolean
         get() = true
 
-    override fun getRefreshKey(state: PagingState<Int, StoriesResponse.StoriesResponseItem>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, StoriesResponse.StoriesResponseItem>): Int {
         return 0
     }
 

@@ -6,6 +6,7 @@ import com.example.submission1androidintermediate.helper.*
 import com.example.submission1androidintermediate.usecase.stories.SuccessStoriesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.Before
@@ -23,7 +24,7 @@ class HomeViewModelTest : CoroutinesTest() {
 
     @Test
     fun `when calling getStoriesPaging should return correct mapped data and not null`() {
-        coTest {
+        runTest{
             homeViewModel = HomeViewModel(successStoriesUseCase)
             val actualData = homeViewModel.storiesPagingResult.getOrAwaitValue()
             val expectedData = TestHelper.provideStoriesModelItem()

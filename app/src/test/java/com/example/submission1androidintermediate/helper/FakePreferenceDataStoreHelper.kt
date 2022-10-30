@@ -2,8 +2,8 @@ package com.example.submission1androidintermediate.helper
 
 import com.example.core.data.local.IDataStore
 
-class FakePreferenceDataStoreHelper() : IDataStore {
-    override suspend fun getUserToken(): String? {
+class FakePreferenceDataStoreHelper : IDataStore {
+    override suspend fun getUserToken(): String {
         return USER_TOKEN
     }
 
@@ -11,7 +11,7 @@ class FakePreferenceDataStoreHelper() : IDataStore {
         USER_TOKEN = value
     }
 
-    override suspend fun getLoginStatus(): Boolean? {
+    override suspend fun getLoginStatus(): Boolean {
         return LOGIN_STATUS
     }
 

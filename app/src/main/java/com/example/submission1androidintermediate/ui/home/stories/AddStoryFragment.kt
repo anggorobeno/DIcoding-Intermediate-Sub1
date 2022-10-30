@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.location.Geocoder
 import android.location.Location
-import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -31,7 +30,6 @@ import com.example.submission1androidintermediate.helper.StoriesEvent
 import com.github.ajalt.timberkt.Timber
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineDispatcher
@@ -47,7 +45,6 @@ import javax.inject.Inject
 class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
     private val sharedViewModel: SharedStoriesViewModel by hiltNavGraphViewModels(R.id.story_nav_graph)
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var mMap: GoogleMap
     private lateinit var imageFile: File
     private var lat = 0.0
     private var lon = 0.0
@@ -106,11 +103,6 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
 
     private fun allLocationPermissionGranted() = requiredLocationPermission.all {
         ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
     }
 
 

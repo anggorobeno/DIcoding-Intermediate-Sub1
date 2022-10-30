@@ -4,7 +4,6 @@ import com.example.core.data.remote.response.story.StoriesResponse
 import com.example.core.data.remote.response.story.StoriesUploadResponse
 import com.example.core.data.remote.response.user.login.LoginResponse
 import com.example.core.data.remote.response.user.register.RegisterResponse
-import com.example.domain.model.stories.StoriesModel
 import com.example.domain.model.user.login.LoginRequest
 import com.example.domain.model.user.register.RegisterRequest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -55,7 +54,4 @@ object TestHelper {
 
     fun provideStoriesUploadResponse() = StoriesUploadResponse()
 
-    private fun provideStoriesModelItem() = StoriesModel.StoriesModelItem(
-        "123", "a", "tes", "fsdf", "2", "2", "2"
-    )
 }

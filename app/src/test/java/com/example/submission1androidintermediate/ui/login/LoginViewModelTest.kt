@@ -2,7 +2,6 @@ package com.example.submission1androidintermediate.ui.login
 
 import com.example.domain.usecase.user.UserUseCase
 import com.example.domain.utils.NetworkResult
-import com.example.domain.utils.SingleEvent
 import com.example.submission1androidintermediate.helper.CoroutinesTest
 import com.example.submission1androidintermediate.helper.FakePreferenceDataStoreHelper
 import com.example.submission1androidintermediate.helper.TestHelper
@@ -10,6 +9,7 @@ import com.example.submission1androidintermediate.helper.getOrAwaitValue
 import com.example.submission1androidintermediate.usecase.user.ErrorUserUseCase
 import com.example.submission1androidintermediate.usecase.user.SuccessUserUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.amshove.kluent.shouldNotBeNull
@@ -33,12 +33,12 @@ class LoginViewModelTest : CoroutinesTest() {
 
     @Test
     fun `when calling doLoginUser should return Success`() {
-        coTest {
+        runTest {
             loginViewModel = LoginViewModel(successUseCase)
             loginViewModel.ioDispatcher = testDispatcher
             loginViewModel.doLoginUser(TestHelper.provideLoginRequest())
             val actualData = loginViewModel.loginResult.getOrAwaitValue()
-            actualData.shouldNotBeNull()
+            actualData.data.shouldNotBeNull()
             actualData shouldBeInstanceOf NetworkResult.Success::class
             actualData.data?.message shouldBeEqualTo "No Error"
             actualData.data?.error?.shouldNotBeTrue()
@@ -47,31 +47,31 @@ class LoginViewModelTest : CoroutinesTest() {
 
     @Test
     fun `when calling doLoginUser with network error should return Network Result error `() {
-        coTest {
+        runTest {
             loginViewModel = LoginViewModel(errorUseCase)
             loginViewModel.ioDispatcher = testDispatcher
             loginViewModel.doLoginUser(TestHelper.provideLoginRequest())
             val actualData = loginViewModel.loginResult.getOrAwaitValue()
-            actualData.shouldNotBeNull()
-            actualData shouldBeEqualTo NetworkResult.Error::class
-            actualData.message shouldBeEqualTo SingleEvent("network is error")
+            actualData.message.shouldNotBeNull()
+            actualData shouldBeInstanceOf NetworkResult.Error::class
+            actualData.message?.peekContent() shouldBeEqualTo "network is error"
         }
     }
 
     @Test
     fun `when calling saveUserToken should save token to data store`() {
-        coTest {
+        runTest {
             loginViewModel = LoginViewModel(successUseCase)
             loginViewModel.prefs = dataStoreImpl
             loginViewModel.ioDispatcher = testDispatcher
             loginViewModel.saveUserToken("123")
-            loginViewModel.prefs.getLoginStatus() shouldBeEqualTo 123
+            loginViewModel.prefs.getUserToken() shouldBeEqualTo "123"
         }
     }
 
     @Test
     fun `when calling setLoginStatus should get save login status to data store`() {
-        coTest {
+        runTest {
             loginViewModel = LoginViewModel(successUseCase)
             loginViewModel.prefs = dataStoreImpl
             loginViewModel.ioDispatcher = testDispatcher

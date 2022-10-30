@@ -1,16 +1,9 @@
 package com.example.core.data.source.stories
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.paging.AsyncPagingDataDiffer
-import androidx.paging.PagingData
-import androidx.paging.PagingSource
-import androidx.paging.map
 import app.cash.turbine.test
 import com.example.core.helper.TestHelper
-import com.example.domain.model.stories.StoriesModel
-import com.example.domain.usecase.stories.StoriesUseCase
 import com.example.domain.utils.NetworkResult
-import com.google.common.truth.Truth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.*
@@ -19,22 +12,17 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.amshove.kluent.should
-import org.amshove.kluent.shouldBe
-import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
+import org.amshove.kluent.shouldNotBeNull
 import org.junit.After
-import org.junit.Assert.*
-
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.notNull
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import retrofit2.Response
 import java.io.File
-import javax.inject.Provider
 
 @ExperimentalCoroutinesApi
 class StoriesRepositoryTest {
@@ -80,6 +68,8 @@ class StoriesRepositoryTest {
 
                 awaitComplete()
             }
+            verify(storiesDataSource).getStories()
+
         }
     }
 
@@ -99,6 +89,7 @@ class StoriesRepositoryTest {
 
                 awaitComplete()
             }
+            verify(storiesDataSource).getStories()
         }
     }
 
@@ -137,6 +128,12 @@ class StoriesRepositoryTest {
 
                 awaitComplete()
             }
+            verify(storiesDataSource).uploadStories(
+                desc,
+                latitude,
+                longitude,
+                imageMultipart
+            )
         }
     }
 
@@ -175,6 +172,12 @@ class StoriesRepositoryTest {
 
                 awaitComplete()
             }
+            verify(storiesDataSource).uploadStories(
+                desc,
+                latitude,
+                longitude,
+                imageMultipart
+            )
         }
     }
 
@@ -184,7 +187,7 @@ class StoriesRepositoryTest {
             val actualData = storiesRepository.getStoriesPaging()
             actualData.test {
                 val pagingData = awaitItem()
-                Truth.assertThat(pagingData).isNotNull()
+                pagingData.shouldNotBeNull()
             }
         }
     }

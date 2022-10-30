@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import java.io.IOException
-import javax.inject.Inject
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("PreferencesDataStore")
 

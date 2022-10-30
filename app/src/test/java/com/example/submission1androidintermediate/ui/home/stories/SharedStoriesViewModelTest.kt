@@ -3,12 +3,12 @@ package com.example.submission1androidintermediate.ui.home.stories
 import com.example.domain.model.stories.ImageModel
 import com.example.domain.usecase.stories.StoriesUseCase
 import com.example.domain.utils.NetworkResult
-import com.example.domain.utils.SingleEvent
 import com.example.submission1androidintermediate.helper.CoroutinesTest
 import com.example.submission1androidintermediate.helper.getOrAwaitValue
 import com.example.submission1androidintermediate.usecase.stories.ErrorStoriesUseCase
 import com.example.submission1androidintermediate.usecase.stories.SuccessStoriesUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.amshove.kluent.shouldNotBeNull
@@ -35,7 +35,7 @@ class SharedStoriesViewModelTest : CoroutinesTest() {
 
     @Test
     fun `when calling uploadImage should not null and return success`() {
-        coTest {
+        runTest {
             storiesViewModel = SharedStoriesViewModel(successStoriesUseCase)
             storiesViewModel.ioDispatcher = testDispatcher
             storiesViewModel.mainDispatcher = testDispatcher
@@ -50,7 +50,7 @@ class SharedStoriesViewModelTest : CoroutinesTest() {
 
     @Test
     fun `when calling uploadImage with network error should return result error`() {
-        coTest {
+        runTest {
             storiesViewModel = SharedStoriesViewModel(errorUseCase)
             storiesViewModel.ioDispatcher = testDispatcher
             storiesViewModel.mainDispatcher = testDispatcher
@@ -58,13 +58,13 @@ class SharedStoriesViewModelTest : CoroutinesTest() {
             val actualData = storiesViewModel.storiesUploadResult.getOrAwaitValue()
             actualData.shouldNotBeNull()
             actualData shouldBeInstanceOf NetworkResult.Error::class
-            actualData.message shouldBeEqualTo SingleEvent("network is error")
+            actualData.message?.peekContent() shouldBeEqualTo "network is error"
         }
     }
 
     @Test
     fun `when calling saveImageResult should not null and return correct data`() {
-        coTest {
+        runTest {
             storiesViewModel = SharedStoriesViewModel(successStoriesUseCase)
             storiesViewModel.ioDispatcher = testDispatcher
             storiesViewModel.mainDispatcher = testDispatcher

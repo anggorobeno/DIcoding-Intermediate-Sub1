@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         /*
             fix for navigation back button not reacting to user click when activity restart
          */
-        binding.toolbar.setNavigationOnClickListener { _ ->
+        binding.toolbar.setNavigationOnClickListener {
             NavigationUI.navigateUp(
                 navController,
                 appBarConfiguration
@@ -149,12 +149,14 @@ class MainActivity : AppCompatActivity() {
          */
         val marginLayoutParams =
             binding.navHostFragment.layoutParams as ViewGroup.MarginLayoutParams
-        if (!noToolbarDestination.contains(destination.id)) {
+
+        if (destination.id == R.id.homeFragment) {
+            marginLayoutParams.setMargins(0, 56f.marginInDp(this), 0, 56f.marginInDp(this))
+        } else if (!noToolbarDestination.contains(destination.id)) {
             marginLayoutParams.setMargins(0, 56f.marginInDp(this), 0, 0)
         } else marginLayoutParams.setMargins(0, 0, 0, 56f.marginInDp(this))
         binding.navHostFragment.layoutParams = marginLayoutParams
     }
-
 
 
     private fun hideBottomAppBar() {

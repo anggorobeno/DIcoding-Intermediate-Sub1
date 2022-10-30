@@ -1,8 +1,6 @@
 package com.example.core.data.utils
 
 import com.example.core.data.local.IDataStore
-import com.example.core.di.CoroutinesQualifier
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -11,8 +9,6 @@ import javax.inject.Singleton
 
 @Singleton
 class NetworkInterceptor @Inject constructor(
-    @CoroutinesQualifier.MainDispatcher
-    private val dispatcher: CoroutineDispatcher,
     private val prefs: IDataStore
 ) :
     Interceptor {

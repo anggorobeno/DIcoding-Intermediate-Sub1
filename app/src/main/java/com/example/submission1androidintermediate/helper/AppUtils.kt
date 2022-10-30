@@ -29,14 +29,14 @@ object AppUtils {
         showCustomToast(message, this.requireContext())
     }
 
-    fun showCustomToast(message: String, context: Context) {
+    private fun showCustomToast(message: String, context: Context) {
         val view: View = LayoutInflater.from(context).inflate(R.layout.custom_toast, null)
         val text = view.findViewById<TextView>(R.id.toast_message)
         text.text = message
         text.background =
-            AppCompatResources.getDrawable(context!!, R.drawable.bg_toast)
+            AppCompatResources.getDrawable(context, R.drawable.bg_toast)
 
-        val marginBottom = context!!.resources.getDimension(R.dimen.margin_48).toInt()
+        val marginBottom = context.resources.getDimension(R.dimen.margin_48).toInt()
 
         val toast = Toast(context)
         toast.duration = Toast.LENGTH_SHORT

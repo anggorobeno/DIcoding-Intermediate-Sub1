@@ -39,7 +39,7 @@ object TestHelper {
 
 
     // HomeViewModel
-    fun provideStoriesModelItem() = arrayListOf<StoriesModel.StoriesModelItem>(
+    fun provideStoriesModelItem() = arrayListOf(
         StoriesModel.StoriesModelItem(
             "1", "Anggoro", "Ini test aja", "blabla", "kapankapan", "123z",
             "222d"

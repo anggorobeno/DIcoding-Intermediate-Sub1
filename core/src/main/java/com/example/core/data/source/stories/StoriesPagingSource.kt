@@ -2,13 +2,9 @@ package com.example.core.data.source.stories
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.core.data.remote.response.GenericStatusResponse
 import com.example.core.data.remote.response.story.StoriesResponse
 import com.example.core.data.remote.services.DicodingStoryApiService
-import com.example.core.data.utils.BaseApiCall
-import com.example.domain.model.stories.StoriesModel
 import com.github.ajalt.timberkt.Timber
-import com.google.gson.Gson
 
 class StoriesPagingSource(private val apiService: DicodingStoryApiService) :
     PagingSource<Int, StoriesResponse.StoriesResponseItem>() {
