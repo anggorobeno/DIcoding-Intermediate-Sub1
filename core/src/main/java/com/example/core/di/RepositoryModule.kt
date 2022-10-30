@@ -31,6 +31,8 @@ class RepositoryModule {
         remoteDataSource: StoriesDataSource,
         storiesPagingSource: Provider<StoriesPagingSource>
     ): IStoriesRepository {
-        return StoriesRepository(remoteDataSource, storiesPagingSource)
+        return StoriesRepository(remoteDataSource) {
+            storiesPagingSource.get()
+        }
     }
 }

@@ -2,11 +2,13 @@ package com.example.submission1androidintermediate.ui.home.stories
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.Image
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.di.CoroutinesQualifier
+import com.example.domain.model.stories.ImageModel
 import com.example.domain.model.stories.StoriesUploadModel
 import com.example.domain.usecase.stories.StoriesUseCase
 import com.example.domain.utils.NetworkResult
@@ -34,8 +36,8 @@ class SharedStoriesViewModel @Inject constructor(private val useCase: StoriesUse
     @Inject
     @CoroutinesQualifier.MainDispatcher
     lateinit var mainDispatcher: CoroutineDispatcher
-    private var _imageBitmap = MutableLiveData<Bitmap>()
-    val imageBitmap: LiveData<Bitmap> get() = _imageBitmap
+    private var _imageBitmap = MutableLiveData<ImageModel>()
+    val imageBitmap: LiveData<ImageModel> get() = _imageBitmap
 
     private var _storiesUploadResult = MutableLiveData<NetworkResult<StoriesUploadModel>>()
     val storiesUploadResult: LiveData<NetworkResult<StoriesUploadModel>> get() = _storiesUploadResult
@@ -46,7 +48,7 @@ class SharedStoriesViewModel @Inject constructor(private val useCase: StoriesUse
             val latitude = lat.toRequestBody("text/plain".toMediaType())
             val longitude = lon.toRequestBody("text/plain".toMediaType())
             val requestImageFile =
-                ImageUtils.reduceFileImage(file).asRequestBody("image/jpeg".toMediaTypeOrNull())
+                file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
                 "photo",
                 file.name,
@@ -63,12 +65,9 @@ class SharedStoriesViewModel @Inject constructor(private val useCase: StoriesUse
     }
 
     fun saveImageResult(image: File, isBackCamera: Boolean) {
-        viewModelScope.launch(ioDispatcher) {
-            val bitmap = BitmapFactory.decodeFile(image.path)
-            val result = ImageUtils.rotateBitmap(bitmap, isBackCamera)
-            withContext(mainDispatcher) {
-                _imageBitmap.value = result
-            }
+        viewModelScope.launch {
+            val imageModel = ImageModel(image, isBackCamera)
+            _imageBitmap.value = imageModel
         }
     }
 }

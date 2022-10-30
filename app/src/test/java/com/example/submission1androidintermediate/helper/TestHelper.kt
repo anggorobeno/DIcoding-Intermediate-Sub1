@@ -1,5 +1,7 @@
 package com.example.submission1androidintermediate.helper
 
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListUpdateCallback
 import com.example.domain.model.stories.StoriesModel
 import com.example.domain.model.stories.StoriesUploadModel
 import com.example.domain.model.user.login.LoginModel
@@ -56,4 +58,27 @@ object TestHelper {
     )
 
 
+}
+
+class NoopListCallback : ListUpdateCallback {
+    override fun onChanged(position: Int, count: Int, payload: Any?) {}
+    override fun onMoved(fromPosition: Int, toPosition: Int) {}
+    override fun onInserted(position: Int, count: Int) {}
+    override fun onRemoved(position: Int, count: Int) {}
+}
+
+class MyDiffCallback : DiffUtil.ItemCallback<StoriesModel.StoriesModelItem>() {
+    override fun areItemsTheSame(
+        oldItem: StoriesModel.StoriesModelItem,
+        newItem: StoriesModel.StoriesModelItem
+    ): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(
+        oldItem: StoriesModel.StoriesModelItem,
+        newItem: StoriesModel.StoriesModelItem
+    ): Boolean {
+        return oldItem == newItem
+    }
 }

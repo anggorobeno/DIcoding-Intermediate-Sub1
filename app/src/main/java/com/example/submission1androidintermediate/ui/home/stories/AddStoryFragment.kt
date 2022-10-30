@@ -2,6 +2,7 @@ package com.example.submission1androidintermediate.ui.home.stories
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.location.Geocoder
 import android.location.Location
@@ -141,12 +142,14 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
         }
         sharedViewModel.imageBitmap.observe(viewLifecycleOwner) {
             viewLifecycleOwner.lifecycleScope.launch(ioDispatcher) {
-                ImageUtils.bitmapToFile(it, requireActivity())?.let { file ->
-                    imageFile = file
+                val bitmap = BitmapFactory.decodeFile(it.image.path)
+                val rotatedBitmap = ImageUtils.rotateBitmap(bitmap, it.isBackCamera)
+                ImageUtils.bitmapToFile(rotatedBitmap, requireActivity())?.let { file ->
+                    imageFile = ImageUtils.reduceFileImage(file)
                 }
                 withContext(mainCoroutinesDispatcher) {
                     Glide.with(requireContext())
-                        .load(it)
+                        .load(rotatedBitmap)
                         .apply(getGlideRequestOption(requireContext()))
                         .into(binding.imageView)
                 }

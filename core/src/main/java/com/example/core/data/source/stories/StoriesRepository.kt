@@ -1,9 +1,7 @@
 package com.example.core.data.source.stories
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.map
+import androidx.paging.*
+import com.example.core.data.remote.response.story.StoriesResponse
 import com.example.core.data.utils.BaseApiCall
 import com.example.core.data.utils.Mapper.toModel
 import com.example.domain.model.stories.StoriesModel
@@ -21,7 +19,7 @@ import javax.inject.Provider
 
 class StoriesRepository(
     private val remoteDataSource: StoriesDataSource,
-    private val storiesPagingSource: Provider<StoriesPagingSource>
+    private val storiesPagingSource: Provider<PagingSource<Int, StoriesResponse.StoriesResponseItem>>
 ) : IStoriesRepository {
     override fun getStories(): Flow<NetworkResult<StoriesModel>> {
         return flow {
