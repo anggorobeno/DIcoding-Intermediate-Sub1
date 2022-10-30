@@ -3,14 +3,9 @@ package com.example.core.data.source.user
 import app.cash.turbine.test
 import com.example.core.helper.TestHelper
 import com.example.domain.utils.NetworkResult
-import com.example.submission1androidintermediate.helper.CoroutinesTest
-import com.google.common.truth.Truth
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeInstanceOf
-import org.junit.Assert.*
 
 import org.junit.Before
 import org.junit.Test

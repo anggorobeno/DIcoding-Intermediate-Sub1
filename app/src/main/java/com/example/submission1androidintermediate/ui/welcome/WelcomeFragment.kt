@@ -1,13 +1,11 @@
 package com.example.submission1androidintermediate.ui.welcome
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.navigation.fragment.findNavController
 import com.example.submission1androidintermediate.R
 import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentWelcomeBinding
 import com.example.submission1androidintermediate.helper.AppUtils.navigateToDestination
-import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber

@@ -1,8 +1,5 @@
 package com.example.submission1androidintermediate.ui.home.stories
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.media.Image
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +9,6 @@ import com.example.domain.model.stories.ImageModel
 import com.example.domain.model.stories.StoriesUploadModel
 import com.example.domain.usecase.stories.StoriesUseCase
 import com.example.domain.utils.NetworkResult
-import com.example.submission1androidintermediate.helper.ImageUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collectLatest

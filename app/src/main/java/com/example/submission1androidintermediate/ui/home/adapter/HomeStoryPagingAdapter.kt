@@ -1,22 +1,14 @@
 package com.example.submission1androidintermediate.ui.home.adapter
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.example.domain.model.stories.StoriesModel
 import com.example.submission1androidintermediate.databinding.ItemStoryBinding
 import com.example.submission1androidintermediate.helper.AppUtils
-import com.example.submission1androidintermediate.ui.home.HomeFragment
 
 class HomeStoryPagingAdapter :
     PagingDataAdapter<StoriesModel.StoriesModelItem, HomeStoryPagingAdapter.StoryViewHolder>(

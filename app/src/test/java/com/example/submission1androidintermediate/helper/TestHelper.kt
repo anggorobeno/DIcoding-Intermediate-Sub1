@@ -8,7 +8,6 @@ import com.example.domain.model.user.login.LoginModel
 import com.example.domain.model.user.login.LoginRequest
 import com.example.domain.model.user.register.RegisterModel
 import com.example.domain.model.user.register.RegisterRequest
-import com.example.submission1androidintermediate.ui.login.LoginViewModel
 
 object TestHelper {
     // RegisterViewModel
@@ -18,8 +17,6 @@ object TestHelper {
             "No Error",
         )
     }
-
-    fun provideErrorRegisterModel() = RegisterModel(true, "Network is error")
 
     fun provideRegisterRequest() = RegisterRequest(
         "Anggoro",

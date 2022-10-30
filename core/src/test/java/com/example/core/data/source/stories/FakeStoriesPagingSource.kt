@@ -8,12 +8,6 @@ import com.example.core.helper.TestHelper
 import com.example.domain.model.stories.StoriesModel
 
 class FakeStoriesPagingSource : PagingSource<Int, StoriesResponse.StoriesResponseItem>() {
-    companion object {
-        fun snapshot(items: List<StoriesResponse.StoriesResponseItem>): PagingData<StoriesResponse.StoriesResponseItem> {
-            return PagingData.from(items)
-        }
-    }
-
     override val keyReuseSupported: Boolean
         get() = true
 

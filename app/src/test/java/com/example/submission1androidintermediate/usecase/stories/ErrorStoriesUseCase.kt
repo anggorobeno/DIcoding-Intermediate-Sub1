@@ -1,7 +1,6 @@
 package com.example.submission1androidintermediate.usecase.stories
 
 import androidx.paging.PagingData
-import androidx.paging.PagingState
 import com.example.domain.model.stories.StoriesModel
 import com.example.domain.model.stories.StoriesUploadModel
 import com.example.domain.usecase.stories.StoriesUseCase

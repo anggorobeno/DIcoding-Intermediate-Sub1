@@ -3,12 +3,10 @@ package com.example.submission1androidintermediate.ui.home.map
 import android.Manifest
 import android.content.pm.PackageManager
 import android.content.res.Resources
-
 import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.example.domain.model.stories.MapModel
 import com.example.domain.utils.NetworkResult
 import com.example.submission1androidintermediate.R
@@ -16,7 +14,6 @@ import com.example.submission1androidintermediate.base.BaseFragment
 import com.example.submission1androidintermediate.databinding.FragmentMapsBinding
 import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.github.ajalt.timberkt.Timber
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback

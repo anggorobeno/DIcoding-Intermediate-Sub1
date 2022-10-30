@@ -9,51 +9,48 @@ import com.example.submission1androidintermediate.helper.TestHelper
 import com.example.submission1androidintermediate.helper.getOrAwaitValue
 import com.example.submission1androidintermediate.usecase.user.ErrorUserUseCase
 import com.example.submission1androidintermediate.usecase.user.SuccessUserUseCase
-import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeInstanceOf
+import org.amshove.kluent.shouldNotBeNull
+import org.amshove.kluent.shouldNotBeTrue
 import org.junit.Before
 import org.junit.Test
+
 @ExperimentalCoroutinesApi
-class RegisterViewModelTest: CoroutinesTest() {
+class RegisterViewModelTest : CoroutinesTest() {
     private lateinit var successUseCase: UserUseCase
     private lateinit var errorUseCase: UserUseCase
-    private lateinit var successRegisterViewModel: RegisterViewModel
-    private lateinit var errorRegisterViewModel: RegisterViewModel
+    private lateinit var registerViewModel: RegisterViewModel
 
     @Before
     fun setUp() {
         successUseCase = SuccessUserUseCase()
         errorUseCase = ErrorUserUseCase()
-        successRegisterViewModel = RegisterViewModel(successUseCase)
-        errorRegisterViewModel = RegisterViewModel(errorUseCase)
-        successRegisterViewModel.doRegisterUser(
-            TestHelper.provideRegisterRequest()
-        )
-        errorRegisterViewModel.doRegisterUser(
-            TestHelper.provideRegisterRequest()
-        )
     }
 
     @Test
     fun `when calling doRegisterUser should return Result Success and not null`() {
         coTest {
-            val actualData = successRegisterViewModel.registerResult.getOrAwaitValue()
-            assertThat(actualData).isNotNull()
-            assertThat(actualData.data?.message).isEqualTo("No Error")
-            assertThat(actualData.data?.error).isFalse()
-            assertThat(actualData is NetworkResult.Success).isTrue()
-            assertThat((actualData as NetworkResult.Success).data?.message).isEqualTo("No Error")
+            registerViewModel = RegisterViewModel(successUseCase)
+            registerViewModel.doRegisterUser(TestHelper.provideRegisterRequest())
+            val actualData = registerViewModel.registerResult.getOrAwaitValue()
+            actualData.shouldNotBeNull()
+            actualData shouldBeInstanceOf NetworkResult.Success::class
+            actualData.data?.message shouldBeEqualTo "No Error"
+            actualData.data?.error?.shouldNotBeTrue()
         }
     }
 
     @Test
     fun `when Network Error should return Result error`() {
         coTest {
-            val actualData = errorRegisterViewModel.registerResult.getOrAwaitValue()
-            assertThat(actualData).isNotNull()
-            assertThat(actualData is NetworkResult.Error).isTrue()
-            assertThat((actualData as NetworkResult.Error).message).isInstanceOf(SingleEvent("network is error")::class.java)
+            registerViewModel = RegisterViewModel(errorUseCase)
+            registerViewModel.doRegisterUser(TestHelper.provideRegisterRequest())
+            val actualData = registerViewModel.registerResult.getOrAwaitValue()
+            actualData.shouldNotBeNull()
+            actualData shouldBeEqualTo NetworkResult.Error::class
+            actualData.message shouldBeEqualTo SingleEvent("network is error")
         }
     }
 }

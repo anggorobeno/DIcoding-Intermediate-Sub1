@@ -1,17 +1,13 @@
 package com.example.submission1androidintermediate.ui.home.map
 
-import android.net.Network
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import androidx.paging.PagingData
-import androidx.paging.map
 import com.example.core.data.utils.Mapper.toMapModel
 import com.example.domain.model.stories.MapModel
 import com.example.domain.model.stories.StoriesModel
 import com.example.domain.usecase.stories.StoriesUseCase
 import com.example.domain.utils.NetworkResult
-import com.github.ajalt.timberkt.Timber
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject

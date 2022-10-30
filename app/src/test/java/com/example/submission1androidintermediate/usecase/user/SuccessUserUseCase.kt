@@ -15,11 +15,7 @@ class SuccessUserUseCase : UserUseCase {
         return flow {
             emit(
                 NetworkResult.Success(
-                    LoginModel(
-                        false,
-                        "No Error",
-                        LoginModel.LoginItemModel("123", "Anggoro", "1234")
-                    )
+                    TestHelper.provideSuccessLoginModel()
                 )
             )
         }

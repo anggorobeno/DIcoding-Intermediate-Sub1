@@ -5,9 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
@@ -19,7 +17,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.core.data.local.IDataStore
 import com.example.submission1androidintermediate.databinding.ActivityMainBinding
 import com.example.submission1androidintermediate.helper.AppUtils.marginInDp
-import com.example.submission1androidintermediate.helper.AppUtils.showToast
 import com.github.ajalt.timberkt.Timber
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

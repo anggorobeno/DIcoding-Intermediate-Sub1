@@ -6,8 +6,6 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.map
 import app.cash.turbine.test
-import com.example.core.helper.MyDiffCallback
-import com.example.core.helper.NoopListCallback
 import com.example.core.helper.TestHelper
 import com.example.domain.model.stories.StoriesModel
 import com.example.domain.usecase.stories.StoriesUseCase

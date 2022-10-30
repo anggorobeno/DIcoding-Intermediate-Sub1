@@ -70,12 +70,13 @@ dependencies {
     implementation "androidx.camera:camera-view:$camerax_version"
 
     // liveData Scope
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$live_data_ktx_version"
+
     // Maps
-    implementation 'com.google.maps.android:maps-ktx:3.4.0'
-    implementation 'com.google.android.gms:play-services-maps:18.1.0'
-    implementation 'com.google.android.gms:play-services-location:21.0.0'
-    implementation 'androidx.test:monitor:1.5.0'
-    implementation 'androidx.test:core-ktx:1.4.0'
+    implementation "com.google.maps.android:maps-ktx:$google_maps_ktx_version"
+    implementation "com.google.android.gms:play-services-maps:$play_services_maps_version"
+    implementation "com.google.android.gms:play-services-location:$play_services_location_version"
+    implementation "androidx.test:monitor:$test_monitor_version"
+    implementation "androidx.test:core-ktx:$test_core_ktx"
 
 }
