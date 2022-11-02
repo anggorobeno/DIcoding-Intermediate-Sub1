@@ -152,7 +152,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>() {
         }
     }
 
-    override fun init() {
+    override fun initView() {
         val mapFragment: SupportMapFragment? =
             childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)

@@ -21,7 +21,7 @@ class NetworkInterceptor @Inject constructor(
                 prefs.getUserToken()?.let {
                     token = it
                 }
-                modifiedRequest.addHeader("Authorization", "Bearer " + token)
+                modifiedRequest.addHeader("Authorization", "Bearer $token")
             }
         }
         return chain.proceed(modifiedRequest.build())

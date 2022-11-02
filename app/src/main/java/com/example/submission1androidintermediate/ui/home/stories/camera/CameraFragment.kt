@@ -47,7 +47,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
         // Do nothing
     }
 
-    override fun init() {
+    override fun initView() {
         if (allPermissionsGranted()) {
             startCamera()
         } else {

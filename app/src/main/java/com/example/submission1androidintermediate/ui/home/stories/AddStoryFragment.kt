@@ -241,7 +241,7 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>() {
         returnTransition = Slide()
     }
 
-    override fun init() {
+    override fun initView() {
         setTransition()
         updateButtonState()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())

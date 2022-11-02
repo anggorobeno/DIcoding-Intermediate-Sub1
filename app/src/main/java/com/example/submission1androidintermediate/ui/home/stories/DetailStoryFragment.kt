@@ -33,22 +33,17 @@ class DetailStoryFragment : BaseFragment<FragmentDetailStoryBinding>() {
         // Do nothing
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
             drawingViewId = R.id.nav_host_fragment
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(ResourcesCompat.getColor(resources,R.color.white,null))
         }
-        return super.onCreateView(inflater, container, savedInstanceState)
-
     }
 
-    override fun init() {
+    override fun initView() {
         postponeEnterTransition()
         val extraParcelable = args.storyItem as StoriesModel.StoriesModelItem
 

@@ -13,11 +13,6 @@ import java.io.IOException
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("PreferencesDataStore")
 
 class PreferencesDataStoreHelper (val context: Context) : IDataStore {
-    companion object {
-        val USER_TOKEN: Preferences.Key<String> = stringPreferencesKey("user_token")
-        val LOGIN_STATUS: Preferences.Key<Boolean> = booleanPreferencesKey("login_status")
-    }
-
     // Helper extension function
     private suspend fun <T> Preferences.Key<T>.setValue(value: T) {
         context.dataStore.edit { preferences -> preferences[this] = value }
@@ -58,6 +53,10 @@ class PreferencesDataStoreHelper (val context: Context) : IDataStore {
             .catchAndHandleError()
             .map { preferences -> preferences[this] }
             .firstOrNull() ?: defaultValue
+    }
+    companion object {
+        val USER_TOKEN: Preferences.Key<String> = stringPreferencesKey("user_token")
+        val LOGIN_STATUS: Preferences.Key<Boolean> = booleanPreferencesKey("login_status")
     }
 }
 

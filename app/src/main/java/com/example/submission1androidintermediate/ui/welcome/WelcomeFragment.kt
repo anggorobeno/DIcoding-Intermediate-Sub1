@@ -22,7 +22,7 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>() {
     // Do nothing
     }
 
-    override fun init() {
+    override fun initView() {
         runBlocking {
             Timber.d(preferencesDataStore.getLoginStatus().toString())
             preferencesDataStore.getLoginStatus()?.let { isLogin ->

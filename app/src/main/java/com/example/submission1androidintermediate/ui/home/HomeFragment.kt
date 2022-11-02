@@ -101,7 +101,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
 
-    override fun init() {
+    override fun initView() {
         postponeEnterTransition()
         setupMenu()
         setupAdapter()

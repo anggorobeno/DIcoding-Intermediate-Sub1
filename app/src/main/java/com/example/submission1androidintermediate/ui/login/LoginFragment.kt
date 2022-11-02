@@ -79,7 +79,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         binding.layoutProgressBar.progressCircular.isVisible = isLoading
     }
 
-    override fun init() {
+    override fun initView() {
         binding.etFormEmail.setFormType(FormType.Email(EmailValidator()))
         binding.etFormPassword.setFormType(FormType.Password(PasswordValidator()))
         binding.etFormPassword.errorTextListener = { isError ->

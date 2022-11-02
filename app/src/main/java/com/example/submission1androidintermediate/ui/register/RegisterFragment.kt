@@ -63,7 +63,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         binding.layoutProgressBar.progressCircular.isVisible = isLoading
     }
 
-    override fun init() {
+    override fun initView() {
         binding.etFormEmail.setFormType(FormType.Email(EmailValidator()))
         binding.etFormPassword.setFormType(FormType.Password(PasswordValidator()))
         binding.etFormUsername.setFormType(FormType.Username(UsernameValidator()))

@@ -28,18 +28,6 @@ class StoriesPagingSource(private val apiService: DicodingStoryApiService) :
                 prevKey = if (position == INITIAL_PAGE_INDEX) null else position - 1,
                 nextKey = if (responseData.body()?.data.isNullOrEmpty()) null else position + 1
             )
-//            else {
-//                val errorResponse: GenericStatusResponse = Gson().fromJson(
-//                    responseData.errorBody()?.charStream(),
-//                    GenericStatusResponse()::class.java
-//                )
-//                errorResponse.message?.let {
-//                    Timber.d {
-//                        "ApiCall failed: $it"
-//                    }
-//                    return LoadResult
-//                }
-//            }
         } catch (exception: Exception) {
             Timber.d(exception)
             return LoadResult.Error(exception)
